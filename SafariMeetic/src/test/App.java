@@ -1,10 +1,21 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
+import model.Admin;
+import model.Adresse;
 import model.Animal;
+import model.Client;
 import model.Compte;
 import model.Fiche;
+import model.Refuge;
+import model.Vendeur;
 
 public class App {
 
@@ -14,7 +25,53 @@ public class App {
 
 	public static Compte ComptefindById(int id) 
 	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where id_compte=?");
+			ps.setInt(1,id);
+			
+			
+			ResultSet rs = ps.executeQuery();
+			
+			Compte c=null;
+			
+			while(rs.next()) 
+			{
+				
+				if(rs.getString("type_compte").equals("client")) 
+				{
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					c=new Client(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), a);
+				}
+				else if(rs.getString("type_compte").equals("admin")) 
+				{
+					c = new Admin(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"),rs.getString("mail"));
+				}
+				else if(rs.getString("type_compte").equals("vendeur")) 
+				{
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					c=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
+				}
+			}
+			if(c==null) {System.out.println("Compte non existant");}
+			else 
+			{
+				System.out.println("Compte "+id+" créé");
+				
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+			return c;
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
+		
+		
 	}
 	public static List<Compte> ComptefindAll()
 	{
