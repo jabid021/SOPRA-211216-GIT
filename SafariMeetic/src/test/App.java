@@ -160,13 +160,12 @@ public class App {
 			rs.close();
 			ps.close();
 			conn.close();
-			
-			return fiches;
 		
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		
+		return fiches;
 	}
 	//--------------------------------LE RESTE DU MONDE---------------
 	
