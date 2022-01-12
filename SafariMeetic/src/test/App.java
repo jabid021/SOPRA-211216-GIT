@@ -1,10 +1,22 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
+import model.Admin;
+import model.Adresse;
 import model.Animal;
+import model.Chat;
+import model.Chien;
+import model.Client;
 import model.Compte;
 import model.Fiche;
+import model.Refuge;
+import model.Vendeur;
 
 public class App {
 
@@ -27,7 +39,7 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
 	{
-
+		
 	}
 
 	public static void Comptedelete (int id) 
@@ -65,7 +77,42 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Animalupdate(Animal c) 
 	{
+		
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("UPDATE animal SET race=? , poil_court=? , malheur=? , type_animal=? where id=?");
+			
+			ps.setString(1, c.getRace());
+			
+			if ( c instanceof Chien)
+			{
+				
+				ps.setObject(2, null);
+				ps.setObject(3, null);
+				ps.setString(4, "chien");
+			}
+			else if (c instanceof Chat)
+			{
+				ps.setObject(2, ((Chat) c).isPoilCourt());
+				ps.setObject(3, ((Chat) c).isMalheur());
+				ps.setString(4, "chat");
+			}
+			
+			ps.setString(5, c.getIdAnimal()) ;  
 
+			ps.executeUpdate();
+			
+			
+			
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void Animaldelete (int id) 
