@@ -3,13 +3,18 @@ package test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
-import model.*;
+import model.Admin;
+import model.Adresse;
+import model.Animal;
+import model.Client;
+import model.Compte;
+import model.Fiche;
+import model.Refuge;
+import model.Vendeur;
 
 public class App {
 
@@ -117,10 +122,21 @@ public class App {
 
 	}
 
-	public static void Comptedelete (int id) 
+	public static void deleteCompte(int id) 
 	{
-
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("delete from compte where id_compte="+id);
+	
+			ps.close();
+			conn.close();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
+		
 	//----------------PARIS-------------------------------------
 
 
