@@ -2,10 +2,14 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import java.sql.Statement;
+
 import java.util.List;
 
 import model.Animal;
@@ -60,7 +64,40 @@ public class App {
 
 	public static Animal AnimalfindById(int id) 
 	{
-		return null;
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager
+					.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8", "root", "");
+
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * from animal where id_animal='" + id_animal);
+
+			Animal a = null;
+			while (rs.next())
+			{
+
+				if (rs.getString("type_animal").equals("chien"))
+				{
+					a = new Chien(rs.getInteger("id_animal"), rs.getString("race"));
+				} else if (rs.getString("type_compte").equals("chat"))
+				{
+					a = new Chat(rs.getInteger("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
+							rs.getBoolean("malheur"));
+				}
+			}
+			return a;
+			rs.close();
+			st.close();
+			conn.close();
+
+		} catch (ClassNotFoundException | SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 
 	public static List<Animal> AnimalfindAll()
