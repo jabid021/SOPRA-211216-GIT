@@ -144,7 +144,20 @@ public class App {
 
 	public static void Animaldelete (int id) 
 	{
-
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+				
+			PreparedStatement st = conn.prepareStatement("DELETE from Animal WHERE id=?");
+			st.setInt(1,id);
+			st.executeUpdate();
+			
+			st.close();
+			conn.close();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	//------------------------BORDEAUX----------------------------
 
