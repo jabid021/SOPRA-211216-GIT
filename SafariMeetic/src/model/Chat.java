@@ -5,9 +5,9 @@ public class Chat extends Animal {
 	private boolean poilCourt;
 	private boolean malheur;
 	
-	
-	public Chat(String race, boolean poilCourt, boolean malheur) {
-		super(race);
+
+	public Chat(Integer idAnimal, String race, boolean poilCourt, boolean malheur) {
+		super(idAnimal, race);
 		this.poilCourt = poilCourt;
 		this.malheur = malheur;
 	}

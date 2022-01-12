@@ -1,10 +1,22 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
+import model.Admin;
+import model.Adresse;
 import model.Animal;
+import model.Chat;
+import model.Chien;
+import model.Client;
 import model.Compte;
 import model.Fiche;
+import model.Refuge;
+import model.Vendeur;
 
 public class App {
 
@@ -60,7 +72,29 @@ public class App {
 	}
 	public static void Animalinsert(Animal c) 
 	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 
+			if (c instanceof Chien)
+			{
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, type_animal) VALUES ('"+c.getRace()+"','chien')");
+				ps.executeUpdate();
+				ps.close();
+			} 
+			else if (c instanceof Chat) 
+			{
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO animal ( race, poil_court, malheur, type_animal) VALUES ('"+c.getRace()+"', "+((Chat) c).isPoilCourt()+", "+((Chat) c).isMalheur()+", 'chat')");
+				ps.executeUpdate();
+				ps.close();
+			}
+
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Animalupdate(Animal c) 
@@ -132,9 +166,10 @@ public class App {
 
 	public static void main(String[] args) {
 
-
-
-
+		Chien dog = new Chien (null,"Setter");
+		Animalinsert(dog);
+		Chat cat = new Chat (null,"Chat noir",false,true);
+		Animalinsert(cat);
 
 
 	}
