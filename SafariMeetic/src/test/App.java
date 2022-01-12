@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Admin;
@@ -74,6 +75,51 @@ public class App {
 	}
 	public static List<Compte> ComptefindAll()
 	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			//Pour mac, changer le port 3306 -> 8889
+			//Pour mac, password = "root"
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SafariMeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from Compte");
+			ResultSet rs = ps.executeQuery();
+			List<Compte> compte= new ArrayList();
+		
+			while(rs.next()) 
+			{	
+				//Compte c = new Compte(rs.getString("login"),rs.getString("password"),rs.getString("mail"));
+				//System.out.println(c);
+				
+				if(rs.getString("type_compte").equals("Client")) 
+				{
+					Client c=new Client(rs.getInteger("id"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), rs.getAdresse("adresse"));
+					compte.add(c);
+				}
+				else if(rs.getString("type_compte").equals("Admin")) 
+				{
+					Admin c = new Admin(rs.getInteger("id"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
+					compte.add(c);
+				}
+				else if(rs.getString("type_compte").equals("Vendeur")) 
+				{
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					Vendeur c=new Vendeur(rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
+					compte.add(c);
+				}
+			}
+			
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			System.out.println("Tout est bon");
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+
+		
+	}
+	
 		return null;
 	}
 	public static void Compteinsert(Compte c) 
