@@ -94,7 +94,7 @@ public class App {
 				ps.setString(8, ((Client) c).getAdresse().getVille());
 				ps.setString(9, ((Client) c).getAdresse().getCp());
 				ps.setString(10, ((Client) c).getTel());
-				ps.setString(11, "Client");				
+				ps.setString(11, "client");				
 			}
 			else if (c instanceof Vendeur) {
 				ps.setString(5,((Vendeur) c).getRefuge().name());
@@ -102,13 +102,15 @@ public class App {
 				ps.setString(7, ((Vendeur) c).getAdresse().getVoie());
 				ps.setString(8, ((Vendeur) c).getAdresse().getVille());
 				ps.setString(9, ((Vendeur) c).getAdresse().getCp());
-				ps.setString(11, "Vendeur");
+				ps.setString(11, "vendeur");
 			}
 			else if (c instanceof Admin) {
-				ps.setString(11, "Admin");
+				ps.setString(11, "admin");
 			}
 						
 			ps.executeUpdate();
+			
+			c.setId(null);
 	
 			ps.close();
 			conn.close();
