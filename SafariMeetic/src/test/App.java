@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Admin;
@@ -134,7 +135,38 @@ public class App {
 	}
 	public static List<Fiche> FichefindAll()
 	{
-		return null;
+		List<Fiche> fiches = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche");
+			ResultSet rs = ps.executeQuery();
+			
+			Fiche f=null;
+			
+			while(rs.next()) 
+			{
+				Animal a = AnimalfindById(rs.getInt("animal"));
+				
+				f = new Fiche(rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+						rs.getBoolean("sociable"), a);
+				
+				fiches.add(f);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+			return fiches;
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	//--------------------------------LE RESTE DU MONDE---------------
 	
