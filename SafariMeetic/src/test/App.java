@@ -3,19 +3,13 @@ package test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import model.Admin;
-import model.Adresse;
-import model.Animal;
-import model.Client;
-import model.Compte;
-import model.Fiche;
-import model.Refuge;
-import model.Vendeur;
+import model.*;
 
 public class App {
 
@@ -79,7 +73,43 @@ public class App {
 	}
 	public static void Compteinsert(Compte c) 
 	{
-
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scott?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO compte VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+			
+			ps.setString(2,c.getLogin());
+			ps.setString(3,c.getMail());
+			ps.setString(4,c.getPassword());
+			
+			if(c instanceof Client) {
+				ps.setString(6,((Client) c).getAdresse().getNumero());
+				ps.setString(7, ((Client) c).getAdresse().getVoie());
+				ps.setString(8, ((Client) c).getAdresse().getVille());
+				ps.setString(9, ((Client) c).getAdresse().getCp());
+				ps.setString(10, ((Client) c).getTel());
+				ps.setString(11, "Client");				
+			}
+			else if (c instanceof Vendeur) {
+				ps.setString(5,((Vendeur) c).getRefuge().name());
+				ps.setString(6,((Vendeur) c).getAdresse().getNumero());
+				ps.setString(7, ((Vendeur) c).getAdresse().getVoie());
+				ps.setString(8, ((Vendeur) c).getAdresse().getVille());
+				ps.setString(9, ((Vendeur) c).getAdresse().getCp());
+				ps.setString(11, "Vendeur");
+			}
+			else if (c instanceof Admin) {
+				ps.setString(11, "Admin");
+			}
+						
+			ps.executeUpdate();
+	
+			ps.close();
+			conn.close();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
