@@ -2,35 +2,18 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-<<<<<<< HEAD
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import java.sql.Statement;
-
-=======
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
->>>>>>> feature_compteupdate
+import java.util.ArrayList;
 import java.util.List;
 
-import model.Admin;
-import model.Adresse;
 import model.Animal;
 import model.Chat;
 import model.Chien;
-<<<<<<< HEAD
-=======
-import model.Client;
->>>>>>> feature_compteupdate
 import model.Compte;
 import model.Fiche;
-import model.Refuge;
-import model.Vendeur;
 
 public class App {
 
