@@ -9,6 +9,10 @@ public abstract class Animal {
 		this.race = race;
 		this.id = id;
 	}
+	
+	public Animal(String race) {
+		this.race = race;
+	}
 
 	public Integer getId() {
 		return id;

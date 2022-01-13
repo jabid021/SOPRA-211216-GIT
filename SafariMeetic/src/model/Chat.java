@@ -11,6 +11,12 @@ public class Chat extends Animal {
 		this.poilCourt = poilCourt;
 		this.malheur = malheur;
 	}
+	
+	public Chat( String race, boolean poilCourt, boolean malheur) {
+		super(race);
+		this.poilCourt = poilCourt;
+		this.malheur = malheur;
+	}
 
 
 	public boolean isPoilCourt() {
@@ -32,11 +38,10 @@ public class Chat extends Animal {
 		this.malheur = malheur;
 	}
 
-
+	
 	@Override
 	public String toString() {
-		return "Chat [race=" + race + ", poilCourt=" + poilCourt + ", malheur=" + malheur + "]";
+		return "Chat [poilCourt=" + poilCourt + ", malheur=" + malheur + ", race=" + race + ", id=" + id + "]";
 	}
-	
-	
+
 }
