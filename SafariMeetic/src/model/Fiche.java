@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Fiche {
 
+	private Integer id;
 	private String description;
 	private LocalDate creation;
 	private String nom;
@@ -16,11 +17,13 @@ public class Fiche {
 	private String couleur;
 	private boolean sociable;
 	private Animal animal;
+	private Vendeur vendeur;
 	private List<Match> matchs=new ArrayList();
 	
 	
-	public Fiche(String description, LocalDate creation, String nom, String sexe, int age, int puce, double poids,
-			String couleur, boolean sociable, Animal animal) {
+	public Fiche(Integer id,String description, LocalDate creation, String nom, String sexe, int age, int puce, double poids,
+			String couleur, boolean sociable, Animal animal,Vendeur vendeur) {
+		this.id=id;
 		this.description = description;
 		this.creation = creation;
 		this.nom = nom;
@@ -31,6 +34,7 @@ public class Fiche {
 		this.couleur = couleur;
 		this.sociable = sociable;
 		this.animal = animal;
+		this.vendeur=vendeur;
 	}
 
 
@@ -142,15 +146,41 @@ public class Fiche {
 	public void setMatchs(List<Match> matchs) {
 		this.matchs = matchs;
 	}
+	
+	
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public Vendeur getVendeur() {
+		return vendeur;
+	}
+
+
+	public void setVendeur(Vendeur vendeur) {
+		this.vendeur = vendeur;
+	}
 
 
 	@Override
 	public String toString() {
-		return "Fiche [description=" + description + ", creation=" + creation + ", nom=" + nom + ", sexe=" + sexe
-				+ ", age=" + age + ", puce=" + puce + ", poids=" + poids + ", couleur=" + couleur + ", sociable="
-				+ sociable + ", animal=" + animal + "]";
+		return "Fiche [id=" + id + ", description=" + description + ", creation=" + creation + ", nom=" + nom
+				+ ", sexe=" + sexe + ", age=" + age + ", puce=" + puce + ", poids=" + poids + ", couleur=" + couleur
+				+ ", sociable=" + sociable + ", animal=" + animal + ", vendeur=" + vendeur + ", matchs=" + matchs + "]";
 	}
 
+
+	
+
+	
 
 	
 	
