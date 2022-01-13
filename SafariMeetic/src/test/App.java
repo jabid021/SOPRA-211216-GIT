@@ -246,6 +246,64 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
 	{
+		try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+
+//            ComptefindById(c.getId());
+
+            PreparedStatement ps = conn.prepareStatement("Update Compte set login=?,mail=?,password=?,refuge=?,numero=?,voie=?,ville=?,cp=?,tel=?,type_compte=? where id_compte =?");
+            ps.setString(1,c.getLogin());
+            ps.setString(2,c.getMail());
+            ps.setString(3,c.getPassword());
+            ps.setInt(11,c.getId());
+
+            if (c instanceof Client)
+            {
+                Client c1=((Client)c);
+                Adresse a = c1.getAdresse();
+
+                ps.setString(4,null);
+                ps.setString(5,a.getNumero());
+                ps.setString(6,a.getVoie());
+                ps.setString(7,a.getVille());
+                ps.setString(8,a.getCp());
+                ps.setString(9,c1.getTel());
+                ps.setString(10,"client");
+            }
+            else if(c instanceof Admin)
+            {
+                ps.setString(4,null);
+                ps.setString(5,null);
+                ps.setString(6,null);
+                ps.setString(7,null);
+                ps.setString(8,null);
+                ps.setString(9,null);
+                ps.setString(10,"admin");
+            }
+            else if(c instanceof Vendeur)
+            {
+                Vendeur c1=((Vendeur)c);
+                Adresse a = c1.getAdresse();
+
+                ps.setString(4,c1.getRefuge().toString());
+                ps.setString(5,a.getNumero());
+                ps.setString(6,a.getVoie());
+                ps.setString(7,a.getVille());
+                ps.setString(8,a.getCp());
+                ps.setString(9,null);
+                ps.setString(10,"vendeur");
+            }
+
+            ps.executeUpdate();
+
+            ps.close();
+            conn.close();
+
+        }
+        catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 
 	}
 
@@ -854,7 +912,7 @@ public class App {
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
-		//FindById de la fiche à modifier
+		//FindById de la fiche ï¿½ modifier
 		//Saisir les modifs
 		
 	}
