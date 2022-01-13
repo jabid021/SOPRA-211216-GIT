@@ -59,7 +59,7 @@ public class App {
 			if(c==null) {System.out.println("Compte non existant");}
 			else 
 			{
-				System.out.println("Compte "+id+" créé");
+				System.out.println("Compte "+id+" cree");
 				
 			}
 			rs.close();
@@ -78,8 +78,6 @@ public class App {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//Pour mac, changer le port 3306 -> 8889
-			//Pour mac, password = "root"
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("SELECT * from Compte");
@@ -88,24 +86,22 @@ public class App {
 		
 			while(rs.next()) 
 			{	
-				//Compte c = new Compte(rs.getString("login"),rs.getString("password"),rs.getString("mail"));
-				//System.out.println(c);
-				
-				if(rs.getString("type_compte").equals("Client")) 
+						
+				if(rs.getString("type_compte").equals("client")) 
 				{
 					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					Client c=new Client(rs.getInt("id"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"),a);
+					Client c=new Client(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"),a);
 					compte.add(c);
 				}
-				else if(rs.getString("type_compte").equals("Admin")) 
+				else if(rs.getString("type_compte").equals("admin")) 
 				{
-					Admin c = new Admin(rs.getInt("id"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
+					Admin c = new Admin(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
 					compte.add(c);
 				}
-				else if(rs.getString("type_compte").equals("Vendeur")) 
+				else if(rs.getString("type_compte").equals("vendeur")) 
 				{
 					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					Vendeur c=new Vendeur(rs.getInt("id"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
+					Vendeur c=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
 					compte.add(c);
 				}
 			}
@@ -114,7 +110,7 @@ public class App {
 			rs.close();
 			ps.close();
 			conn.close();
-			System.out.println("Tout est bon");
+			return compte;
 		
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -130,13 +126,15 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO compte VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO compte VALUES(?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			
+			ps.setInt(1,0);
 			ps.setString(2,c.getLogin());
 			ps.setString(3,c.getMail());
 			ps.setString(4,c.getPassword());
 			
 			if(c instanceof Client) {
+				ps.setString(5,null);
 				ps.setString(6,((Client) c).getAdresse().getNumero());
 				ps.setString(7, ((Client) c).getAdresse().getVoie());
 				ps.setString(8, ((Client) c).getAdresse().getVille());
@@ -150,18 +148,27 @@ public class App {
 				ps.setString(7, ((Vendeur) c).getAdresse().getVoie());
 				ps.setString(8, ((Vendeur) c).getAdresse().getVille());
 				ps.setString(9, ((Vendeur) c).getAdresse().getCp());
+				ps.setString(10, null);
 				ps.setString(11, "vendeur");
 			}
 			else if (c instanceof Admin) {
+				ps.setString(5,null);
+				ps.setString(6,null);
+				ps.setString(7,null);
+				ps.setString(8,null);
+				ps.setString(9,null);
+				ps.setString(10, null);
 				ps.setString(11, "admin");
 			}
 			
 			ps.executeUpdate();
 						
-			ps=conn.prepareStatement("SELECT COUNT(*) FROM compte");
-			ResultSet rs = ps.executeQuery();
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				c.setId(rs.getInt(1));
+			}
 			
-			c.setId(rs.getInt("COUNT(*)"));
+			
 			
 			rs.close();
 			ps.close();
@@ -241,8 +248,10 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("delete from compte where id_compte="+id);
+			PreparedStatement ps = conn.prepareStatement("delete from compte where id_compte=?");
+			ps.setInt(1, id);
 	
+			ps.executeUpdate();
 			ps.close();
 			conn.close();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -349,9 +358,7 @@ public class App {
 	public static void main(String[] args) {
 
 
-
-
-
+		
 
 	}
 
