@@ -67,8 +67,10 @@ public class App {
 			Connection conn = DriverManager
 					.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8", "root", "");
 
-			Statement st = conn.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * from animal where id_animal='" + id_animal);
+			PreparedStatement ps = conn.prepareStatement("SELECT * from animal where id_animal=?");
+			ps.setString(1,id_animal);
+			
+			ResultSet rs = ps.executeQuery();
 
 			Animal a = null;
 			while (rs.next())
@@ -76,16 +78,16 @@ public class App {
 
 				if (rs.getString("type_animal").equals("chien"))
 				{
-					a = new Chien(rs.getInteger("id_animal"), rs.getString("race"));
+					a = new Chien(rs.getInt("id_animal"), rs.getString("race"));
 				} else if (rs.getString("type_compte").equals("chat"))
 				{
-					a = new Chat(rs.getInteger("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
+					a = new Chat(rs.getInt("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
 							rs.getBoolean("malheur"));
 				}
 			}
 			return a;
 			rs.close();
-			st.close();
+			ps.close();
 			conn.close();
 
 		} catch (ClassNotFoundException | SQLException e)
