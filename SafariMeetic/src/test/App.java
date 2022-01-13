@@ -965,7 +965,13 @@ public class App {
 	
 	
 	public static void showAllFiches() {
-		// TODO Auto-generated method stub
+		//Afficher toutes les fiches
+				List<Fiche> fiches = FichefindAll();
+				
+				for ( Fiche fiche : fiches)
+				{
+					System.out.println(fiche.toString());
+				}
 		
 	}
 
