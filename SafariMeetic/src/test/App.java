@@ -882,15 +882,59 @@ public class App {
 	// Gestion des animals
 
 	public static void showAllAnimaux() {
-		// TODO Auto-generated method stub
-
+		for(Animal a : AnimalfindAll())
+		{
+			System.out.println(a);
+		}
 	}
-
+	
 
 	private static void updateAnimal() {
-		// TODO Auto-generated method stub
-
+		
+		showAllAnimaux();
+		int choix = saisieInt("Quel animal modifi� ?");
+		Animal a = AnimalfindById(choix);
+		
+		if(a instanceof Chien)
+		{
+			Chien c = (Chien) a;
+			c.setRace(saisieString("Quelle race ?"));
+			Animalupdate(c);
+		}
+		
+		else if(a instanceof Chat) 
+		{
+			Chat c = (Chat) a;
+			c.setRace(saisieString("Quelle race ?"));
+			
+			String p = saisieString("Est-il a poils courts (O/N)?");
+			
+			while (!p.equalsIgnoreCase("O") || !p.equalsIgnoreCase("N")) {
+				p = saisieString("Erreur dans la sasie. Est-il a poils courts (O/N)? Merci de saisir O ou N.");
+			}
+			
+			if (p.equalsIgnoreCase("O")) {
+				c.setPoilCourt(true);
+			}
+			else if (p.equalsIgnoreCase("N")) {
+				c.setPoilCourt(false);
+			}
+			
+			String m = saisieString("Est-ce qu'il malheur (O/N)?");
+				m = saisieString("Erreur dans la sasie. Est-ce qu'il porte malheur (O/N)? Merci de saisir O ou N.");
+			}
+			if (m.equalsIgnoreCase("O")) {
+				c.setMalheur(true);
+			}
+			else if (m.equalsIgnoreCase("N")) {
+				c.setMalheur(false);
+			}
+			Animalupdate(c);
+		}
+		
+			while (!m.equalsIgnoreCase("O") || !m.equalsIgnoreCase("N")) {
 	}
+	
 
 	private static void addAnimal() {	
 
