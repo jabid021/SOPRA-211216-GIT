@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.List;
 
 import model.Admin;
@@ -79,7 +80,7 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			//Pour mac, changer le port 3306 -> 8889
 			//Pour mac, password = "root"
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/SafariMeetic?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("SELECT * from Compte");
 			ResultSet rs = ps.executeQuery();
@@ -92,18 +93,19 @@ public class App {
 				
 				if(rs.getString("type_compte").equals("Client")) 
 				{
-					Client c=new Client(rs.getInteger("id"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), rs.getAdresse("adresse"));
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					Client c=new Client(rs.getInt("id"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"),a);
 					compte.add(c);
 				}
 				else if(rs.getString("type_compte").equals("Admin")) 
 				{
-					Admin c = new Admin(rs.getInteger("id"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
+					Admin c = new Admin(rs.getInt("id"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
 					compte.add(c);
 				}
 				else if(rs.getString("type_compte").equals("Vendeur")) 
 				{
 					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					Vendeur c=new Vendeur(rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
+					Vendeur c=new Vendeur(rs.getInt("id"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
 					compte.add(c);
 				}
 			}
@@ -171,6 +173,65 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
 	{
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+//			ComptefindById(c.getId());
+			
+			PreparedStatement ps = conn.prepareStatement("Update Compte set login=?,mail=?,password=?,refuge=?,numero=?,voie=?,ville=?,cp=?,tel=?,type_compte=? where id_compte =?");
+			ps.setString(1,c.getLogin());
+			ps.setString(2,c.getMail());
+			ps.setString(3,c.getPassword());
+			ps.setInt(11,c.getId());
+			
+			if (c instanceof Client)
+			{
+				Client c1=((Client)c);
+				Adresse a = c1.getAdresse();
+				
+				ps.setString(4,null);
+				ps.setString(5,a.getNumero());
+				ps.setString(6,a.getVoie());
+				ps.setString(7,a.getVille());
+				ps.setString(8,a.getCp());
+				ps.setString(9,c1.getTel());
+				ps.setString(10,"client");
+			}
+			else if(c instanceof Admin)
+			{
+				ps.setString(4,null);
+				ps.setString(5,null);
+				ps.setString(6,null);
+				ps.setString(7,null);
+				ps.setString(8,null);
+				ps.setString(9,null);
+				ps.setString(10,"admin");
+			}
+			else if(c instanceof Vendeur)
+			{
+				Vendeur c1=((Vendeur)c);
+				Adresse a = c1.getAdresse();
+				
+				ps.setString(4,c1.getRefuge().toString());
+				ps.setString(5,a.getNumero());
+				ps.setString(6,a.getVoie());
+				ps.setString(7,a.getVille());
+				ps.setString(8,a.getCp());
+				ps.setString(9,null);
+				ps.setString(10,"vendeur");
+			}
+
+			ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+		
+		}
+		catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
@@ -188,7 +249,7 @@ public class App {
 			e.printStackTrace();
 		}
 	}
-		
+
 	//----------------PARIS-------------------------------------
 
 
