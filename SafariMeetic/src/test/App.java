@@ -576,7 +576,7 @@ public class App {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("SELECT * from match WHERE client = ?");
-			ps.setInt(1,connected.getId());
+			ps.setInt(1,clientId);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) 
