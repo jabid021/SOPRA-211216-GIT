@@ -126,7 +126,7 @@ public class App {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scott?characterEncoding=UTF-8","root","");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO compte VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 			
@@ -143,7 +143,7 @@ public class App {
 				ps.setString(11, "client");				
 			}
 			else if (c instanceof Vendeur) {
-				ps.setString(5,((Vendeur) c).getRefuge().name());
+				ps.setString(5,((Vendeur) c).getRefuge().toString());
 				ps.setString(6,((Vendeur) c).getAdresse().getNumero());
 				ps.setString(7, ((Vendeur) c).getAdresse().getVoie());
 				ps.setString(8, ((Vendeur) c).getAdresse().getVille());
@@ -153,11 +153,15 @@ public class App {
 			else if (c instanceof Admin) {
 				ps.setString(11, "admin");
 			}
-						
-			ps.executeUpdate();
 			
-			c.setId(null);
-	
+			ps.executeUpdate();
+						
+			ps=conn.prepareStatement("SELECT COUNT(*) FROM compte");
+			ResultSet rs = ps.executeQuery();
+			
+			c.setId(rs.getInt("COUNT(*)"));
+			
+			rs.close();
 			ps.close();
 			conn.close();
 		} catch (ClassNotFoundException | SQLException e) {
