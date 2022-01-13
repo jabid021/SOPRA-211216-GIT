@@ -5,11 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.List;
 import java.sql.Statement;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 import model.Admin;
 import model.Adresse;
 import model.Animal;
@@ -23,12 +24,84 @@ import model.Vendeur;
 
 public class App {
 
-	//les id pas en int mais en Integer
+	
+	static Compte connected = null;
+	
+	
+	
+	
+	
+	public static String saisieString(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextLine();
+	}
+	
+	public static double saisieDouble(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextDouble();
+	}
+	
+	public static int saisieInt(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextInt();
+	}
 
 	//CRUD Compte PARIS------------------------------------- Ajouter id dans compte
 
+	public static Compte seConnecter(String login,String password) 
+	{
+		Compte connect = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where login=? and password=?");
+			ps.setString(1,login);
+			ps.setString(2, password);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			Compte c=null;
+			
+			while(rs.next()) 
+			{
+				
+				if(rs.getString("type_compte").equals("client")) 
+				{
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					connect=new Client(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), a);
+				}
+				else if(rs.getString("type_compte").equals("admin")) 
+				{
+					connect = new Admin(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"),rs.getString("mail"));
+				}
+				else if(rs.getString("type_compte").equals("vendeur")) 
+				{
+					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
+					connect=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
+				}
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return connect;
+		
+	}
+	
 	public static Compte ComptefindById(int id) 
 	{
+		Compte c=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
@@ -39,7 +112,7 @@ public class App {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			Compte c=null;
+			
 			
 			while(rs.next()) 
 			{
@@ -59,34 +132,27 @@ public class App {
 					c=new Vendeur((Integer)rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
 				}
 			}
-			if(c==null) {System.out.println("Compte non existant");}
-			else 
-			{
-				System.out.println("Compte "+id+" cree");
-				
-			}
 			rs.close();
 			ps.close();
 			conn.close();
-			return c;
+			
 		
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
-		
+		return c;
 		
 	}
 	public static List<Compte> ComptefindAll()
 	{
+		List<Compte> comptes = new ArrayList();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("SELECT * from Compte");
 			ResultSet rs = ps.executeQuery();
-			List<Compte> compte= new ArrayList();
-		
+
 			while(rs.next()) 
 			{	
 						
@@ -94,18 +160,18 @@ public class App {
 				{
 					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
 					Client c=new Client(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"),a);
-					compte.add(c);
+					comptes.add(c);
 				}
 				else if(rs.getString("type_compte").equals("admin")) 
 				{
 					Admin c = new Admin(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
-					compte.add(c);
+					comptes.add(c);
 				}
 				else if(rs.getString("type_compte").equals("vendeur")) 
 				{
 					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
 					Vendeur c=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
-					compte.add(c);
+					comptes.add(c);
 				}
 			}
 			
@@ -113,7 +179,6 @@ public class App {
 			rs.close();
 			ps.close();
 			conn.close();
-			return compte;
 		
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -121,7 +186,7 @@ public class App {
 		
 	}
 	
-		return null;
+		return comptes;
 	}
 	public static void Compteinsert(Compte c) 
 	{
@@ -170,8 +235,6 @@ public class App {
 			if(rs.next()) {
 				c.setId(rs.getInt(1));
 			}
-			
-			
 			
 			rs.close();
 			ps.close();
@@ -254,7 +317,6 @@ public class App {
 
 		} catch (ClassNotFoundException | SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return a;
@@ -263,7 +325,7 @@ public class App {
 
 	public static List<Animal> AnimalfindAll()
 	{
-		List<Animal> a=new ArrayList<Animal>();
+		List<Animal> animaux=new ArrayList<Animal>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
@@ -276,10 +338,10 @@ public class App {
 			{
 				if (rs.getString("type_animal").equals("chien"))
 				{
-					a.add(new Chien(rs.getInt("id_animal"), rs.getString("race")));
+					animaux.add(new Chien(rs.getInt("id_animal"), rs.getString("race")));
 				} else if (rs.getString("type_animal").equals("chat"))
 				{
-					a.add(new Chat(rs.getInt("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
+					animaux.add(new Chat(rs.getInt("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
 							rs.getBoolean("malheur")));
 				}
 			}
@@ -292,7 +354,7 @@ public class App {
 			e.printStackTrace();
 		}
 
-		return a;
+		return animaux;
 	}
 	
 	public static void Animalinsert(Animal c) 
@@ -328,7 +390,6 @@ public class App {
 		}
 		
 	}
-	//Pour un update, on set toutes les valeurs where id=?
 	public static void Animalupdate(Animal c) 
 	{
 		
@@ -355,7 +416,7 @@ public class App {
 				ps.setString(4, "chat");
 			}
 			
-			ps.setInt(5, c.getIdAnimal()) ;  
+			ps.setInt(5, c.getId()) ;  
 
 			ps.executeUpdate();
 			
@@ -404,10 +465,40 @@ public class App {
 	/// 
 	public static Fiche FichefindById(Integer id) 
 	{
+		Fiche f=null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche where id_fiche=?");
+			ps.setInt(1,id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			
+			while(rs.next()) 
+			{
+				Animal a = AnimalfindById(rs.getInt("animal"));
+				Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
+				f = new Fiche(id,rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+						rs.getBoolean("sociable"), a,v);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+			
 		
-		//Animal a = AnimalfindById(id);
-		return null;
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			
+		}
+		return f;
 	}
+	
 	public static List<Fiche> FichefindAll()
 	{
 		List<Fiche> fiches = new ArrayList<>();
@@ -424,10 +515,10 @@ public class App {
 			while(rs.next()) 
 			{
 				Animal a = AnimalfindById(rs.getInt("animal"));
-				
-				f = new Fiche(rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+				Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
+				f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
 						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
-						rs.getBoolean("sociable"), a);
+						rs.getBoolean("sociable"), a,v);
 				
 				fiches.add(f);
 			}
@@ -489,10 +580,6 @@ public class App {
 
 		System.out.println("Fiche"+c+" insï¿½rï¿½ avec succï¿½s");		
 
-
-
-
-		//c.getAnimal().getId();
 	}
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Ficheupdate(Fiche f) 
@@ -533,7 +620,7 @@ public class App {
 		
 	}
 
-	public static void Fichedelete (int id) 
+	public static void Fichedelete (Integer id) 
 	{
 
 		try {
@@ -541,7 +628,7 @@ public class App {
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
 			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id=?");
-			ps.setString(1,String.valueOf(id));
+			ps.setInt(1,id);
 			
 			ps.executeUpdate();
 		
@@ -558,11 +645,260 @@ public class App {
 
 
 
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 
-
 		
-
+		
+		menuPrincipal();
+		
+		
 	}
 
+	public static void menuPrincipal() {
+		
+		System.out.println("Menu principal");
+		System.out.println("1 - Se connecter");
+		System.out.println("2 - Inscription");
+		System.out.println("3 - Fermer l'appli");
+		
+		int choix = saisieInt("Choisir un menu");
+		
+		switch(choix) 
+		{
+		case 1 : connexion();break;
+		case 2 : inscription();break;
+		case 3 : System.exit(0);break;
+		}
+		
+		menuPrincipal();
+		
+	}
+
+
+	public static void connexion() {
+		
+		System.out.println("Connexion");
+		String login = saisieString("Saisir votre login");
+		String password = saisieString("Saisir votre password");
+		connected= seConnecter(login, password);
+		
+		if(connected instanceof Client) {menuClient();}
+		else if(connected instanceof Vendeur) {menuVendeur();}
+		else if(connected instanceof Admin) {menuAdmin();}
+		else if(connected ==null) 
+		{
+			System.out.println("Identifiants invalides !");
+		}
+		menuPrincipal();
+		
+		
+	}
+
+	public static void menuAdmin() {
+		
+		System.out.println("Menu Admin");
+		System.out.println("1 - Afficher toutes les fiches");
+		System.out.println("2 - Afficher tous les comptes");
+		System.out.println("3 - Afficher tous les animals");
+		System.out.println("4 - Afficher tous les matchs");
+		System.out.println("5 - Ajouter un animal");
+		System.out.println("6 - Modifier un animal");
+		System.out.println("7 - Se deconnecter");
+		
+		int choix = saisieInt("Choisir un menu");
+		
+		switch(choix) 
+		{
+		case 1 : showAllFiches();break;
+		case 2 : showAllComptes();break;
+		case 3 : showAllAnimaux();break;
+		case 4 : showAllMatchs();break;
+		case 5 : addAnimal();break;
+		case 6 : updateAnimal();break;
+		case 7 : connected=null;break;
+		}
+		
+		menuAdmin();
+	}
+
+
+
+	
+
+	public static void menuVendeur() {
+
+		System.out.println("Menu Vendeur");
+		System.out.println("1 - Consulter mes fiches");
+		System.out.println("2 - Ajouter une nouvelle fiche");
+		System.out.println("3 - Modifier une fiche");
+		System.out.println("4-  Supprimer une fiche ");
+		System.out.println("5 - Voir les matchs de mes fiches ");
+		System.out.println("6-  Modifier mon profil ");
+		System.out.println("7 - Se deconnecter");
+		
+		int choix = saisieInt("Choisir un menu");
+		
+		switch(choix) 
+		{
+		case 1 : showFichesVendeur();break;
+		case 2 : addFiche();break;
+		case 3 : updateFiche();break;
+		case 4 : deleteFiche();break;
+		case 5 : showMatchsVendeur();break;
+		case 6 : modifierInfosVendeur();break;
+		case 7 : connected=null;menuPrincipal();break;
+		}
+		
+		menuVendeur();
+		
+	}
+
+
+
+	public static void menuClient() {
+		
+		System.out.println("Menu Client");
+		System.out.println("1 - Consulter les fiches");
+		System.out.println("2 - Consulter mes match");
+		System.out.println("3- Modifier mon profil");
+		System.out.println("4 - Se deconnecter");
+		
+		int choix = saisieInt("Choisir un menu");
+		
+		switch(choix) 
+		{
+		case 1 : clientMatch();break;
+		case 2 : showMatchsClient();break;
+		case 3 : modifierInfosClient();break;
+		case 4 : connected=null;menuPrincipal();break;
+		}
+		
+		menuClient();
+	}
+
+	
+	//GESTION DES COMPTES
+	
+	public static void inscription() {
+		//choisir si on veut un compte client / vendeur
+		//Si client, saisir login,password,mail,adresse,tel
+		//Si vendeur, saisir login,password,mail,refuge,adresse
+		
+	}
+	
+	public static void modifierInfosVendeur() {
+		//Pouvoir modifier login/mail/password/adresse(numero,voie,cp,ville) / refuge
+	}
+
+	public static void modifierInfosClient() {
+		//Pouvoir modifier login/mail/password/adresse(numero,voie,cp,ville) / tel
+	}
+	
+	public static void showAllComptes() {
+		// TODO Auto-generated method stub
+		
+	}
+	//----------------------------------------
+	
+	
+	
+	//GESTION DES MATCHS
+	
+	public static void showMatchsVendeur() {
+		//Afficher les match du vendeur connecte
+		
+	}
+
+	public static void showMatchsClient() {
+		//Affiche tous les match du client connected
+		
+	}
+	
+
+	public static void showAllMatchs() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+	public static void clientMatch() {
+		
+		//Lister toutes les fiches
+		//Dans un for each, demander au client s'il veut match ou non
+		//Si match, insert match 
+	}
+	
+
+
+	//------------------------------
+	
+	
+	
+	
+	//GESTION DES FICHES
+	public static void deleteFiche() {
+		//Afficher toutes mes fiches 
+		showFichesVendeur();
+		//Choisir l'id a delete
+		
+		
+	}
+
+	public static void updateFiche() {
+		//Afficher toutes mes fiches 
+		showFichesVendeur();
+		//FindById de la fiche à modifier
+		//Saisir les modifs
+		
+	}
+	
+	public static void addFiche() {
+		//Remplir les infos d'une fiche
+		
+		
+	}
+
+	public static void showFichesVendeur() {
+		//Afficher les fiches du vendeur connecte
+		
+	}
+	
+	
+	public static void showAllFiches() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//-------------------------------------------
+	
+	
+	// Gestion des animals
+	
+	public static void showAllAnimaux() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	private static void updateAnimal() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void addAnimal() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//---------------------
+	
+
+	
 }

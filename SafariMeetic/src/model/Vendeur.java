@@ -41,7 +41,7 @@ public class Vendeur extends Compte {
 
 	@Override
 	public String toString() {
-		return "Vendeur [refuge=" + refuge + ", adresse=" + adresse + ", fiches=" + fiches + ", id=" + id + ", login="
+		return "Vendeur [refuge=" + refuge + ", adresse=" + adresse + ", id=" + id + ", login="
 				+ login + ", password=" + password + ", mail=" + mail + "]";
 	}
 	
