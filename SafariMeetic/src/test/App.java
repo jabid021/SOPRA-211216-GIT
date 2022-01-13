@@ -627,7 +627,7 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id=?");
+			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id_fiche=?");
 			ps.setInt(1,id);
 			
 			ps.executeUpdate();
@@ -847,7 +847,21 @@ public class App {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
 		//Choisir l'id a delete
-		
+
+		int choixId = saisieInt("Choisir l'id de la fiche à supprimer");
+		String askSuppr = saisieString( "Etes-vous sûr de vouloir supprimer la fiche :" + FichefindById(choixId).toString()+ "\n(oui/non)");
+		// FichefindById(choixId) ===> Column 'vendeur' not found.
+
+		try {
+			if (askSuppr.equalsIgnoreCase("oui"))
+			{
+				Fichedelete(choixId);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 
