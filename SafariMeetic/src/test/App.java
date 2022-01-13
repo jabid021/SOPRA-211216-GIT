@@ -867,12 +867,59 @@ public class App {
 
 	public static void showFichesVendeur() {
 		//Afficher les fiches du vendeur connecte
+		List<Fiche> fiches = new ArrayList<>();
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche where vendeur = ? ");
+			
+			ps.setObject(1, connected.getId());
+			ResultSet rs = ps.executeQuery();
+			
+			
+			
+			
+
+			Fiche f=null;
+
+			while(rs.next()) 
+			{
+				Animal a = AnimalfindById(rs.getInt("animal"));
+				Vendeur v = (Vendeur) connected ;
+				f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+						rs.getBoolean("sociable"), a,v);
+
+				fiches.add(f);
+			}
+
+			rs.close();
+			ps.close();
+			conn.close();
+			for ( Fiche i : fiches)
+			{
+				System.out.println(i.toString());
+			}
+			
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 	
 	
 	public static void showAllFiches() {
-		// TODO Auto-generated method stub
+		//Afficher toutes les fiches
+				List<Fiche> fiches = FichefindAll();
+				
+				for ( Fiche fiche : fiches)
+				{
+					System.out.println(fiche.toString());
+				}
 		
 	}
 
