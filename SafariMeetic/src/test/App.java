@@ -855,7 +855,12 @@ public class App {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
 		//FindById de la fiche à modifier
+
+		int id = saisieInt("Saisir l'id de la fiche à modifier :");
+		Fiche f = FichefindById(id);
+		
 		//Saisir les modifs
+		
 		
 	}
 	
