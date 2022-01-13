@@ -567,6 +567,10 @@ public class App {
 		}
 		return matches;
 	}
+	
+	public static List<Match> MatchfindByClientId(Integer clientId) {
+		return null;
+	}
 	//--------------------------------LE RESTE DU MONDE---------------
 
 
