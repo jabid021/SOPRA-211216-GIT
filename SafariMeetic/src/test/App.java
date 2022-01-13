@@ -903,6 +903,10 @@ public class App {
 				break;
 			}
 		}
+		/* TODO
+		 * Modif animal ?
+		 * Modif vendeur
+		 */
 
 		System.out.println(f.toStringMenu());
 		
