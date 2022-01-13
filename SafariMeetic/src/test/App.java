@@ -76,19 +76,26 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, poil_court, malheur, type_animal) VALUES (?,?,?,?)");
+			ps.setString(1, c.getRace());
+			
 			if (c instanceof Chien)
 			{
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, type_animal) VALUES ('"+c.getRace()+"','chien')");
-				ps.executeUpdate();
-				ps.close();
+				ps.setObject(2, null);
+				ps.setObject(3, null);
+				ps.setString(4, "chien");
+				
 			} 
 			else if (c instanceof Chat) 
 			{
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO animal ( race, poil_court, malheur, type_animal) VALUES ('"+c.getRace()+"', "+((Chat) c).isPoilCourt()+", "+((Chat) c).isMalheur()+", 'chat')");
-				ps.executeUpdate();
-				ps.close();
+				ps.setBoolean(2, ((Chat) c).isPoilCourt() );
+				ps.setBoolean(3, ((Chat) c).isMalheur() );
+				ps.setString(4, "chat");
 			}
 
+			
+			ps.executeUpdate();
+			ps.close();
 			conn.close();
 		
 		} catch (ClassNotFoundException | SQLException e) {
