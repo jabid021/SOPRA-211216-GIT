@@ -853,15 +853,49 @@ public class App {
 	
 	public static void modifierInfosVendeur() {
 		//Pouvoir modifier login/mail/password/adresse(numero,voie,cp,ville) / refuge
+		
+		System.out.println("Menu modification donnees Vendeur");
+		System.out.println("1 - Modification login");
+		System.out.println("2 - Modification mail");
+		System.out.println("3 - Modification password");
+		System.out.println("4 - Modification numero ");
+		System.out.println("5 - Modification voie ");
+		System.out.println("6 - Modification ville");
+		System.out.println("7 - Modification cp");
+		System.out.println("8 - Modification refuge");
+		System.out.println("9 - Sauvgarder toutes les modifications et revenir vers le menu Vendeur");
+		System.out.println("10 - Annuler toutes les modifications et revenir vers le menu Vendeur");
+
+		int choix = saisieInt("Choisir votre action");
+		
+		Vendeur c=((Vendeur)connected);
+		
+		
+		switch(choix) 
+		{
+		case 1 : c.setLogin(saisieString("Veuillez saisir votre nouveau login : "));break;
+		case 2 : c.setMail(saisieString("Veuillez saisir votre nouveau mail: "));break;
+		case 3 : c.setPassword(saisieString("Veuillez saisir votre nouveau password : "));break;
+		case 4 : c.getAdresse().setNumero(saisieString("Veuillez saisir votre nouveau numero : "));break;
+		case 5 : c.getAdresse().setVoie(saisieString("Veuillez saisir votre nouvelle voie : "));break;
+		case 6 : c.getAdresse().setVille(saisieString("Veuillez saisir votre nouvelle ville : "));break;
+		case 7 : c.getAdresse().setCp(saisieString("Veuillez saisir votre nouveau CP : "));break;
+		case 8 : c.setRefuge(Refuge.valueOf(saisieString("Veuillez saisir votre nouveau refuge : ")));break;
+		case 9 : connected=c;Compteupdate(connected);menuClient();break;
+		case 10 : menuClient();break;
+		}
+
+		modifierInfosVendeur();
+		
 	}
 
 	public static void modifierInfosClient() 
 	{
-		System.out.println("Menu modification données du Client");
+		System.out.println("Menu modification donnï¿½es du Client");
 		System.out.println("1 - Modification du login");
 		System.out.println("2 - Modification du mail");
 		System.out.println("3 - Modification du password");
-		System.out.println("4 - Modification Adresse : Modification du numéro");
+		System.out.println("4 - Modification Adresse : Modification du numï¿½ro");
 		System.out.println("5 - Modification Adresse : Modification de la voie");
 		System.out.println("6 - Modification Adresse : Modification de la ville");
 		System.out.println("7 - Modification Adresse : Modification du cp");
