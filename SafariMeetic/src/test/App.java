@@ -655,7 +655,7 @@ public class App {
 	
 	public static void main(String[] args) {
 
-		
+		showAllMatchs();
 		
 		menuPrincipal();
 		
@@ -854,7 +854,36 @@ public class App {
 	
 
 	public static void showAllMatchs() {
-		// TODO Auto-generated method stub
+		List<Match> matches = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs");
+			ResultSet rs = ps.executeQuery();
+			
+			Match m=null;
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client) ComptefindById(rs.getInt("client"));
+				m = new Match(rs.getInt("id_match"),f, c);
+				matches.add(m);
+				
+
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(matches);
 		
 	}
 	
