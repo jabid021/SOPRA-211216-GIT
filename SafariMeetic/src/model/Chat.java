@@ -11,6 +11,12 @@ public class Chat extends Animal {
 		this.poilCourt = poilCourt;
 		this.malheur = malheur;
 	}
+	
+	public Chat( String race, boolean poilCourt, boolean malheur) {
+		super(race);
+		this.poilCourt = poilCourt;
+		this.malheur = malheur;
+	}
 
 
 	public boolean isPoilCourt() {

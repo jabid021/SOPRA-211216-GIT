@@ -7,6 +7,12 @@ public class Chien extends Animal{
 		super(idAnimal, race);
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public Chien(String race) {
+		super(race);
+		// TODO Auto-generated constructor stub
+	}
 
 
 	@Override
