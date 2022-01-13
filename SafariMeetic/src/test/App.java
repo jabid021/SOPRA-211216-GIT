@@ -5,19 +5,21 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import dao.DAOAnimal;
+import dao.DAOCompte;
+import dao.DAOFiche;
+import dao.DAOMatch;
 import model.Admin;
 import model.Adresse;
 import model.Animal;
 import model.Chat;
 import model.Chien;
-
 import model.Client;
 import model.Compte;
 import model.Fiche;
@@ -29,9 +31,10 @@ public class App {
 
 
 	static Compte connected = null;
-
-
-
+	static DAOCompte daoC = new DAOCompte();
+	static DAOFiche daoF = new DAOFiche();
+	static DAOAnimal daoA = new DAOAnimal();
+	static DAOMatch daoM = new DAOMatch();
 
 
 	public static String saisieString(String msg) 
@@ -55,647 +58,8 @@ public class App {
 		return sc.nextInt();
 	}
 
-	//CRUD Compte PARIS------------------------------------- Ajouter id dans compte
 
-	public static Compte seConnecter(String login,String password) 
-	{
-		Compte connect = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where login=? and password=?");
-			ps.setString(1,login);
-			ps.setString(2, password);
-
-			ResultSet rs = ps.executeQuery();
-
-			Compte c=null;
-
-			while(rs.next()) 
-			{
-
-				if(rs.getString("type_compte").equals("client")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					connect=new Client(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), a);
-				}
-				else if(rs.getString("type_compte").equals("admin")) 
-				{
-					connect = new Admin(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"),rs.getString("mail"));
-				}
-				else if(rs.getString("type_compte").equals("vendeur")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					connect=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
-				}
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		return connect;
-
-	}
-
-	public static Compte ComptefindById(int id) 
-	{
-		Compte c=null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from compte where id_compte=?");
-			ps.setInt(1,id);
-
-
-			ResultSet rs = ps.executeQuery();
-
-
-
-			while(rs.next()) 
-			{
-
-				if(rs.getString("type_compte").equals("client")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					c=new Client((Integer)rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"), a);
-				}
-				else if(rs.getString("type_compte").equals("admin")) 
-				{
-					c = new Admin((Integer)rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"),rs.getString("mail"));
-				}
-				else if(rs.getString("type_compte").equals("vendeur")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					c=new Vendeur((Integer)rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")), a);
-				}
-			}
-			rs.close();
-			ps.close();
-			conn.close();
-
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		return c;
-
-	}
-	public static List<Compte> ComptefindAll()
-	{
-		List<Compte> comptes = new ArrayList();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from Compte");
-			ResultSet rs = ps.executeQuery();
-
-			while(rs.next()) 
-			{	
-
-				if(rs.getString("type_compte").equals("client")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					Client c=new Client(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"), rs.getString("mail"), rs.getString("tel"),a);
-					comptes.add(c);
-				}
-				else if(rs.getString("type_compte").equals("admin")) 
-				{
-					Admin c = new Admin(rs.getInt("id_compte"), rs.getString("login"), rs.getString("password"),rs.getString("mail"));
-					comptes.add(c);
-				}
-				else if(rs.getString("type_compte").equals("vendeur")) 
-				{
-					Adresse a = new Adresse(rs.getString("numero"),rs.getString("voie"),rs.getString("ville"),rs.getString("cp"));
-					Vendeur c=new Vendeur(rs.getInt("id_compte"),rs.getString("login"), rs.getString("password"), rs.getString("mail"), Refuge.valueOf(rs.getString("refuge")),a);
-					comptes.add(c);
-				}
-			}
-
-
-			rs.close();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-
-
-		}
-
-		return comptes;
-	}
-	public static void Compteinsert(Compte c) 
-	{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO compte VALUES(?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-
-			ps.setInt(1,0);
-			ps.setString(2,c.getLogin());
-			ps.setString(3,c.getMail());
-			ps.setString(4,c.getPassword());
-
-			if(c instanceof Client) {
-				ps.setString(5,null);
-				ps.setString(6,((Client) c).getAdresse().getNumero());
-				ps.setString(7, ((Client) c).getAdresse().getVoie());
-				ps.setString(8, ((Client) c).getAdresse().getVille());
-				ps.setString(9, ((Client) c).getAdresse().getCp());
-				ps.setString(10, ((Client) c).getTel());
-				ps.setString(11, "client");				
-			}
-			else if (c instanceof Vendeur) {
-				ps.setString(5,((Vendeur) c).getRefuge().toString());
-				ps.setString(6,((Vendeur) c).getAdresse().getNumero());
-				ps.setString(7, ((Vendeur) c).getAdresse().getVoie());
-				ps.setString(8, ((Vendeur) c).getAdresse().getVille());
-				ps.setString(9, ((Vendeur) c).getAdresse().getCp());
-				ps.setString(10, null);
-				ps.setString(11, "vendeur");
-			}
-			else if (c instanceof Admin) {
-				ps.setString(5,null);
-				ps.setString(6,null);
-				ps.setString(7,null);
-				ps.setString(8,null);
-				ps.setString(9,null);
-				ps.setString(10, null);
-				ps.setString(11, "admin");
-			}
-
-			ps.executeUpdate();
-
-			ResultSet rs = ps.getGeneratedKeys();
-			if(rs.next()) {
-				c.setId(rs.getInt(1));
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	//Pour un update, on set toutes les valeurs where id=?
-	public static void Compteupdate(Compte c) 
-	{
-
-		try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-//            ComptefindById(c.getId());
-
-            PreparedStatement ps = conn.prepareStatement("Update Compte set login=?,mail=?,password=?,refuge=?,numero=?,voie=?,ville=?,cp=?,tel=?,type_compte=? where id_compte =?");
-            ps.setString(1,c.getLogin());
-            ps.setString(2,c.getMail());
-            ps.setString(3,c.getPassword());
-            ps.setInt(11,c.getId());
-
-            if (c instanceof Client)
-            {
-                Client c1=((Client)c);
-                Adresse a = c1.getAdresse();
-
-                ps.setString(4,null);
-                ps.setString(5,a.getNumero());
-                ps.setString(6,a.getVoie());
-                ps.setString(7,a.getVille());
-                ps.setString(8,a.getCp());
-                ps.setString(9,c1.getTel());
-                ps.setString(10,"client");
-            }
-            else if(c instanceof Admin)
-            {
-                ps.setString(4,null);
-                ps.setString(5,null);
-                ps.setString(6,null);
-                ps.setString(7,null);
-                ps.setString(8,null);
-                ps.setString(9,null);
-                ps.setString(10,"admin");
-            }
-            else if(c instanceof Vendeur)
-            {
-                Vendeur c1=((Vendeur)c);
-                Adresse a = c1.getAdresse();
-
-                ps.setString(4,c1.getRefuge().toString());
-                ps.setString(5,a.getNumero());
-                ps.setString(6,a.getVoie());
-                ps.setString(7,a.getVille());
-                ps.setString(8,a.getCp());
-                ps.setString(9,null);
-                ps.setString(10,"vendeur");
-            }
-
-            ps.executeUpdate();
-
-            ps.close();
-            conn.close();
-
-        }
-        catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-
-	}
-
-	public static void deleteCompte(int id) 
-	{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("delete from compte where id_compte=?");
-			ps.setInt(1, id);
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	//----------------PARIS-------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//CRUD Animaux--------BORDEAUX----------------------------- Ajouter id dans Animal
-
-	public static Animal AnimalfindById(int id) 
-	{
-		Animal a = null;
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager
-					.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8", "root", "");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from animal where id_animal=?");
-			ps.setInt(1,id);
-
-			ResultSet rs = ps.executeQuery();
-
-
-			while (rs.next())
-			{
-
-				if (rs.getString("type_animal").equals("chien"))
-				{
-					a = new Chien(rs.getInt("id_animal"), rs.getString("race"));
-				} else if (rs.getString("type_animal").equals("chat"))
-				{
-					a = new Chat(rs.getInt("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
-							rs.getBoolean("malheur"));
-				}
-			}
-			rs.close();
-			ps.close();
-			conn.close();
-
-
-
-		} catch (ClassNotFoundException | SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return a;
-
-	}
-
-	public static List<Animal> AnimalfindAll()
-	{
-		List<Animal> animaux=new ArrayList<Animal>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from animal");
-
-			ResultSet rs = ps.executeQuery();
-
-			while(rs.next())
-			{
-				if (rs.getString("type_animal").equals("chien"))
-				{
-					animaux.add(new Chien(rs.getInt("id_animal"), rs.getString("race")));
-				} else if (rs.getString("type_animal").equals("chat"))
-				{
-					animaux.add(new Chat(rs.getInt("id_animal"), rs.getString("race"), rs.getBoolean("poil_court"),
-							rs.getBoolean("malheur")));
-				}
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-		return animaux;
-	}
-
-	public static void Animalinsert(Animal c) 
-	{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, poil_court, malheur, type_animal) VALUES (?,?,?,?)");
-			ps.setString(1, c.getRace());
-
-			if (c instanceof Chien)
-			{
-				ps.setObject(2, null);
-				ps.setObject(3, null);
-				ps.setString(4, "chien");
-
-			} 
-			else if (c instanceof Chat) 
-			{
-				ps.setBoolean(2, ((Chat) c).isPoilCourt() );
-				ps.setBoolean(3, ((Chat) c).isMalheur() );
-				ps.setString(4, "chat");
-			}
-
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-	public static void Animalupdate(Animal c) 
-	{
-
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("UPDATE animal SET race=? , poil_court=? , malheur=? , type_animal=? where id_animal=?");
-
-			ps.setString(1, c.getRace());
-
-			if ( c instanceof Chien)
-			{
-
-				ps.setObject(2, null);
-				ps.setObject(3, null);
-				ps.setString(4, "chien");
-			}
-			else if (c instanceof Chat)
-			{
-				ps.setObject(2, ((Chat) c).isPoilCourt());
-				ps.setObject(3, ((Chat) c).isMalheur());
-				ps.setString(4, "chat");
-			}
-
-			ps.setInt(5, c.getId()) ;  
-
-			ps.executeUpdate();
-
-
-
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void Animaldelete (int id) 
-	{
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement st = conn.prepareStatement("DELETE from Animal WHERE id_animal=?");
-			st.setInt(1,id);
-			st.executeUpdate();
-
-			st.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	//------------------------BORDEAUX----------------------------
-
-
-
-
-
-
-
-
-
-
-
-	//CRUD Fiche1-----------LE RESTE DU MONDE-------------------------- 
-
-
-	/// 
-	public static Fiche FichefindById(Integer id) 
-	{
-		Fiche f=null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche where id_fiche=?");
-			ps.setInt(1,id);
-
-			ResultSet rs = ps.executeQuery();
-
-
-
-			while(rs.next()) 
-			{
-				Animal a = AnimalfindById(rs.getInt("animal"));
-				Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
-				f = new Fiche(id,rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
-						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
-						rs.getBoolean("sociable"), a,v);
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-
-
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-
-		}
-		return f;
-	}
-
-	public static List<Fiche> FichefindAll()
-	{
-		List<Fiche> fiches = new ArrayList<>();
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche");
-			ResultSet rs = ps.executeQuery();
-
-			Fiche f=null;
-
-			while(rs.next()) 
-			{
-				Animal a = AnimalfindById(rs.getInt("animal"));
-				Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
-				f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
-						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
-						rs.getBoolean("sociable"), a,v);
-
-				fiches.add(f);
-			}
-
-			rs.close();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-		return fiches;
-	}
-	
-	public static List<Match> showAllMatchJdbc()
-	{
-		List<Match> matches = new ArrayList<>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs");
-			ResultSet rs = ps.executeQuery();
-			
-			Match m=null;
-			
-			while(rs.next()) 
-			{
-				Fiche f = FichefindById(rs.getInt("fiche"));
-				Client c = (Client) ComptefindById(rs.getInt("client"));
-				m = new Match(rs.getInt("id_match"),f, c);
-				matches.add(m);
-				
-
-			}
-			
-			rs.close();
-			ps.close();
-			conn.close();
-		
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		return matches;
-	}
-	
-	public static List<Match> MatchfindByClientId(Integer clientId) {
-        List<Match> clientMatchs = new ArrayList<>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs WHERE client = ?");
-			ps.setInt(1,clientId);
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) 
-			{
-				Fiche f = FichefindById(rs.getInt("fiche"));
-				Client c = (Client)ComptefindById(rs.getInt("client"));
-				Match m = new Match(rs.getInt("id_match"), f, c);
-				
-				clientMatchs.add(m);
-			}
-			
-			rs.close();
-			ps.close();
-			conn.close();
-		
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return clientMatchs;
-	}
-	
-	public static List<Match> MatchfindByVendeurId(Integer vendeurId){
-		List<Match> vendeurMatchs = new ArrayList<>();
-		Match m=null;
-		
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-				
-				PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ?;");
-				ps.setInt(1,vendeurId);
-				ResultSet rs = ps.executeQuery();
-				
-							
-				while(rs.next()) 
-				{
-					//probleme
-					Fiche f = FichefindById(rs.getInt("id_fiche"));
-					Client c = (Client) ComptefindById(rs.getInt("client"));
-					m = new Match(rs.getInt("id_match"), f, c);
-					
-					vendeurMatchs.add(m);
-				}
-				
-				rs.close();
-				ps.close();
-				conn.close();
-					
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-				
-			}
-			return vendeurMatchs;
-	}
-	
-	public static void matchForClient() {
+	/*public static void matchForClient() {
 	
 		try {
 		Class.forName("com.mysql.jdbc.Driver");
@@ -727,7 +91,7 @@ public class App {
 				String choix = saisieString("Voulez-vous matcher avec cet animal N/Y");
 		
 				if (choix .equals("Y")) {
-					PreparedStatement ps1 = conn.prepareStatement("INSERT INTO matchs fiche,client VALUES ?,?");
+					PreparedStatement ps1 = conn.prepareStatement("INSERT INTO matchs (fiche,client) VALUES (?,?)");
 					ps1.setInt(1,f1.getId());
 					ps1.setInt(2,connected.getId());
 					ps1.executeUpdate();
@@ -745,130 +109,11 @@ public class App {
 		
 	}
 	}
-	//--------------------------------LE RESTE DU MONDE---------------
 
-
-
-
-
-
-
-
-
-	//Fiche2------------------------TOULOUSE------------- Ajouter id dans fiche
-
-	public static void FicheInsert(Fiche c) 
-	{
-
-
-		try {
-			//�tape 1: charger la classe driver
-			Class.forName("com.mysql.jdbc.Driver");
-			//�tape 2: cr�er l'objet de connexion
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			//�tape 3: cr�er l'objet statement 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO fiche (description,creation,nom,sexe,age,puce,poids,couleur,sociable,animal,vendeur) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-
-			System.out.println("Insertion des caract�ristique de la fiche");
-			ps.setString(1, c.getDescription());
-			ps.setString(2, c.getCreation().toString());
-			ps.setString(3, c.getNom());
-			ps.setString(4, c.getSexe());
-			ps.setInt(5, c.getAge());
-			ps.setInt(6, c.getPuce());
-			ps.setDouble(7, c.getPoids());
-			ps.setString(8, c.getCouleur());
-			ps.setBoolean(9, c.isSociable());
-			ps.setInt(10, c.getAnimal().getId());
-			ps.setInt(11, c.getVendeur().getId());
-
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-		}
-		catch(Exception e) {e.printStackTrace();}
-
-		System.out.println("Fiche"+c+" ins�r� avec succ�s");		
-
-	}
-	//Pour un update, on set toutes les valeurs where id=?
-	public static void Ficheupdate(Fiche f) 
-	{
-		try 
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("UPDATE fiche set nom=?, description=?, creation=?, sexe=?, age=?, puce=?, poids=?, couleur=?, sociable=?, animal=?, vendeur=?  where id_fiche=?");
-
-			System.out.println("Update de la fiche");
-			ps.setString(1, f.getNom());
-			ps.setString(2, f.getDescription());
-			ps.setString(3, f.getCreation().toString());
-			ps.setString(4, f.getSexe());
-			ps.setInt(5, f.getAge());
-			ps.setInt(6, f.getPuce());
-			ps.setDouble(7, f.getPoids());
-			ps.setString(8, f.getCouleur());
-			ps.setBoolean(9, f.isSociable());
-			ps.setInt(10, f.getAnimal().getId());
-			ps.setInt(11, f.getVendeur().getId());
-			ps.setInt(12, f.getId());
-
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("Fiche"+f+" update");
-
-
-	}
-
-	public static void Fichedelete (Integer id) 
-	{
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			
-			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id_fiche=?");
-			ps.setInt(1,id);
-
-			ps.executeUpdate();
-
-
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-	//-------------------------TOULOUSE----------------------------
-
-
-
-
-
-
-
-
-
+*/
 
 	public static void main(String[] args) {
-		
 		menuPrincipal();
-
-
 	}
 
 	public static void menuPrincipal() {
@@ -886,9 +131,7 @@ public class App {
 		case 2 : inscription();break;
 		case 3 : System.exit(0);break;
 		}
-
 		menuPrincipal();
-
 	}
 
 
@@ -897,7 +140,7 @@ public class App {
 		System.out.println("Connexion");
 		String login = saisieString("Saisir votre login");
 		String password = saisieString("Saisir votre password");
-		connected= seConnecter(login, password);
+		connected= daoC.seConnecter(login, password);
 
 		if(connected instanceof Client) {menuClient();}
 		else if(connected instanceof Vendeur) {menuVendeur();}
@@ -1016,7 +259,7 @@ public class App {
 			System.out.println("Entrer votre adresse");
 			Adresse adr = new Adresse(saisieString("Entrer votre numero"),saisieString("Entrer votre voie"),saisieString("Entrer votre ville"),saisieString("Entrer votre code postal"));
 			Compte c = new Client(1,log,pass,mail,tel,adr);
-			Compteinsert(c);
+			daoC.insert(c);
 		}
 		else if ( choix ==2) {
 			String log= saisieString("Entrer votre login");
@@ -1028,7 +271,7 @@ public class App {
 			System.out.println("Entrer votre adresse");
 			Adresse adr = new Adresse(saisieString("Entrer votre numero"),saisieString("Entrer votre voie"),saisieString("Entrer votre ville"),saisieString("Entrer votre code postal"));
 			Compte c = new Vendeur(1,log,pass,mail,Refuge.valueOf(refuge),adr);
-			Compteinsert(c);
+			daoC.insert(c);
 		}
 
 		
@@ -1065,7 +308,7 @@ public class App {
 		case 6 : c.getAdresse().setVille(saisieString("Veuillez saisir votre nouvelle ville : "));break;
 		case 7 : c.getAdresse().setCp(saisieString("Veuillez saisir votre nouveau CP : "));break;
 		case 8 : c.setRefuge(Refuge.valueOf(saisieString("Veuillez saisir votre nouveau refuge : ")));break;
-		case 9 : connected=c;Compteupdate(connected);menuClient();break;
+		case 9 : connected=c;daoC.update(c);menuClient();break;
 		case 10 : menuClient();break;
 		}
 
@@ -1101,7 +344,7 @@ public class App {
 		case 6 : c.getAdresse().setVille(saisieString("Veuillez saisir votre nouvelle adresse : nouvelle ville : "));break;
 		case 7 : c.getAdresse().setCp(saisieString("Veuillez saisir votre nouvelle adresse : nouveau CP : "));break;
 		case 8 : c.setTel(saisieString("Veuillez saisir votre nouveau numero : "));break;
-		case 9 : connected=c;Compteupdate(connected);menuClient();break;
+		case 9 : connected=c;daoC.update(c);menuClient();break;
 		case 10 : menuClient();break;
 		}
 
@@ -1111,7 +354,7 @@ public class App {
 
 	public static void showAllComptes() {
 		List<Compte> listComptes = new ArrayList<Compte>();
-		listComptes=ComptefindAll();
+		listComptes=daoC.findAll();
 		for (Compte c:listComptes) {
 			System.out.println(c);
 		}
@@ -1125,7 +368,7 @@ public class App {
 
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-		List<Match> vendeurMatchs = MatchfindByVendeurId(connected.getId());
+		List<Match> vendeurMatchs = daoM.MatchfindByVendeurId(connected.getId());
 		System.out.println(vendeurMatchs);
 		
 		
@@ -1134,29 +377,23 @@ public class App {
 
 	public static void showMatchsClient() {
 		//Affiche tous les match du client connected
-        List<Match> clientMatchs = MatchfindByClientId(connected.getId());
+        List<Match> clientMatchs = daoM.MatchfindByClientId(connected.getId());
 		System.out.println(clientMatchs);
 		
 	}
 
 	public static void showAllMatchs() {		
 		
-		System.out.println(showAllMatchJdbc());
+		System.out.println(daoM.findAll());
 		
 	}
 
 
 	public static void clientMatch() {
 		
-		matchForClient();
+	//	matchForClient();
 		}
 		
-		//Lister toutes les fiches
-		//Dans un for each, demander au client s'il veut match ou non
-		//Si match, insert match 
-	}
-	
-
 
 	//------------------------------
 
@@ -1170,13 +407,13 @@ public class App {
 		//Choisir l'id a delete
 
 		int choixId = saisieInt("Choisir l'id de la fiche � supprimer");
-		String askSuppr = saisieString( "Etes-vous s�r de vouloir supprimer la fiche :" + FichefindById(choixId).toString()+ "\n(oui/non)");
+		String askSuppr = saisieString( "Etes-vous s�r de vouloir supprimer la fiche :" + daoF.findById(choixId).toString()+ "\n(oui/non)");
 		// FichefindById(choixId) ===> Column 'vendeur' not found.
 
 		try {
 			if (askSuppr.equalsIgnoreCase("oui"))
 			{
-				Fichedelete(choixId);
+				daoF.delete(choixId);
 			}
 		}
 		catch(Exception e) {
@@ -1201,7 +438,7 @@ public class App {
 
 //		Fiche f = new Fiche(1, "C'est une fiche", LocalDate.now(), "Nom animal", "Male", 5, 681, 3.5, "Roux", false, null, null);
 		int id = saisieInt("Saisir l'id de la fiche � modifier :");
-		Fiche f = FichefindById(id);
+		Fiche f = daoF.findById(id);
 		
 		System.out.println(printFicheMenu(f));
 		
@@ -1249,7 +486,7 @@ public class App {
 		System.out.println(printFicheMenu(f));
 		
 		//Envoyer les modifs
-		Ficheupdate(f);
+		daoF.update(f);
 		
 	}
 
@@ -1316,7 +553,7 @@ public class App {
 			
 		f.setVendeur(((Vendeur)connected));
 		
-		FicheInsert(f);
+		daoF.insert(f);
 	}
 
 	public static void showFichesVendeur() {
@@ -1340,7 +577,7 @@ public class App {
 
 			while(rs.next()) 
 			{
-				Animal a = AnimalfindById(rs.getInt("animal"));
+				Animal a = daoA.findById(rs.getInt("animal"));
 				Vendeur v = (Vendeur) connected ;
 				f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
 						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
@@ -1368,11 +605,11 @@ public class App {
 
 	public static void showAllFiches() {
 		//Afficher toutes les fiches
-				List<Fiche> fiches = FichefindAll();
+				List<Fiche> fiches = daoF.findAll();
 				
 				for ( Fiche fiche : fiches)
 				{
-					System.out.println(fiche.toString());
+					System.out.println(fiche);
 				}
 		
 	}
@@ -1383,7 +620,7 @@ public class App {
 	// Gestion des animals
 
 	public static void showAllAnimaux() {
-		for(Animal a : AnimalfindAll())
+		for(Animal a : daoA.findAll())
 		{
 			System.out.println(a);
 		}
@@ -1396,13 +633,13 @@ public class App {
 		showAllAnimaux();
 		// Select an animal to update
 		int choix = saisieInt("Quel animal modifier ?");
-		Animal a = AnimalfindById(choix);
+		Animal a = daoA.findById(choix);
 
 		if (a instanceof Chien)
 		{
 			Chien c = (Chien) a;
 			c.setRace(saisieString("Quelle race ?"));
-			Animalupdate(c);
+			daoA.update(c);
 		}
 		else if (a instanceof Chat) 
 		{
@@ -1415,7 +652,7 @@ public class App {
 			boolean isMalheur = (saisieString("Porte malheur ? (y/n)").equals("y")) ? true : false;
 			c.setMalheur(isMalheur);
 			
-			Animalupdate(c);
+			daoA.update(c);
 		}
 
 	}
@@ -1430,7 +667,7 @@ public class App {
 		if (choix.equalsIgnoreCase("chien"))
 		{
 			a=new Chien(race);
-			Animalinsert(a);
+			daoA.insert(a);
 		}
 		
 
@@ -1441,7 +678,7 @@ public class App {
 
 			boolean isMalheur= (saisieString("Porte malheur ? (y/n)").equals("y")) ? true : false;
 			a= new Chat(race, isPoil, isMalheur);
-			Animalinsert(a);
+			daoA.insert(a);
 
 		}
 		else {System.out.println("C'est quoi cet animal ????");}
