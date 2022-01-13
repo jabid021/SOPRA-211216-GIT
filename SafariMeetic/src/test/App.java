@@ -838,8 +838,8 @@ public class App {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-
-			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id=?");
+			
+			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id_fiche=?");
 			ps.setInt(1,id);
 
 			ps.executeUpdate();
@@ -865,8 +865,6 @@ public class App {
 
 
 	public static void main(String[] args) {
-
-		
 		
 		menuPrincipal();
 
@@ -1171,32 +1169,212 @@ public class App {
 		showFichesVendeur();
 		//Choisir l'id a delete
 
+		int choixId = saisieInt("Choisir l'id de la fiche � supprimer");
+		String askSuppr = saisieString( "Etes-vous s�r de vouloir supprimer la fiche :" + FichefindById(choixId).toString()+ "\n(oui/non)");
+		// FichefindById(choixId) ===> Column 'vendeur' not found.
 
+		try {
+			if (askSuppr.equalsIgnoreCase("oui"))
+			{
+				Fichedelete(choixId);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 
+	
+	public static String printFicheMenu(Fiche f) {
+		return " 1- id = " + f.getId() + "\n 2- Description = " + f.getDescription() + "\n 3- Creation = " + f.getCreation()+ "\n 4- Nom = " + f.getNom()
+				+ "\n 4- Sexe = " + f.getSexe()+ "\n 5- Age = " + f.getAge() + "\n 6- Puce = " + f.getPuce() + "\n 7- Poids = " + f.getPoids() + "\n 8- Couleur = " + f.getCouleur()
+				+ "\n 9- Sociable = " + f.isSociable() + "\n10- Animal = " + f.getAnimal() + "\n11- Vendeur = " + f.getVendeur() + "\n12- Matchs = " + f.getMatchs();
+	}
+	
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
+		
 		//FindById de la fiche � modifier
-		//Saisir les modifs
 
+//		Fiche f = new Fiche(1, "C'est une fiche", LocalDate.now(), "Nom animal", "Male", 5, 681, 3.5, "Roux", false, null, null);
+		int id = saisieInt("Saisir l'id de la fiche � modifier :");
+		Fiche f = FichefindById(id);
+		
+		System.out.println(printFicheMenu(f));
+		
+		//Saisir les modifs
+		if (saisieString("Voulez-vous modifier l'index ? ("+f.getId()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setId(saisieInt("Entrez le nouvel index (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier la description ? ("+f.getDescription()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setDescription(saisieString("Entrez la nouvelle description (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier la date de cr�ation ? ("+f.getCreation()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setCreation(LocalDate.parse(saisieString("Entrez le nouvel index (format : yyyy-mm-dd) : ")));
+		}
+		if (saisieString("Voulez-vous modifier le nom ? ("+f.getNom()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setNom(saisieString("Entrez le nouveau nom (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier le sexe ? ("+f.getSexe()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setSexe(saisieString("Entrez le sexe (male/femelle) : "));
+		}
+		if (saisieString("Voulez-vous modifier la puce ? ("+f.getPuce()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setPuce(saisieInt("Entrez lenouveau num�ro de puce (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier le poids ? ("+f.getPoids()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setPoids(saisieDouble("Entrez le nouveau poids (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier la couleur ? ("+f.getCouleur()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setCouleur(saisieString("Entrez la nouvelle couleur (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier le sociable ? ("+f.getId()+") o/n : ").equalsIgnoreCase("o")) {
+			switch(saisieString("l'animal est-il sociable ? (o/n) : ")) {
+			case "O":
+			case "o":
+				f.setSociable(true);
+				break;
+			case "N":
+			case "n":
+				f.setSociable(false);
+				break;
+			default:
+				System.out.println("Mauvaise saisie, la valeur n'est pas modifi�e");
+				break;
+			}
+		}
+
+		System.out.println(printFicheMenu(f));
+		
+		//Envoyer les modifs
+		Ficheupdate(f);
+		
 	}
 
 	public static void addFiche() {
-		//Remplir les infos d'une fiche
-
-
+		
+					
+		Fiche f = new Fiche(null, null, null, null, null, 0, 0, 0, null, false, null, null);
+		Animal a;
+		f.setDescription(saisieString("R�digez la description de l'animal"));
+		f.setCreation(LocalDate.now());
+		f.setNom(saisieString("Donnez le nom de votre animal"));
+		f.setSexe(saisieString("Donnez le sexe de votre animal"));
+		f.setAge(saisieInt("Donnez l'age de votre animal"));
+		f.setPuce(saisieInt("Donnez le numero de puce de votre animal"));
+		f.setPoids(saisieDouble("Donnez le poids de votre animal"));
+		f.setCouleur(saisieString("Renseignez la couleur de votre animal de votre animal"));
+		if (saisieString("Votre animal est-il sociable ? (r�pondre oui ou non)").equalsIgnoreCase("oui")) {
+			f.setSociable(true);	
+			} else {
+			System.out.println("Mauvaise saisie, la valeur par d�faut 'non' est conservee");
+			}
+		switch(saisieString("Votre animal est-il sociable ? (o/n) : ")) {
+		case "O":
+		case "o":
+			f.setSociable(true);
+			break;
+		case "N":
+		case "n":
+			f.setSociable(false);
+			break;
+		default:
+			System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conserv�e");
+			break;
+		}
+		do {
+			if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chien")) {
+				Chien c = new Chien(null, null);
+				c.setRace(saisieString("Quel est la race de votre chien ?"));
+				f.setAnimal(c);	
+			} else if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chat")) {
+					Chat c = new Chat(null, null, false, false);
+				c.setRace(saisieString("Quelle est la race de votre chat ?"));
+				if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("oui")) {
+					c.setPoilCourt(true);
+				}else if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("non")) {
+					c.setPoilCourt(false);
+				}else { 
+					System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conservee");
+				}
+				
+				if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("oui")) {
+					c.setMalheur(true);
+				}else if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("non")) {
+					c.setMalheur(false);
+				}else { 
+					System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conservee");
+				}
+				f.setAnimal(c);	
+		}else {
+			System.out.println("Mauvaise saisie, merci de r�pondre chat ou chien");
+		}
+		}while (f.getAnimal() == null);
+		
+			
+		f.setVendeur(((Vendeur)connected));
+		
+		FicheInsert(f);
 	}
 
 	public static void showFichesVendeur() {
 		//Afficher les fiches du vendeur connecte
+		List<Fiche> fiches = new ArrayList<>();
 
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche where vendeur = ? ");
+			
+			ps.setObject(1, connected.getId());
+			ResultSet rs = ps.executeQuery();
+			
+			
+			
+			
+
+			Fiche f=null;
+
+			while(rs.next()) 
+			{
+				Animal a = AnimalfindById(rs.getInt("animal"));
+				Vendeur v = (Vendeur) connected ;
+				f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+						rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+						rs.getBoolean("sociable"), a,v);
+
+				fiches.add(f);
+			}
+
+			rs.close();
+			ps.close();
+			conn.close();
+			for ( Fiche i : fiches)
+			{
+				System.out.println(i.toString());
+			}
+			
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+
+		
 	}
 
 
 	public static void showAllFiches() {
-		// TODO Auto-generated method stub
-
+		//Afficher toutes les fiches
+				List<Fiche> fiches = FichefindAll();
+				
+				for ( Fiche fiche : fiches)
+				{
+					System.out.println(fiche.toString());
+				}
+		
 	}
 
 	//-------------------------------------------
