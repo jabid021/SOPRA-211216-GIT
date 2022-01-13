@@ -535,23 +535,27 @@ public class App {
 		return fiches;
 	}
 	
-	public static List<Fiche> showallFicheJdbc()
+	public static List<Match> showAllMatchJdbc()
 	{
+		List<Match> matches = new ArrayList<>();
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from match WHERE client = ?");
-			ps.setInt(1,connected.getId());
+			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs");
 			ResultSet rs = ps.executeQuery();
+			
+			Match m=null;
 			
 			while(rs.next()) 
 			{
 				Fiche f = FichefindById(rs.getInt("fiche"));
-				Client c = (Client)connected; // ou (Client)ComptefindById(rs.getInt("client")) ??
-				Match m = new Match(rs.getInt("id_match"), f, c);
+				Client c = (Client) ComptefindById(rs.getInt("client"));
+				m = new Match(rs.getInt("id_match"),f, c);
+				matches.add(m);
 				
-				clientMatchs.add(m);
+
 			}
 			
 			rs.close();
@@ -561,6 +565,7 @@ public class App {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+		return matches;
 	}
 	//--------------------------------LE RESTE DU MONDE---------------
 
@@ -842,15 +847,14 @@ public class App {
 	
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-	List<Match> vendeurMatchs = new ArrayList<>();
+	List<Match> matchs = new ArrayList<>();
 	Match m=null;
 	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ? ");
-			ps.setInt(1,connected.getId());
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche;");
 			ResultSet rs = ps.executeQuery();
 			
 						
@@ -861,7 +865,7 @@ public class App {
 				Client c = (Client) ComptefindById(rs.getInt("client"));
 				m = new Match(rs.getInt("id_match"), f, c);
 				
-				vendeurMatchs.add(m);
+				matchs.add(m);
 			}
 			
 			rs.close();
@@ -872,7 +876,7 @@ public class App {
 			e.printStackTrace();
 			
 		}
-		System.out.println(vendeurMatchs);
+		System.out.println(matchs);
 		
 	}
 
@@ -912,7 +916,7 @@ public class App {
 
 	public static void showAllMatchs() {		
 		
-		System.out.println(showallFicheJdbc());
+		System.out.println(showAllMatchJdbc());
 		
 	}
 	
