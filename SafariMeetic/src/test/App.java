@@ -217,13 +217,13 @@ public class App {
 				ps.setString(10,"vendeur");
 			}
 
-			ResultSet rs = ps.executeQuery();
+			ps.executeUpdate();
 
-			rs.close();
 			ps.close();
 			conn.close();
 		
-		} catch (ClassNotFoundException | SQLException e) {
+		}
+		catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		
