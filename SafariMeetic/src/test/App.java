@@ -851,6 +851,13 @@ public class App {
 		
 	}
 
+	
+	public static String printFicheMenu(Fiche f) {
+		return " 1- id = " + f.getId() + "\n 2- Description = " + f.getDescription() + "\n 3- Creation = " + f.getCreation()+ "\n 4- Nom = " + f.getNom()
+				+ "\n 4- Sexe = " + f.getSexe()+ "\n 5- Age = " + f.getAge() + "\n 6- Puce = " + f.getPuce() + "\n 7- Poids = " + f.getPoids() + "\n 8- Couleur = " + f.getCouleur()
+				+ "\n 9- Sociable = " + f.isSociable() + "\n10- Animal = " + f.getAnimal() + "\n11- Vendeur = " + f.getVendeur() + "\n12- Matchs = " + f.getMatchs();
+	}
+	
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
@@ -861,7 +868,7 @@ public class App {
 		int id = saisieInt("Saisir l'id de la fiche à modifier :");
 		Fiche f = FichefindById(id);
 		
-		System.out.println(f.toStringMenu());
+		System.out.println(printFicheMenu(f));
 		
 		//Saisir les modifs
 		if (saisieString("Voulez-vous modifier l'index ? ("+f.getId()+") o/n : ").equalsIgnoreCase("o")) {
@@ -903,12 +910,8 @@ public class App {
 				break;
 			}
 		}
-		/* TODO
-		 * Modif animal ?
-		 * Modif vendeur
-		 */
 
-		System.out.println(f.toStringMenu());
+		System.out.println(printFicheMenu(f));
 		
 		//Envoyer les modifs
 		Ficheupdate(f);
