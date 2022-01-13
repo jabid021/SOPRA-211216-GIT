@@ -50,7 +50,7 @@ public class Test {
 	}
 	
 	
-	public static void seConnecter(String login,String password) 
+	/*public static void seConnecter(String login,String password) 
 	{
 
 		try {
@@ -149,14 +149,15 @@ public class Test {
 		
 		
 	}
-	
+	*/
 	
 	public static void main(String[] args) {
 	
 		String login = saisieString("Saisir votre login");
 		String password = saisieString("Saisir votre password");
 		
-		seConnecterSECURE(login, password);
+		//seConnecterSECURE(login, password);
+
 
 		
 

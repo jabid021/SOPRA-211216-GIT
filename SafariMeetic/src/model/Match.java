@@ -2,14 +2,29 @@ package model;
 
 public class Match {
 
+	private Integer id;
 	private Fiche fiche;
 	private Client client;
 	
 	
-	public Match(Fiche fiche, Client client) {
+	public Match(Integer id,Fiche fiche, Client client) {
 		this.fiche = fiche;
 		this.client = client;
+		this.id=id;
 	}
+
+
+	
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 
 
 	public Fiche getFiche() {
@@ -32,10 +47,13 @@ public class Match {
 	}
 
 
+
 	@Override
 	public String toString() {
-		return "Match [fiche=" + fiche + ", client=" + client + "]";
+		return "Match [id=" + id + ", fiche=" + fiche + ", client=" + client + "]";
 	}
+
+
 
 
 

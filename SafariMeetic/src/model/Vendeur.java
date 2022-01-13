@@ -9,8 +9,8 @@ public class Vendeur extends Compte {
 	private Adresse adresse;
 	private List<Fiche> fiches=new ArrayList();
 	
-	public Vendeur(String login,String password, String mail,Refuge refuge,Adresse adresse) {
-		super(login,password, mail);
+	public Vendeur(Integer id,String login,String password, String mail,Refuge refuge,Adresse adresse) {
+		super(id,login,password, mail);
 		this.refuge=refuge;
 		this.adresse=adresse;
 	}
@@ -41,7 +41,8 @@ public class Vendeur extends Compte {
 
 	@Override
 	public String toString() {
-		return "Vendeur [refuge=" + refuge + ", adresse=" + adresse + ", fiches=" + fiches + "]";
+		return "Vendeur [refuge=" + refuge + ", adresse=" + adresse + ", id=" + id + ", login="
+				+ login + ", password=" + password + ", mail=" + mail + "]";
 	}
 	
 	
