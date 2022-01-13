@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,6 +17,7 @@ import model.Adresse;
 import model.Animal;
 import model.Chat;
 import model.Chien;
+import model.Civilite;
 import model.Client;
 import model.Compte;
 import model.Fiche;
@@ -246,7 +248,7 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
 	{
-<<<<<<< Updated upstream
+
 		try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
@@ -306,9 +308,7 @@ public class App {
             e.printStackTrace();
         }
 
-=======
-		
->>>>>>> Stashed changes
+
 	}
 
 	public static void deleteCompte(int id) 
@@ -718,8 +718,8 @@ public class App {
 
 		
 		
-		menuPrincipal();
-		
+		//menuPrincipal();
+		//deleteCompte(8);
 		
 	}
 
@@ -852,6 +852,38 @@ public class App {
 		//choisir si on veut un compte client / vendeur
 		//Si client, saisir login,password,mail,adresse,tel
 		//Si vendeur, saisir login,password,mail,refuge,adresse
+		
+
+		
+		System.out.println("1 - Client");
+		System.out.println("2 - Vendeur");
+		
+		int choix = saisieInt("Choisir un type de compte");
+		
+		if ( choix ==1) {
+			String log= saisieString("Entrer votre login");
+			String pass= saisieString("Entrer votre password");
+			String mail= saisieString("Entrer votre mail");
+			String tel= saisieString("Entrer votre numero de telephone");
+			System.out.println("Entrer votre adresse");
+			Adresse adr = new Adresse(saisieString("Entrer votre numero"),saisieString("Entrer votre voie"),saisieString("Entrer votre ville"),saisieString("Entrer votre code postal"));
+			Compte c = new Client(1,log,pass,mail,tel,adr);
+			Compteinsert(c);
+		}
+		else if ( choix ==2) {
+			String log= saisieString("Entrer votre login");
+			String pass= saisieString("Entrer votre password");
+			String mail= saisieString("Entrer votre mail");
+			
+
+			String refuge = saisieString("Saisir refuge "+Arrays.toString(Refuge.values()));
+			System.out.println("Entrer votre adresse");
+			Adresse adr = new Adresse(saisieString("Entrer votre numero"),saisieString("Entrer votre voie"),saisieString("Entrer votre ville"),saisieString("Entrer votre code postal"));
+			Compte c = new Vendeur(1,log,pass,mail,Refuge.valueOf(refuge),adr);
+			Compteinsert(c);
+		}
+
+		
 		
 	}
 	
