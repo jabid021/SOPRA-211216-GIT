@@ -854,7 +854,7 @@ public class App {
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
-		//FindById de la fiche à modifier
+		//FindById de la fiche ï¿½ modifier
 		//Saisir les modifs
 
 	}
