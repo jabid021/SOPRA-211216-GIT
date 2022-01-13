@@ -181,7 +181,7 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("UPDATE animal SET race=? , poil_court=? , malheur=? , type_animal=? where id=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE animal SET race=? , poil_court=? , malheur=? , type_animal=? where id_animal=?");
 			
 			ps.setString(1, c.getRace());
 			
@@ -219,7 +219,7 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 				
-			PreparedStatement st = conn.prepareStatement("DELETE from Animal WHERE id=?");
+			PreparedStatement st = conn.prepareStatement("DELETE from Animal WHERE id_animal=?");
 			st.setInt(1,id);
 			st.executeUpdate();
 			
@@ -295,12 +295,17 @@ public class App {
 			System.out.println(a);
 		}
 
+		System.out.println(" Mon nouvel animal"+AnimalfindById(6));
 
 		Chien dog = new Chien (null,"Setter");
 		Animalinsert(dog);
 		Chat cat = new Chat (null,"Chat noir",false,true);
 		Animalinsert(cat);
 
+		Chat cat2 = new Chat (12,"Chat blanc",true,false);
+		Animalupdate(cat2);
+		
+		Animaldelete(10);
 
 
 	}
