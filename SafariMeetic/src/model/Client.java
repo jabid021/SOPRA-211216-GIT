@@ -6,8 +6,8 @@ public class Client extends Compte {
 	private Adresse adresse;
 	
 	
-	public Client(String login, String password, String mail, String tel, Adresse adresse) {
-		super(login, password, mail);
+	public Client(Integer id,String login, String password, String mail, String tel, Adresse adresse) {
+		super(id,login, password, mail);
 		this.tel = tel;
 		this.adresse = adresse;
 	}
@@ -35,8 +35,8 @@ public class Client extends Compte {
 
 	@Override
 	public String toString() {
-		return "Client [login=" + login + ", password=" + password + ", mail=" + mail + ", tel=" + tel + ", adresse="
-				+ adresse + "]";
+		return "Client [tel=" + tel + ", adresse=" + adresse + ", id=" + id + ", login=" + login + ", password="
+				+ password + ", mail=" + mail + "]";
 	}
 	
 	
