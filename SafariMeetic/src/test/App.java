@@ -21,6 +21,7 @@ import model.Chien;
 import model.Client;
 import model.Compte;
 import model.Fiche;
+import model.Match;
 import model.Refuge;
 import model.Vendeur;
 
@@ -595,6 +596,155 @@ public class App {
 
 		return fiches;
 	}
+	
+	public static List<Match> showAllMatchJdbc()
+	{
+		List<Match> matches = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs");
+			ResultSet rs = ps.executeQuery();
+			
+			Match m=null;
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client) ComptefindById(rs.getInt("client"));
+				m = new Match(rs.getInt("id_match"),f, c);
+				matches.add(m);
+				
+
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return matches;
+	}
+	
+	public static List<Match> MatchfindByClientId(Integer clientId) {
+        List<Match> clientMatchs = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs WHERE client = ?");
+			ps.setInt(1,clientId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client)ComptefindById(rs.getInt("client"));
+				Match m = new Match(rs.getInt("id_match"), f, c);
+				
+				clientMatchs.add(m);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return clientMatchs;
+	}
+	
+	public static List<Match> MatchfindByVendeurId(Integer vendeurId){
+		List<Match> vendeurMatchs = new ArrayList<>();
+		Match m=null;
+		
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+				
+				PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ?;");
+				ps.setInt(1,vendeurId);
+				ResultSet rs = ps.executeQuery();
+				
+							
+				while(rs.next()) 
+				{
+					//probleme
+					Fiche f = FichefindById(rs.getInt("id_fiche"));
+					Client c = (Client) ComptefindById(rs.getInt("client"));
+					m = new Match(rs.getInt("id_match"), f, c);
+					
+					vendeurMatchs.add(m);
+				}
+				
+				rs.close();
+				ps.close();
+				conn.close();
+					
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				
+			}
+			return vendeurMatchs;
+	}
+	
+	public static void matchForClient() {
+	
+		try {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * from fiche");
+		
+		ResultSet rs = ps.executeQuery();
+		
+		List<Fiche> fiches = new ArrayList();
+		
+		Fiche f = null;
+		
+		while(rs.next()) 
+		{
+			Animal a = AnimalfindById(rs.getInt("animal"));
+			Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
+			f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+					rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+					rs.getBoolean("sociable"), a,v);
+			fiches.add(f);
+		}
+		
+				
+		for (Fiche f1 : fiches) {
+			
+							
+				System.out.println(f1);
+				String choix = saisieString("Voulez-vous matcher avec cet animal N/Y");
+		
+				if (choix .equals("Y")) {
+					PreparedStatement ps1 = conn.prepareStatement("INSERT INTO matchs fiche,client VALUES ?,?");
+					ps1.setInt(1,f1.getId());
+					ps1.setInt(2,connected.getId());
+					ps1.executeUpdate();
+				}
+		
+		}
+		rs.close();
+		ps.close();
+		conn.close();
+		
+		
+	
+	} catch (ClassNotFoundException | SQLException e) {
+		e.printStackTrace();
+		
+	}
+	}
 	//--------------------------------LE RESTE DU MONDE---------------
 
 
@@ -716,8 +866,8 @@ public class App {
 
 	public static void main(String[] args) {
 
-
-
+		
+		
 		menuPrincipal();
 
 
@@ -977,28 +1127,37 @@ public class App {
 
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-
+		List<Match> vendeurMatchs = MatchfindByVendeurId(connected.getId());
+		System.out.println(vendeurMatchs);
+		
+		
+		
 	}
 
 	public static void showMatchsClient() {
 		//Affiche tous les match du client connected
-
+        List<Match> clientMatchs = MatchfindByClientId(connected.getId());
+		System.out.println(clientMatchs);
+		
 	}
 
-
-	public static void showAllMatchs() {
-		// TODO Auto-generated method stub
-
+	public static void showAllMatchs() {		
+		
+		System.out.println(showAllMatchJdbc());
+		
 	}
 
 
 	public static void clientMatch() {
-
+		
+		matchForClient();
+		}
+		
 		//Lister toutes les fiches
 		//Dans un for each, demander au client s'il veut match ou non
 		//Si match, insert match 
 	}
-
+	
 
 
 	//------------------------------
