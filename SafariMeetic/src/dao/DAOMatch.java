@@ -56,8 +56,21 @@ public class DAOMatch implements IDAO<Match,Integer> {
 
 	@Override
 	public void insert(Match o) {
-		// TODO Auto-generated method stub
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 
+			PreparedStatement ps= conn.prepareStatement("INSERT INTO matchs (fiche,client) VALUES (?,?)");
+			ps.setInt(1,o.getFiche().getId());
+			ps.setInt(2,o.getClient().getId());
+			ps.executeUpdate();
+
+			ps.close();
+			conn.close();
+
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -122,7 +135,7 @@ public class DAOMatch implements IDAO<Match,Integer> {
 
 			while(rs.next()) 
 			{
-				
+
 				Fiche f = daoF.findById(rs.getInt("id_fiche"));
 				Client c = (Client) daoC.findById(rs.getInt("client"));
 				m = new Match(rs.getInt("id_match"), f, c);
