@@ -1,5 +1,10 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Animal;
@@ -115,14 +120,47 @@ public class App {
 		//c.getAnimal().getId();
 	}
 	//Pour un update, on set toutes les valeurs where id=?
-	public static void Ficheupdate(Fiche c) 
+	public static void Ficheupdate(Fiche f) 
 	{
-
+		try 
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+		
+			PreparedStatement ps = conn.prepareStatement("UPDATE fiche set nom=?, description=?, creation=?, sexe=?, age=?, puce=?, poids=?, couleur=?, sociable=?, animal=?, vendeur=?  where id_fiche=?");
+			
+			System.out.println("Update de la fiche");
+			ps.setString(1, f.getNom());
+			ps.setString(2, f.getDescription());
+			ps.setString(3, f.getCreation().toString());
+			ps.setString(4, f.getSexe());
+			ps.setInt(5, f.getAge());
+			ps.setInt(6, f.getPuce());
+			ps.setDouble(7, f.getPoids());
+			ps.setString(8, f.getCouleur());
+			ps.setBoolean(9, f.isSociable());
+			ps.setInt(10, f.getAnimal().getId());
+			ps.setInt(11, f.getVendeur().getId());
+			ps.setInt(12, f.getId());
+			
+			
+			ps.executeUpdate();
+			ps.close();
+			conn.close();
+			
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Fiche"+f+" update");
+		
+		
 	}
 
 	public static void Fichedelete (int id) 
 	{
-
+		
 	}
 	//-------------------------TOULOUSE----------------------------
 
