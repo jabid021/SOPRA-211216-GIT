@@ -19,6 +19,7 @@ import model.Chien;
 import model.Client;
 import model.Compte;
 import model.Fiche;
+import model.Match;
 import model.Refuge;
 import model.Vendeur;
 
@@ -813,6 +814,36 @@ public class App {
 	
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
+	List<Match> matchs = new ArrayList<>();
+	Match m=null;
+	
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche;");
+			ResultSet rs = ps.executeQuery();
+			
+						
+			while(rs.next()) 
+			{
+				//probleme
+				Fiche f = FichefindById(rs.getInt("id_fiche"));
+				Client c = (Client) ComptefindById(rs.getInt("client"));
+				m = new Match(rs.getInt("id_match"), f, c);
+				
+				matchs.add(m);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+				
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			
+		}
+		System.out.println(matchs);
 		
 	}
 
