@@ -290,23 +290,6 @@ public class App {
 
 	public static void main(String[] args) {
 
-		List<Animal> animaux = AnimalfindAll();
-		for (Animal a : animaux) {
-			System.out.println(a);
-		}
-
-		System.out.println(" Mon nouvel animal"+AnimalfindById(6));
-
-		Chien dog = new Chien (null,"Setter");
-		Animalinsert(dog);
-		Chat cat = new Chat (null,"Chat noir",false,true);
-		Animalinsert(cat);
-
-		Chat cat2 = new Chat (12,"Chat blanc",true,false);
-		Animalupdate(cat2);
-		
-		Animaldelete(10);
-
 
 	}
 
