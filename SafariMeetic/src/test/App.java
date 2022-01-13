@@ -627,7 +627,7 @@ public class App {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id=?");
+			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id_fiche=?");
 			ps.setInt(1,id);
 			
 			ps.executeUpdate();
@@ -653,10 +653,8 @@ public class App {
 	
 	
 	public static void main(String[] args) {
-
-		updateFiche();
 		
-//		menuPrincipal();
+		menuPrincipal();
 		
 		
 	}
@@ -847,7 +845,21 @@ public class App {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
 		//Choisir l'id a delete
-		
+
+		int choixId = saisieInt("Choisir l'id de la fiche à supprimer");
+		String askSuppr = saisieString( "Etes-vous sûr de vouloir supprimer la fiche :" + FichefindById(choixId).toString()+ "\n(oui/non)");
+		// FichefindById(choixId) ===> Column 'vendeur' not found.
+
+		try {
+			if (askSuppr.equalsIgnoreCase("oui"))
+			{
+				Fichedelete(choixId);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+
 		
 	}
 
@@ -919,9 +931,27 @@ public class App {
 	}
 	
 	public static void addFiche() {
-		//Remplir les infos d'une fiche
 		
+					
+		Fiche f = new Fiche(null, null, null, null, null, 0, 0, 0, null, false, null, null);
 		
+		f.setDescription(saisieString("Rédigez la description de l'animal"));
+		f.setCreation(LocalDate.now());
+		f.setNom(saisieString("Donnez le nom de votre animal"));
+		f.setSexe(saisieString("Donnez le sexe de votre animal"));
+		f.setAge(saisieInt("Donnez l'age de votre animal"));
+		f.setPuce(saisieInt("Donnez le numero de puce de votre animal"));
+		f.setPoids(saisieDouble("Donnez le poids de votre animal"));
+		f.setCouleur(saisieString("Renseignez la couleur de votre animal de votre animal"));
+		if (saisieString("Votre animal est-il sociable ? (répondre oui ou non)").equalsIgnoreCase("oui")) {
+			f.setSociable(true);	
+			} else {
+			System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservée");
+			}
+		
+		f.setVendeur(((Vendeur)connected));
+		
+		FicheInsert(f);
 	}
 
 	public static void showFichesVendeur() {
