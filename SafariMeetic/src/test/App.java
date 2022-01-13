@@ -571,6 +571,40 @@ public class App {
 	public static List<Match> MatchfindByClientId(Integer clientId) {
 		return null;
 	}
+	
+	public static List<Match> MatchfindByVendeurId(Integer vendeurId){
+		List<Match> vendeurMatchs = new ArrayList<>();
+		Match m=null;
+		
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+				
+				PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ?;");
+				ps.setInt(1,connected.getId());
+				ResultSet rs = ps.executeQuery();
+				
+							
+				while(rs.next()) 
+				{
+					//probleme
+					Fiche f = FichefindById(rs.getInt("id_fiche"));
+					Client c = (Client) ComptefindById(rs.getInt("client"));
+					m = new Match(rs.getInt("id_match"), f, c);
+					
+					vendeurMatchs.add(m);
+				}
+				
+				rs.close();
+				ps.close();
+				conn.close();
+					
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+				
+			}
+			return vendeurMatchs;
+	}
 	//--------------------------------LE RESTE DU MONDE---------------
 
 
@@ -851,36 +885,7 @@ public class App {
 	
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-	List<Match> matchs = new ArrayList<>();
-	Match m=null;
-	
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche;");
-			ResultSet rs = ps.executeQuery();
-			
-						
-			while(rs.next()) 
-			{
-				//probleme
-				Fiche f = FichefindById(rs.getInt("id_fiche"));
-				Client c = (Client) ComptefindById(rs.getInt("client"));
-				m = new Match(rs.getInt("id_match"), f, c);
-				
-				matchs.add(m);
-			}
-			
-			rs.close();
-			ps.close();
-			conn.close();
-				
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-			
-		}
-		System.out.println(matchs);
+		MatchfindByVendeurId();
 		
 	}
 
