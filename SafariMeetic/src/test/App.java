@@ -879,10 +879,36 @@ public class App {
 	//-------------------------------------------
 	
 	
-	// Gestion des animals
+	// Gestion des animaaux
 	
 	public static void showAllAnimaux() {
 		// TODO Auto-generated method stub
+		
+		{
+			
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scott?characterEncoding=UTF-8","root","");
+				
+				Statement st = conn.createStatement();
+				ResultSet rs = st.executeQuery("SELECT * from Animal");
+				while(rs.next()) 
+				{
+					Animal a = new Animal((rs.getInt("id"),rs.getString("race"));
+					System.out.println(a);
+					
+				}
+				rs.close();
+				st.close();
+				conn.close();
+				System.out.println("Tout est ok");
+			
+			}catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			
+		}
+		
+		
 		
 	}
 	
