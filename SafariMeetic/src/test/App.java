@@ -632,6 +632,56 @@ public class App {
 			}
 			return vendeurMatchs;
 	}
+	
+	public static void matchForClient() {
+	
+		try {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+		
+		PreparedStatement ps = conn.prepareStatement("SELECT * from fiche");
+		
+		ResultSet rs = ps.executeQuery();
+		
+		List<Fiche> fiches = new ArrayList();
+		
+		Fiche f = null;
+		
+		while(rs.next()) 
+		{
+			Animal a = AnimalfindById(rs.getInt("animal"));
+			Vendeur v = (Vendeur) ComptefindById(rs.getInt("vendeur"));
+			f = new Fiche(rs.getInt("id_fiche"),rs.getString("description"), LocalDate.parse(rs.getString("creation")), rs.getString("nom"), 
+					rs.getString("sexe"), rs.getInt("age"), rs.getInt("puce"), rs.getDouble("poids"), rs.getString("couleur"),
+					rs.getBoolean("sociable"), a,v);
+			fiches.add(f);
+		}
+		
+				
+		for (Fiche f1 : fiches) {
+			
+							
+				System.out.println(f);
+				String choix = saisieString("Voulez-vous matcher avec cet animal N/Y");
+		
+				if (choix .equals("Y")) {
+					PreparedStatement ps1 = conn.prepareStatement("INSERT INTO matchs fiche,client VALUES ?,?");
+					ps1.setInt(1,f1.getId());
+					ps1.setInt(2,connected.getId());
+				}
+		
+		}
+		rs.close();
+		ps.close();
+		conn.close();
+		
+		
+	
+	} catch (ClassNotFoundException | SQLException e) {
+		e.printStackTrace();
+		
+	}
+	}
 	//--------------------------------LE RESTE DU MONDE---------------
 
 
@@ -915,6 +965,8 @@ public class App {
 		List<Match> vendeurMatchs = MatchfindByVendeurId(connected.getId());
 		System.out.println(vendeurMatchs);
 		
+		
+		
 	}
 
 	public static void showMatchsClient() {
@@ -934,12 +986,24 @@ public class App {
 
 	public static void clientMatch() {
 		
+		matchForClient();
+		}
+		
 		//Lister toutes les fiches
 		//Dans un for each, demander au client s'il veut match ou non
 		//Si match, insert match 
-	}
+		
+		
+			
+		
+	
 	
 
+
+	private static Match MatchfindById(int int1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	//------------------------------
 	
