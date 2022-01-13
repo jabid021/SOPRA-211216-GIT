@@ -814,14 +814,15 @@ public class App {
 	
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-	List<Match> matchs = new ArrayList<>();
+	List<Match> vendeurMatchs = new ArrayList<>();
 	Match m=null;
 	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche;");
+			PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ? ");
+			ps.setInt(1,connected.getId());
 			ResultSet rs = ps.executeQuery();
 			
 						
@@ -832,7 +833,7 @@ public class App {
 				Client c = (Client) ComptefindById(rs.getInt("client"));
 				m = new Match(rs.getInt("id_match"), f, c);
 				
-				matchs.add(m);
+				vendeurMatchs.add(m);
 			}
 			
 			rs.close();
@@ -843,7 +844,7 @@ public class App {
 			e.printStackTrace();
 			
 		}
-		System.out.println(matchs);
+		System.out.println(vendeurMatchs);
 		
 	}
 
