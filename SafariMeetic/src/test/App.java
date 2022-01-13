@@ -608,7 +608,7 @@ public class App {
 				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 				
 				PreparedStatement ps = conn.prepareStatement("SELECT * from fiche JOIN matchs ON fiche.id_fiche = matchs.fiche WHERE vendeur = ?;");
-				ps.setInt(1,connected.getId());
+				ps.setInt(1,vendeurId);
 				ResultSet rs = ps.executeQuery();
 				
 							
@@ -912,7 +912,8 @@ public class App {
 	
 	public static void showMatchsVendeur() {
 		//Afficher les match du vendeur connecte
-		MatchfindByVendeurId();
+		List<Match> vendeurMatchs = MatchfindByVendeurId(connected.getId());
+		System.out.println(vendeurMatchs);
 		
 	}
 
