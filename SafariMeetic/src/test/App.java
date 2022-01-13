@@ -246,6 +246,7 @@ public class App {
 	//Pour un update, on set toutes les valeurs where id=?
 	public static void Compteupdate(Compte c) 
 	{
+<<<<<<< Updated upstream
 		try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
@@ -305,6 +306,9 @@ public class App {
             e.printStackTrace();
         }
 
+=======
+		
+>>>>>>> Stashed changes
 	}
 
 	public static void deleteCompte(int id) 
