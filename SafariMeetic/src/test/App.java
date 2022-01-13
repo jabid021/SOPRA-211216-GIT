@@ -654,9 +654,9 @@ public class App {
 	
 	public static void main(String[] args) {
 
+		updateFiche();
 		
-		
-		menuPrincipal();
+//		menuPrincipal();
 		
 		
 	}
@@ -854,8 +854,60 @@ public class App {
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
+		
 		//FindById de la fiche à modifier
+
+//		Fiche f = new Fiche(1, "C'est une fiche", LocalDate.now(), "Nom animal", "Male", 5, 681, 3.5, "Roux", false, null, null);
+		int id = saisieInt("Saisir l'id de la fiche à modifier :");
+		Fiche f = FichefindById(id);
+		
+		System.out.println(f.toStringMenu());
+		
 		//Saisir les modifs
+		if (saisieString("Voulez-vous modifier l'index ? ("+f.getId()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setId(saisieInt("Entrez le nouvel index (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier la description ? ("+f.getDescription()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setDescription(saisieString("Entrez la nouvelle description (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier la date de création ? ("+f.getCreation()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setCreation(LocalDate.parse(saisieString("Entrez le nouvel index (format : yyyy-mm-dd) : ")));
+		}
+		if (saisieString("Voulez-vous modifier le nom ? ("+f.getNom()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setNom(saisieString("Entrez le nouveau nom (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier le sexe ? ("+f.getSexe()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setSexe(saisieString("Entrez le sexe (male/femelle) : "));
+		}
+		if (saisieString("Voulez-vous modifier la puce ? ("+f.getPuce()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setPuce(saisieInt("Entrez lenouveau numéro de puce (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier le poids ? ("+f.getPoids()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setPoids(saisieDouble("Entrez le nouveau poids (nombre) : "));
+		}
+		if (saisieString("Voulez-vous modifier la couleur ? ("+f.getCouleur()+") o/n : ").equalsIgnoreCase("o")) {
+			f.setCouleur(saisieString("Entrez la nouvelle couleur (texte) : "));
+		}
+		if (saisieString("Voulez-vous modifier le sociable ? ("+f.getId()+") o/n : ").equalsIgnoreCase("o")) {
+			switch(saisieString("l'animal est-il sociable ? (o/n) : ")) {
+			case "O":
+			case "o":
+				f.setSociable(true);
+				break;
+			case "N":
+			case "n":
+				f.setSociable(false);
+				break;
+			default:
+				System.out.println("Mauvaise saisie, la valeur n'est pas modifiée");
+				break;
+			}
+		}
+
+		System.out.println(f.toStringMenu());
+		
+		//Envoyer les modifs
+		Ficheupdate(f);
 		
 	}
 	

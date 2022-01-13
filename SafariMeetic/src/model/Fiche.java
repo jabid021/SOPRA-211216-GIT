@@ -178,6 +178,11 @@ public class Fiche {
 	}
 
 
+	public String toStringMenu() {
+		return " 1- id = " + id + "\n 2- Description = " + description + "\n 3- Creation = " + creation + "\n 4- Nom = " + nom
+				+ "\n 4- Sexe = " + sexe + "\n 5- Age = " + age + "\n 6- Puce = " + puce + "\n 7- Poids = " + poids + "\n 8- Couleur = " + couleur
+				+ "\n 9- Sociable = " + sociable + "\n10- Animal = " + animal + "\n11- Vendeur = " + vendeur + "\n12- Matchs = " + matchs;
+	}
 	
 
 	
