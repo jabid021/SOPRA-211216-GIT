@@ -569,7 +569,34 @@ public class App {
 	}
 	
 	public static List<Match> MatchfindByClientId(Integer clientId) {
-		return null;
+        List<Match> clientMatchs = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from match WHERE client = ?");
+			ps.setInt(1,clientId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client)ComptefindById(rs.getInt("client"));
+				Match m = new Match(rs.getInt("id_match"), f, c);
+				
+				clientMatchs.add(m);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return clientMatchs;
 	}
 	
 	public static List<Match> MatchfindByVendeurId(Integer vendeurId){
@@ -891,33 +918,7 @@ public class App {
 
 	public static void showMatchsClient() {
 		//Affiche tous les match du client connected
-        List<Match> clientMatchs = new ArrayList<>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			
-			PreparedStatement ps = conn.prepareStatement("SELECT * from match WHERE client = ?");
-			ps.setInt(1,connected.getId());
-			ResultSet rs = ps.executeQuery();
-			
-			while(rs.next()) 
-			{
-				Fiche f = FichefindById(rs.getInt("fiche"));
-				Client c = (Client)connected; // ou (Client)ComptefindById(rs.getInt("client")) ??
-				Match m = new Match(rs.getInt("id_match"), f, c);
-				
-				clientMatchs.add(m);
-			}
-			
-			rs.close();
-			ps.close();
-			conn.close();
-		
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		
+        List<Match> clientMatchs = MatchfindByClientId(connected.getId());
 		System.out.println(clientMatchs);
 		
 	}
