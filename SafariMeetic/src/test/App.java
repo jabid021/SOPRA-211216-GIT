@@ -1,5 +1,10 @@
 package test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Animal;
@@ -122,16 +127,28 @@ public class App {
 
 	public static void Fichedelete (int id) 
 	{
-
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("DELETE FROM fiche WHERE id=?");
+			ps.setString(1,String.valueOf(id));
+			
+			ps.executeUpdate();
+		
+		
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	//-------------------------TOULOUSE----------------------------
 
 
 
-
-
 	public static void main(String[] args) {
-
 
 
 
