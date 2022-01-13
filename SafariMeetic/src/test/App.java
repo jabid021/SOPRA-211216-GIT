@@ -17,7 +17,7 @@ import model.Adresse;
 import model.Animal;
 import model.Chat;
 import model.Chien;
-import model.Civilite;
+
 import model.Client;
 import model.Compte;
 import model.Fiche;
@@ -718,7 +718,7 @@ public class App {
 
 		
 		
-		//menuPrincipal();
+		menuPrincipal();
 		//deleteCompte(8);
 		
 	}
@@ -784,7 +784,7 @@ public class App {
 		case 4 : showAllMatchs();break;
 		case 5 : addAnimal();break;
 		case 6 : updateAnimal();break;
-		case 7 : connected=null;break;
+		case 7 : connected=null;menuPrincipal();break;
 		}
 		
 		menuAdmin();
