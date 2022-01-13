@@ -17,7 +17,7 @@ public class Chien extends Animal{
 
 	@Override
 	public String toString() {
-		return "Chien [race=" + race + "]";
+		return "Chien [race=" + race + ", id=" + id + "]";
 	}
 
 	

@@ -889,54 +889,38 @@ public class App {
 	}
 	
 
-	private static void updateAnimal() {
-		
+	public static void updateAnimal() {
+
+		// Print all animals
 		showAllAnimaux();
-		int choix = saisieInt("Quel animal modifi� ?");
+		// Select an animal to update
+		int choix = saisieInt("Quel animal modifier ?");
 		Animal a = AnimalfindById(choix);
-		
-		if(a instanceof Chien)
+
+		if (a instanceof Chien)
 		{
 			Chien c = (Chien) a;
 			c.setRace(saisieString("Quelle race ?"));
 			Animalupdate(c);
 		}
-		
-		else if(a instanceof Chat) 
+		else if (a instanceof Chat) 
 		{
 			Chat c = (Chat) a;
 			c.setRace(saisieString("Quelle race ?"));
+
+			boolean isPoil = (saisieString("Poil court ? (y/n)").equals("y")) ? true : false;
+			c.setPoilCourt(isPoil);
+
+			boolean isMalheur = (saisieString("Porte malheur ? (y/n)").equals("y")) ? true : false;
+			c.setMalheur(isMalheur);
 			
-			String p = saisieString("Est-il a poils courts (O/N)?");
-			
-			while (!p.equalsIgnoreCase("O") || !p.equalsIgnoreCase("N")) {
-				p = saisieString("Erreur dans la sasie. Est-il a poils courts (O/N)? Merci de saisir O ou N.");
-			}
-			
-			if (p.equalsIgnoreCase("O")) {
-				c.setPoilCourt(true);
-			}
-			else if (p.equalsIgnoreCase("N")) {
-				c.setPoilCourt(false);
-			}
-			
-			String m = saisieString("Est-ce qu'il malheur (O/N)?");
-				m = saisieString("Erreur dans la sasie. Est-ce qu'il porte malheur (O/N)? Merci de saisir O ou N.");
-			}
-			if (m.equalsIgnoreCase("O")) {
-				c.setMalheur(true);
-			}
-			else if (m.equalsIgnoreCase("N")) {
-				c.setMalheur(false);
-			}
 			Animalupdate(c);
 		}
-		
-			while (!m.equalsIgnoreCase("O") || !m.equalsIgnoreCase("N")) {
+
 	}
 	
 
-	private static void addAnimal() {	
+	public static void addAnimal() {	
 
 		String choix = saisieString("Chien ou chat ?");
 		String race = saisieString("Race ?");
