@@ -661,13 +661,14 @@ public class App {
 		for (Fiche f1 : fiches) {
 			
 							
-				System.out.println(f);
+				System.out.println(f1);
 				String choix = saisieString("Voulez-vous matcher avec cet animal N/Y");
 		
 				if (choix .equals("Y")) {
 					PreparedStatement ps1 = conn.prepareStatement("INSERT INTO matchs fiche,client VALUES ?,?");
 					ps1.setInt(1,f1.getId());
 					ps1.setInt(2,connected.getId());
+					ps1.executeUpdate();
 				}
 		
 		}
