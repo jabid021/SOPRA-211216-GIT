@@ -846,9 +846,7 @@ public class App {
 			e.printStackTrace();
 		}
 		
-		for(Match match : clientMatchs) {
-			System.out.println(match);
-		}
+		System.out.println(clientMatchs);
 		
 	}
 	
