@@ -860,7 +860,11 @@ public class App {
 	}
 	
 	public static void showAllComptes() {
-		// TODO Auto-generated method stub
+		List<Compte> listComptes = new ArrayList<Compte>();
+		listComptes=ComptefindAll();
+		for (Compte c:listComptes) {
+			System.out.println(c);
+		}
 		
 	}
 	//----------------------------------------
