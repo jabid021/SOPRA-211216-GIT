@@ -948,6 +948,19 @@ public class App {
 			} else {
 			System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
 			}
+		switch(saisieString("Votre animal est-il sociable ? (o/n) : ")) {
+		case "O":
+		case "o":
+			f.setSociable(true);
+			break;
+		case "N":
+		case "n":
+			f.setSociable(false);
+			break;
+		default:
+			System.out.println("Mauvaise saisie, la valeur par défaut (non) est conservée");
+			break;
+		}
 		do {
 			if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chien")) {
 				Chien c = new Chien(null, null);
@@ -961,7 +974,7 @@ public class App {
 				}else if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("non")) {
 					c.setPoilCourt(false);
 				}else { 
-					System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
+					System.out.println("Mauvaise saisie, la valeur par défaut (non) est conservee");
 				}
 				
 				if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("oui")) {
@@ -969,7 +982,7 @@ public class App {
 				}else if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("non")) {
 					c.setMalheur(false);
 				}else { 
-					System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
+					System.out.println("Mauvaise saisie, la valeur par défaut (non) est conservee");
 				}
 				f.setAnimal(c);	
 		}else {
