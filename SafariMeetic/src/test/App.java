@@ -934,7 +934,7 @@ public class App {
 		
 					
 		Fiche f = new Fiche(null, null, null, null, null, 0, 0, 0, null, false, null, null);
-		
+		Animal a;
 		f.setDescription(saisieString("Rédigez la description de l'animal"));
 		f.setCreation(LocalDate.now());
 		f.setNom(saisieString("Donnez le nom de votre animal"));
@@ -946,9 +946,38 @@ public class App {
 		if (saisieString("Votre animal est-il sociable ? (répondre oui ou non)").equalsIgnoreCase("oui")) {
 			f.setSociable(true);	
 			} else {
-			System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservée");
+			System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
 			}
+		do {
+			if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chien")) {
+				Chien c = new Chien(null, null);
+				c.setRace(saisieString("Quel est la race de votre chien ?"));
+				f.setAnimal(c);	
+			} else if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chat")) {
+					Chat c = new Chat(null, null, false, false);
+				c.setRace(saisieString("Quelle est la race de votre chat ?"));
+				if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("oui")) {
+					c.setPoilCourt(true);
+				}else if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("non")) {
+					c.setPoilCourt(false);
+				}else { 
+					System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
+				}
+				
+				if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("oui")) {
+					c.setMalheur(true);
+				}else if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("non")) {
+					c.setMalheur(false);
+				}else { 
+					System.out.println("Mauvaise saisie, la valeur par défaut 'non' est conservee");
+				}
+				f.setAnimal(c);	
+		}else {
+			System.out.println("Mauvaise saisie, merci de répondre chat ou chien");
+		}
+		}while (f.getAnimal() == null);
 		
+			
 		f.setVendeur(((Vendeur)connected));
 		
 		FicheInsert(f);
