@@ -655,7 +655,7 @@ public class App {
 	
 	public static void main(String[] args) {
 
-		
+		showAllMatchs();
 		
 		menuPrincipal();
 		
@@ -849,12 +849,69 @@ public class App {
 
 	public static void showMatchsClient() {
 		//Affiche tous les match du client connected
+        List<Match> clientMatchs = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from match WHERE client = ?");
+			ps.setInt(1,connected.getId());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client)connected; // ou (Client)ComptefindById(rs.getInt("client")) ??
+				Match m = new Match(rs.getInt("id_match"), f, c);
+				
+				clientMatchs.add(m);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(clientMatchs);
 		
 	}
 	
 
 	public static void showAllMatchs() {
-		// TODO Auto-generated method stub
+		List<Match> matches = new ArrayList<>();
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from matchs");
+			ResultSet rs = ps.executeQuery();
+			
+			Match m=null;
+			
+			while(rs.next()) 
+			{
+				Fiche f = FichefindById(rs.getInt("fiche"));
+				Client c = (Client) ComptefindById(rs.getInt("client"));
+				m = new Match(rs.getInt("id_match"),f, c);
+				matches.add(m);
+				
+
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(matches);
 		
 	}
 	
@@ -885,7 +942,7 @@ public class App {
 	public static void updateFiche() {
 		//Afficher toutes mes fiches 
 		showFichesVendeur();
-		//FindById de la fiche à modifier
+		//FindById de la fiche ï¿½ modifier
 		//Saisir les modifs
 		
 	}
