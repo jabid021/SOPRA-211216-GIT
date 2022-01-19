@@ -90,37 +90,43 @@ public class DAOAnimal implements IDAO<Animal, Integer> {
 
 	@Override
 	public void insert(Animal c) {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, poil_court, malheur, type_animal) VALUES (?,?,?,?)");
-			ps.setString(1, c.getRace());
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO animal (race, poil_court, malheur, type_animal) VALUES (?,?,?,?)");
+		ps.setString(1, c.getRace());
 
-			if (c instanceof Chien)
-			{
-				ps.setObject(2, null);
-				ps.setObject(3, null);
-				ps.setString(4, "chien");
+		if (c instanceof Chien)
+		{
+			ps.setObject(2, null);
+			ps.setObject(3, null);
+			ps.setString(4, "chien");
 
-			} 
-			else if (c instanceof Chat) 
-			{
-				ps.setBoolean(2, ((Chat) c).isPoilCourt() );
-				ps.setBoolean(3, ((Chat) c).isMalheur() );
-				ps.setString(4, "chat");
-			}
-
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+		} 
+		else if (c instanceof Chat) 
+		{
+			ps.setBoolean(2, ((Chat) c).isPoilCourt() );
+			ps.setBoolean(3, ((Chat) c).isMalheur() );
+			ps.setString(4, "chat");
 		}
 
+		ps.executeUpdate();
+		
+		ResultSet rs = ps.getGeneratedKeys();
+		if(rs.next()) {
+			c.setIdAnimal(rs.getInt(1));
+		}
+		
+		rs.close();
+		ps.close();
+		conn.close();
+
+	} catch (ClassNotFoundException | SQLException e) {
+		e.printStackTrace();
 	}
+
+}
 
 	@Override
 	public void update(Animal c) {

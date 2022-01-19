@@ -91,38 +91,43 @@ public class DAOFiche implements IDAO<Fiche,Integer> {
 
 	@Override
 	public void insert(Fiche c) {
-		try {
-			//�tape 1: charger la classe driver
-			Class.forName("com.mysql.jdbc.Driver");
-			//�tape 2: cr�er l'objet de connexion
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
-			//�tape 3: cr�er l'objet statement 
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO fiche (description,creation,nom,sexe,age,puce,poids,couleur,sociable,animal,vendeur) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+	try {
+		//Etape 1: charger la classe driver
+		Class.forName("com.mysql.jdbc.Driver");
+		//Etape 2: creer l'objet de connexion
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/safarimeetic?characterEncoding=UTF-8","root","");
+		//Etape 3: creer l'objet statement 
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO fiche (description,creation,nom,sexe,age,puce,poids,couleur,sociable,animal,vendeur) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
-			System.out.println("Insertion des caract�ristique de la fiche");
-			ps.setString(1, c.getDescription());
-			ps.setString(2, c.getCreation().toString());
-			ps.setString(3, c.getNom());
-			ps.setString(4, c.getSexe());
-			ps.setInt(5, c.getAge());
-			ps.setInt(6, c.getPuce());
-			ps.setDouble(7, c.getPoids());
-			ps.setString(8, c.getCouleur());
-			ps.setBoolean(9, c.isSociable());
-			ps.setInt(10, c.getAnimal().getId());
-			ps.setInt(11, c.getVendeur().getId());
-
-
-			ps.executeUpdate();
-			ps.close();
-			conn.close();
-		}
-		catch(Exception e) {e.printStackTrace();}
-
-		System.out.println("Fiche"+c+" ins�r� avec succ�s");	
+		System.out.println("Insertion des caracteristique de la fiche");
+		ps.setString(1, c.getDescription());
+		ps.setString(2, c.getCreation().toString());
+		ps.setString(3, c.getNom());
+		ps.setString(4, c.getSexe());
+		ps.setInt(5, c.getAge());
+		ps.setInt(6, c.getPuce());
+		ps.setDouble(7, c.getPoids());
+		ps.setString(8, c.getCouleur());
+		ps.setBoolean(9, c.isSociable());
+		ps.setInt(10, c.getAnimal().getId());
+		ps.setInt(11, c.getVendeur().getId());
+	
+		ps.executeUpdate();
 		
+		ResultSet rs = ps.getGeneratedKeys();
+		if(rs.next()) {
+			c.setId(rs.getInt(1));
+		}
+		rs.close();
+		ps.close();
+		conn.close();
 	}
+	catch(Exception e) {e.printStackTrace();}
+
+	System.out.println("Fiche"+c+" inseree avec succes");	
+	
+}
 
 	@Override
 	public void update(Fiche f) {
