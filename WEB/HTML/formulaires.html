@@ -1,0 +1,70 @@
+<!--
+
+texte => input type text / input type password
+zone de texte => textarea
+liste / menus deroulants => select
+button (button / submit / reset)
+cases à cocher => checkbox (on peut en cocher plusieurs)
+radio button => on ne peut en cocher qu'un seul à la fois
+
+-->
+
+
+<form>
+
+
+<input type="hidden" value="insert">
+
+<fieldset>
+  <legend>Connexion</legend>
+  <table>
+    <tr><td>Login :</td> <td><input placeholder="Saisir votre login" value="login" required type="text"></td></tr>
+    <tr><td>Password :</td> <td><input  value="password" required type="password"> </td></tr>
+  </table>
+</fieldset>
+
+
+<fieldset>
+    <legend>Informations persos</legend>
+  <table>
+
+    <tr><td><label for="age">Age :</label></td> <td> <input id="age" required value="28" min="0" max="120" type="number"></td></tr>
+    <tr><td>Email : </td> <td><input required value="j@gmail.com" type="email"></td></tr>
+    <tr><td>Votre site :</td> <td> <input type="url"></td></tr>
+    <tr><td>Date de naissance :</td> <td> <input min="2022-01-01" type="date"></td></tr>
+    <tr><td>Heure de naissance :</td> <td> <input type="time" step="900"></td></tr>
+    <tr><td>Semaine de naissance :</td> <td> <input type="week"></td></tr>
+    <tr><td>Civilite : </td> <td>
+        <input checked type="radio" name="civ">Homme<input type="radio" name="civ">Femme<input type="radio" name="civ">NB
+    </td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+    <legend>Complements d'infos</legend>
+    <table>
+        <tr><td>Notes</td> <td> <input  type="range"></td></tr>
+        <tr><td>Couleur</td> <td> <input  type="color"></td></tr>
+        <tr><td>Commentaire</td> <td><textarea  placeholder="Debut du message" rows="8" cols="80">Aujourd'hui...</textarea></td></tr>
+
+          <tr><td>Votre OS ? :</td>
+            <td> <select>
+                          <option value="1">MACOS</option>
+                          <option value="2">Linux</option>
+                          <option value="3">Windows</option>
+                      </select>
+            </td></tr>
+          <tr><td>Loisirs :</td> <td>
+              <label for="sport">Sport</label> <input id="sport" checked type="checkbox">
+              <label for="cinema">Cinema </label><input  id="cinema" type="checkbox">
+              <label for="magie">Magie </label><input  id="magie" type="checkbox">
+          </td></tr>
+          <tr><td>CV</td> <td> <input  type="file"></td></tr>
+
+        <tr><td align="center" colspan="2"><input value="Ajouter" type="submit"><input type="reset"></td></tr>
+      </table>
+</fieldset>
+
+
+
+</form>
