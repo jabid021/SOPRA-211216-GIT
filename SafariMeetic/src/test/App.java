@@ -431,67 +431,74 @@ public class App {
 
 	public static void addFiche() {
 
-
 		Fiche f = new Fiche(null, null, null, null, null, 0, 0, 0, null, false, null, null);
-		Animal a;
-		f.setDescription(saisieString("R�digez la description de l'animal"));
+		
+		f.setDescription(saisieString("Redigez la description de l'animal"));
 		f.setCreation(LocalDate.now());
-		f.setNom(saisieString("Donnez le nom de votre animal"));
-		f.setSexe(saisieString("Donnez le sexe de votre animal"));
-		f.setAge(saisieInt("Donnez l'age de votre animal"));
-		f.setPuce(saisieInt("Donnez le numero de puce de votre animal"));
-		f.setPoids(saisieDouble("Donnez le poids de votre animal"));
-		f.setCouleur(saisieString("Renseignez la couleur de votre animal de votre animal"));
-		if (saisieString("Votre animal est-il sociable ? (r�pondre oui ou non)").equalsIgnoreCase("oui")) {
-			f.setSociable(true);	
-		} else {
-			System.out.println("Mauvaise saisie, la valeur par d�faut 'non' est conservee");
-		}
-		switch(saisieString("Votre animal est-il sociable ? (o/n) : ")) {
-		case "O":
-		case "o":
-			f.setSociable(true);
-			break;
-		case "N":
-		case "n":
-			f.setSociable(false);
-			break;
-		default:
-			System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conserv�e");
-			break;
-		}
-		do {
-			if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chien")) {
+		f.setNom(saisieString("Donnez le nom de l'animal"));
+		f.setSexe(saisieString("Donnez le sexe de l'animal"));
+		f.setAge(saisieInt("Donnez l'age de l'animal"));
+		f.setPuce(saisieInt("Donnez le numero de puce de l'animal"));
+		f.setPoids(saisieDouble("Donnez le poids de l'animal"));
+		f.setCouleur(saisieString("Renseignez la couleur de l'animal"));
+		switch (saisieString("Votre animal est-il sociable ? (o/n) : "))
+			{
+			case "O":
+			case "o":
+				f.setSociable(true);
+				break;
+			case "N":
+			case "n":
+				f.setSociable(false);
+				break;
+			default:
+				System.out.println("Mauvaise saisie, la valeur par defaut (non) est conservee");
+				break;
+			}
+		do
+		{
+			String type = saisieString("Quel est le type de votre animal (chat ou chien) ?");
+			if (type.equalsIgnoreCase("chien"))
+			{
 				Chien c = new Chien(null, null);
 				c.setRace(saisieString("Quel est la race de votre chien ?"));
-				f.setAnimal(c);	
-			} else if (saisieString("Quel est le type de votre animal (chat ou chien) ?").equalsIgnoreCase("chat")) {
+				f.setAnimal(c);
+			} else if (type.equalsIgnoreCase("chat"))
+			{
 				Chat c = new Chat(null, null, false, false);
 				c.setRace(saisieString("Quelle est la race de votre chat ?"));
-				if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("oui")) {
-					c.setPoilCourt(true);
-				}else if (saisieString("Votre chat a-t-il les poils courts (oui ou non) ?").equalsIgnoreCase("non")) {
-					c.setPoilCourt(false);
-				}else { 
-					System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conservee");
+				switch(saisieString("Votre chat a-t-il les poils courts ? (o/n) :"))
+				{
+				case "O":
+				case "o":
+					c.setPoilCourt(true);break;
+				case "N":
+				case "n":
+					c.setPoilCourt(false);break;
+				default:
+					System.out.println("Mauvaise saisie, la valeur par defaut (non) est conservee");break;
 				}
-
-				if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("oui")) {
-					c.setMalheur(true);
-				}else if (saisieString("Votre chat porte-t-il malheur (oui ou non) ?").equalsIgnoreCase("non")) {
-					c.setMalheur(false);
-				}else { 
-					System.out.println("Mauvaise saisie, la valeur par d�faut (non) est conservee");
+				switch(saisieString("Votre chat porte-t-il malheur ? (o/n) :"))
+				{
+				case "o":
+				case "O":
+					c.setMalheur(true);break;
+				case "n":
+				case "N":
+					c.setMalheur(false);break;
+				default:
+					System.out.println("Mauvaise saisie, la valeur par defaut (non) est conservee");break;
 				}
-				f.setAnimal(c);	
-			}else {
-				System.out.println("Mauvaise saisie, merci de r�pondre chat ou chien");
+				daoA.insert(c);
+				f.setAnimal(c);
+			} else
+			{
+				System.out.println("Mauvaise saisie, merci de repondre chat ou chien");
 			}
-		}while (f.getAnimal() == null);
+		} while (f.getAnimal() == null);
 
-
-		f.setVendeur(((Vendeur)connected));
-
+		f.setVendeur(((Vendeur) connected));
+		
 		daoF.insert(f);
 	}
 
