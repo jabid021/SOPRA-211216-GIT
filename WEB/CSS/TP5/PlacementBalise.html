@@ -1,69 +1,166 @@
-Logo
-ACCUEIL
+
+<style>
+body{margin:0; background-color:#F4EFE7;}
+
+#banniere{
+	display :flex;
+	border :solid black 2px;
+	height : 20%;
+}
+
+#logo
+{
+	position:absolute;
+	width:15%;
+}
 
 
-Accueil
-Item 1
-Item 2
-Item 3
-Contact
-		Sujet de la page
+#accueil
+{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-size:40px;
+	width:100%;
+	background-image:url("header.png");
+	background-size:100% 100%;
+}
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+#content
+{
+	height:100%;
+	display:flex;
+}
+
+#menuLeft
+{
+	width:17%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+#center
+{
+	width:71%;
+}
+
+#menuRight
+{
+	width:12%;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+footer
+{
+	background-color:yellow;
+	height:8%;
+	display:flex;
+}
+
+#footerLeft
+{
+		display:flex;
+		width:14%;
+		justify-content : space-between;
+		align-items:center;
+}
+#footerRight
+{
+	width:86%;
+	display:flex;
+	justify-content : center;
+	align-items:center;
+}
+</style>
+
+
+
+
+
+<div id="banniere">
+	<div id="logo"><img height="180"src="logo.png"></div>
+	<div id="accueil"></div>
+</div>
+
+
+
+<div id="content">
+	<div id="menuLeft">
+			<a href="">Accueil</a>
+			<a href="">Item 1</a>
+			<a href="">Item 2</a>
+			<a href="">Item 3</a>
+			<a href="">Contact</a>
+	</div>
+
+	<div id="center">
+		<h1>Sujet de la page</h1>
+
+	<p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
+		quis nostrud exercitation ullamco</p>
 
 
-		Article 1
+	<h3>Article 1</h3>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		<p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
+		quis nostrud exercitation ullamco</p>
 
-		Article 2
+		<h3>Article 2</h3>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		<p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco rcitation ullamco
+		quis nostrud exercitation ullamco rcitation ullamco</p>
 
 
-		Article 3
+	<h3>	Article 3</h3>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
+		quis nostrud exercitation ullamco</p>
 
-		Article 4
+	<h3>	Article 4</h3>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
+		quis nostrud exercitation ullamco</p>
 
-		Article 5
+	<h3>	Article 5</h3>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
-		
-		Article 6
+		quis nostrud exercitation ullamco</p>
 
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+	<h3>	Article 6 </h3>
+
+		<p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-		quis nostrud exercitation ullamco
+		quis nostrud exercitation ullamco	</p>
 
-		
-Archives
-	Août 2019
-	Juillet 2019
-	Juin 2019
-	Mai 2019
+	</div>
+	<div id="menuRight">
+		Archives
+			<a href="" class="lienArchive">Août 2019
+			<a href="" class="lienArchive">Juillet 2019
+			<a href="" class="lienArchive">Juin 2019
+			<a href="" class="lienArchive">Mai 2019
+	</div>
+</div>
 
 
 
-
-Accueil
-	Plan
-	Contact
-	CGU
-
-Gabarit - Copyrigth &#8471; 2019-2022
+<footer>
+	<div id="footerLeft">
+	  	<a href="">Accueil</a>
+			<a href="">Plan</a>
+			<a href="">	Contact</a>
+			<a href="">CGU</a>
+	</div>
+	<div id="footerRight">
+		Gabarit - Copyrigth &#8471; 2019-2022
+	</div>
+<footer>
