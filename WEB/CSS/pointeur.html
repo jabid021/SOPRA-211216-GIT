@@ -1,0 +1,166 @@
+<style>
+
+  #conteneur
+  {
+    background-color:lightblue;
+  }
+
+  #conteneur > div
+  {
+    border:solid red 3px;
+  }
+  #conteneur > div > div
+  {
+    text-align : center;
+  }
+
+  #conteneur+div
+  {
+    background-color:yellow;
+  }
+
+  #conteneur+div + div
+  {
+    background-color:pink;
+  }
+
+  a:hover
+  {
+    cursor:help;
+    font-size:35px;
+  }
+
+  #login
+  {
+    color:white;
+    background-color:green;
+  }
+
+  #login:focus
+  {
+    color:red;
+    background-color:yellow;
+  }
+
+
+/*#exemple p:nth-of-type(3n)
+{
+  color:purple;
+  background-color:lightblue;
+}
+
+#exemple p:nth-of-type(3n+1)
+{
+  color:red;
+  background-color:lightblue;
+}
+
+#exemple p:nth-of-type(3n+2)
+{
+  color:yellow;
+  background-color:lightblue;
+}*/
+
+
+#exemple p:nth-child(2)
+{
+  font-size:35px;
+}
+
+#exemple p:nth-of-type(2)
+{
+color:red;
+}
+
+
+table tr:nth-of-type(even)
+{
+  background-color:brown;
+}
+
+table tr:nth-of-type(odd)
+{
+  background-color:purple;
+}
+
+</style>
+
+
+
+<div>AVANT </div>
+<div id="conteneur">Conteneur
+      <div >Enfant 1 </div>
+      <div>Enfant 2 </div>
+      <div>Enfant 3
+            <div> +Enfant A</div>
+            <div> +Enfant B</div>
+      </div>
+      <div>Enfant 4 </div>
+</div>
+<div>APRES</div>
+<div>APRES2</div>
+
+<br><br><br><br>
+
+<a href=""> site internet</a>
+<br><br><br>
+
+<input id="login" type="text">
+<br><br>
+
+
+<div id="exemple">
+  <h1>Demo</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+
+
+<table border>
+
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Age</th>
+    <th>PC</th>
+  </tr>
+
+  <tr>
+    <th>1</th>
+    <td>Abid</td>
+    <td>Jean-Jordan</td>
+    <td>28</td>
+    <td>102</td>
+  </tr>
+
+  <tr>
+    <th>2</th>
+    <td>Abid</td>
+    <td align="center">Jeremy</td>
+    <td>24</td>
+    <td>105</td>
+  </tr>
+
+
+  <tr align="center">
+    <th>3</th>
+    <td>Doe</td>
+    <td>John</td>
+    <td>42</td>
+      <td>42</td>
+  </tr>
+
+
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Age</th>
+    <th>PC</th>
+  </tr>
+</table>
