@@ -1,0 +1,50 @@
+<script>
+
+
+var p1 = {"nom":"France","capitale" :"Paris"};
+var p2=  {"nom":"Pologne","capitale" :"Varsovie"};
+var p3 = {"nom":"Italie","capitale" :"Rome"};
+var p4 = {"nom":"Russie","capitale" :"Moscou"};
+
+var pays = [p1,p2,p3,p4];
+var score=0;
+var cpt=1;
+
+for(let index in pays)
+{
+  var numero = parseInt(index)+1;
+  var reponse= prompt("Question "+numero+") Quelle est la capitale de : "+pays[index].nom);
+  if(reponse==pays[index].capitale)
+  {
+    alert("Bonne réponse ! :) ");
+    score++;
+  }
+  else{
+    alert("Mauvaise réponse ! :( ");
+  }
+}
+console.log("Fin de partie, votre score est de  : "+score+" / "+pays.length);
+
+
+
+
+for(let p of pays)
+{
+  var reponse= prompt("Question "+cpt+") Quelle est la capitale de : "+p.nom);
+  if(reponse==p.capitale)
+  {
+    alert("Bonne réponse ! :) ");
+    score++;
+  }
+  else{
+    alert("Mauvaise réponse ! :( ");
+  }
+  cpt++;
+}
+console.log("Fin de partie, votre score est de  : "+score+" / "+pays.length);
+
+
+
+
+
+</script>

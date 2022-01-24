@@ -1,0 +1,87 @@
+
+<title>Titre de la page</title>
+
+<h1>LE DOM ! (Document Objet Model)</h1>
+<div id="maDiv" monAttribut="uneValeur">Pas de texte</div>
+<p id="parag1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p class="elementImportant">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<h2  id="titreh2" class="elementImportant">TITRE 2</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+Prenom : <input id="inputPrenom" disabled type="text" value="Jordan"><br>
+Password : <input id="passwordForm" type="password" value="mdp123">
+<input id="btnGo" type="submit" value="GO">
+
+
+<script>
+
+/*document.title="Nouveau titre";
+alert(document.title);*/
+/*pointeurId();*/
+//pointeurTags();
+
+
+console.log(maDiv.getAttribute("monAttribut"));
+maDiv.setAttribute("monAttribut","nouvelleValeur");
+maDiv.removeAttribute("monAttribut");
+
+inputPrenom.removeAttribute("disabled");
+//inputPrenom.setAttribute("disabled",true);
+inputPrenom.disabled=true;
+
+
+
+function pointeurId()
+{
+  var parag = document.getElementById("parag1");
+  parag.style.color="red";
+  parag.style.backgroundColor="lightblue";
+
+  if(parag.style.color=="red"){console.log("Le texte est rouge")}
+
+  parag.style.setProperty("background-color","yellow");
+  //parag1.style.color="green";
+
+  /*var modif = prompt("Quelle prop ?");
+  var value = prompt("Quelle valeur ?");
+
+  parag.style.setProperty(modif,value);*/
+
+
+  console.log(parag.innerHTML);
+  maDiv.innerHTML="Nouveau <b>content</b> <ul><li>item1</li><li>Item 2</li></ul>";
+  //document.getElementById("maDiv").innerHTML="";
+
+  inputPrenom.value="John";
+}
+
+function pointeurClasse()
+{
+  var listeElements = document.getElementsByClassName("elementImportant");
+
+  for(e of listeElements)
+  {
+    e.style.color="red";
+  //  e.innerHTML="NEW";
+  }
+
+}
+
+function pointeurTags()
+{
+  var listeElements = document.getElementsByTagName("p");
+  for(e of listeElements)
+  {
+    e.style.fontFamily="Arial";
+  }
+}
+
+
+
+
+
+
+
+
+</script>
