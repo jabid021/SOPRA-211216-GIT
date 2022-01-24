@@ -1,0 +1,53 @@
+<body style="background-color: lightyellow;">
+
+<p  class="secondaire">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<p class="secondaire">Parag secondaire</p>
+
+<p>Parag milieu</p>
+
+<h3 id="paragPrinci" class="secondaire">Titre secondaire</h3>
+
+<p class="secondaire">Parag secondaire</p>
+<p>Parag fin</p>
+
+</body>
+
+<script charset="utf-8">
+
+ var continuer = true;
+
+while(continuer){
+
+  var choix = prompt("Sur quel type d'element faire le changement ? (id/classe/tag) ?");
+  var libelle = prompt("Quel est le libelle de l'element "+choix);
+  var prop = prompt("Quelle prop pour l'element : "+choix);
+  var valeur = prompt("Quelle valeur pour la prop : "+prop);
+
+  if(choix=="id")
+  {
+    document.getElementById(libelle).style.setProperty(prop,valeur);
+  }
+  else if(choix=="classe")
+  {
+   for(element of document.getElementsByClassName(libelle))
+   {
+     element.style.setProperty(prop,valeur);
+   }
+  }
+  else if(choix=="tag")
+  {
+    for(element of document.getElementsByTagName(libelle))
+    {
+      element.style.setProperty(prop,valeur);
+    }
+  }
+
+  else{alert("Choix impossible");}
+
+
+  continuer=(prompt("Faire une autre modif ? (y/n)")=="y") ? true : false;
+}
+
+
+</script>
