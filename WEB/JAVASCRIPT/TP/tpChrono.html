@@ -1,4 +1,10 @@
+<input id="btnGo" onclick="startChrono()" type="button" value="Go">
+<input id="btnStop" type="button" value="Stop">
+
 <h1 id="timer">00:00</h1>
+
+
+
 
 <script>
 
@@ -6,15 +12,42 @@ var minute=0;
 var seconde=0;
 var minuteAffiche="";
 var secondeAffiche="";
+//document.getElementById("btnStop")
+btnStop.onmouseup=stopChrono;
+
+//var monInterval = setInterval(chrono,1000);
+//setTimeout(stopChrono,120000);
+
+
+
+function startChrono()
+{
+  monInterval = setInterval(chrono,1000);
+  btnGo.disabled=true;
+  btnStop.disabled=false;
+}
+
+function stopChrono()
+{
+  clearInterval(monInterval);
+  btnStop.disabled=true;
+  btnGo.disabled=false;
+}
+function chrono()
+{
+  seconde++;
+  if(seconde==60)
+  {
+    seconde=0;
+    minute++;
+  }
+  minuteAffiche=(minute<10)? "0"+minute:minute;
+  secondeAffiche=(seconde<10)? "0"+seconde:seconde;
+  console.log(minuteAffiche+":"+secondeAffiche);
+  timer.innerHTML=minuteAffiche+":"+secondeAffiche;
+}
 
 
 
 
-
-
-
-minuteAffiche=(minute<10)? "0"+minute:minute;
-secondeAffiche=(seconde<10)? "0"+seconde:seconde;
-console.log(minuteAffiche+":"+secondeAffiche);
-timer.innerHTML=minuteAffiche+":"+secondeAffiche;
 </script>
