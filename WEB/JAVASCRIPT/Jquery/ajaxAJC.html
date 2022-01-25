@@ -1,0 +1,42 @@
+
+<script>
+
+$(document).ready(function() {
+
+  $('#searchText').keyup(function() {
+   if($('#searchText').val()==''){$('#result-search').css('display','none');}
+   else{
+	    $.ajax("chemin", {
+				type: "POST",
+				data: {
+					texte: $("#searchText" ).val()
+					},
+				success: function (resp) {
+					$('#result-search').html(resp);
+					$('#result-search').show();
+					}
+				});
+
+	   }
+
+
+  });
+
+
+
+
+ $('#searchText').focusout(function() {
+	 	$('#result-search').css('display','none');
+
+  });
+
+  $('#searchText').focusin(function() {
+  	if($('#searchText').val()!=''){
+	  	$('#result-search').css('display','block');
+	}
+  });
+
+
+});
+
+</script>
