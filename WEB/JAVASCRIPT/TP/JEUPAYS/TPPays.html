@@ -1,0 +1,134 @@
+<style>
+
+#game
+{
+  display:none;
+}
+
+</style>
+
+
+<input id="btnGo" onclick="startChrono()" type="button" value="Go">
+<input id="btnStop" type="button" value="Stop">
+
+<h1 id="timer">00:00</h1>
+
+<div id="game">
+  <h1 id="question"></h1>
+  <input type="text" id="reponse">
+  <input id="btnReponse" onclick="checkReponse()" type="submit" disabled value="Envoyer">
+  <div id="resultat"></div>
+</div>
+<p id="scoreFin"></p>
+
+
+
+
+
+<script>
+
+  var p1 = {"nom":"France","capitale" :"Paris"};
+  var p2=  {"nom":"Pologne","capitale" :"Varsovie"};
+  var p3 = {"nom":"Italie","capitale" :"Rome"};
+  var p4 = {"nom":"Russie","capitale" :"Moscou"};
+
+  var pays = [p1,p2,p3,p4];
+  var score=0;
+  var cpt=0;
+
+  var minute=0;
+  var seconde=0;
+  var minuteAffiche="";
+  var secondeAffiche="";
+  //document.getElementById("btnStop")
+  btnStop.onclick=stopChrono;
+  reponse.onkeyup=inputEnter;
+
+  question.innerHTML="Quelle est la capitale du pays suivant : "+pays[cpt].nom;
+
+
+  //var monInterval = setInterval(chrono,1000);
+  //setTimeout(stopChrono,120000);
+
+
+    function inputEnter(event)
+    {
+      if(event.keyCode==13 && reponse.value!="")
+      {
+        checkReponse();
+      }
+      if(reponse.value=="")
+      {
+        btnReponse.disabled=true;
+      }
+      else
+      {
+        btnReponse.disabled=false;
+      }
+    }
+
+  function startChrono()
+  {
+    monInterval = setInterval(chrono,1000);
+    btnGo.disabled=true;
+    btnStop.disabled=false;
+    game.style.display="block";
+  }
+
+  function stopChrono()
+  {
+    clearInterval(monInterval);
+    btnStop.disabled=true;
+    btnGo.disabled=false;
+    game.style.display="none";
+  }
+  function chrono()
+  {
+    seconde++;
+    if(seconde==60)
+    {
+      seconde=0;
+      minute++;
+    }
+    minuteAffiche=(minute<10)? "0"+minute:minute;
+    secondeAffiche=(seconde<10)? "0"+seconde:seconde;
+    timer.innerHTML=minuteAffiche+":"+secondeAffiche;
+  }
+
+function checkReponse()
+{
+  if(reponse.value==pays[cpt].capitale)
+  {
+    score++;
+    resultat.innerHTML="Bonne réponse ! <img src='img/content.png' width=80>";
+    resultat.style.color="green";
+  }
+  else
+  {
+    resultat.innerHTML="Mauvase réponse ! <img src='img/angry.png' width=80>";
+    resultat.style.color="red";
+  }
+
+  setTimeout(masquerResultat,2500);
+
+
+  cpt++;
+  if(cpt<pays.length){
+    question.innerHTML="Quelle est la capitale du pays suivant : "+pays[cpt].nom;
+    reponse.value="";
+    btnReponse.disabled=true;
+  }
+  else
+  {
+    stopChrono();
+    btnGo.disabled=true;
+    scoreFin.innerHTML="Score de la partie : "+score+"/"+pays.length;
+  }
+
+}
+
+function masquerResultat()
+{
+  resultat.innerHTML="";
+}
+</script>
