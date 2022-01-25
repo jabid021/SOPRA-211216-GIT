@@ -1,0 +1,125 @@
+<style>
+
+body
+{
+  height:200%;
+}
+
+#p1
+{
+  cursor:pointer;
+}
+
+
+</style>
+
+<body >
+<p id="p1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<input id="loginForm" type="text" placeholder="Saisir votre...">
+
+
+
+
+<h1>Personne</h1>
+<p id="laPersonne"></p>
+<input id="btnPrev" onclick="changePrenom(-1)" type="button" disabled value="Prev">
+<input id="btnNext" onclick="changePrenom(1)" type="button" value="Next">
+
+</body>
+
+
+
+
+
+
+
+
+<script>
+
+var cpt=0;
+var zoom = ["Jordan","Clement","Aginath","Constance","Rudyard","Harry","Alan"];
+laPersonne.innerHTML=zoom[cpt];
+
+//document.body.onscroll=fnScroll;
+
+function fnScroll()
+{
+  console.log("scroll");
+}
+function changePrenom(value)
+{
+  cpt+=value;
+
+  if(cpt!=0)
+  {
+    btnPrev.disabled=false;
+  }
+  else
+  {
+      btnPrev.disabled=true;
+  }
+
+  if(cpt>= zoom.length-1)
+  {
+      btnNext.disabled=true;
+  }
+  else
+  {
+    btnNext.disabled=false;
+  }
+  laPersonne.innerHTML=zoom[cpt];
+}
+/*
+p1.onclick= demoSouris;
+
+p1.ondblclick= demoSouris;
+
+p1.onmouseover= demoSouris;
+
+p1.onmouseout= demoSouris;
+
+p1.onmouseup= demoSouris;
+p1.onmousedown= demoSouris;
+
+loginForm.onkeypress = demoClavier;
+
+//p1.onmousemove= demoSouris;
+
+*/
+
+
+
+
+
+function demoClavier(evenement)
+{
+  console.log(evenement.keyCode);
+  if(evenement.keyCode==13)
+  {
+    //form.submit();
+  }
+  console.log("Touche du clavier");
+}
+
+function demoSouris(evenement)
+{
+  console.log("ctrl ? : "+evenement.ctrlKey);
+  console.log("alt ? : "+evenement.altKey);
+  console.log("meta ? : "+evenement.metaKey);
+  console.log("maj ? : "+evenement.shiftKey);
+  switch(evenement.type)
+  {
+    case "click" :  console.log("click sur le p"); break;
+    case "dblclick" : console.log("dblclick sur le p");break ;
+    case "mouseover" : console.log("equivalent au hover sur le p");break;
+    case "mouseout" : console.log("on sort du p"); break;
+    case "mouseup" : console.log("up sur le p"); break;
+    case "mousedown" : console.log("down sur le p"); break;
+    //case "mousemove" : console.log("move sur le p");break;
+  }
+}
+
+
+
+</script>

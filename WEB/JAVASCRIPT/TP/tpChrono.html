@@ -1,4 +1,4 @@
-<input id="btnGo" onclick="startChrono()" type="button" value="Go">
+<input id="btnGo" onclick="startChrono(1,'toto')" type="button" value="Go">
 <input id="btnStop" type="button" value="Stop">
 
 <h1 id="timer">00:00</h1>
@@ -13,15 +13,17 @@ var seconde=0;
 var minuteAffiche="";
 var secondeAffiche="";
 //document.getElementById("btnStop")
-btnStop.onmouseup=stopChrono;
+btnStop.onclick=stopChrono;
+
 
 //var monInterval = setInterval(chrono,1000);
 //setTimeout(stopChrono,120000);
 
 
 
-function startChrono()
+function startChrono(id,prenom)
 {
+  console.log(id+"-"+prenom);
   monInterval = setInterval(chrono,1000);
   btnGo.disabled=true;
   btnStop.disabled=false;
