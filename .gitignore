@@ -1,3 +1,7 @@
 .DS_Store
 bin/
 /.metadata/
+.classpath
+.projet
+.settings/
+target/
