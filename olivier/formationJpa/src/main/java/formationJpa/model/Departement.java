@@ -5,8 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name="dept")
+@Table(name = "dept")
 public class Departement {
 	@Id
 	@Column(name="deptno")

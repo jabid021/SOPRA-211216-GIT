@@ -4,17 +4,24 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import formationJpa.dao.DaoDepartement;
 import formationJpa.model.Departement;
+import formationJpa.util.Context;
 
 public class AppTest {
 	public static void main(String[] args) {
-		// lancement de JPA
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("demoPU");
-		
-		EntityManager em=emf.createEntityManager();
-		Departement dept= em.find(Departement.class, 100L);
-		System.out.println(dept);
-		//arret JPA
-		emf.close();
+
+		DaoDepartement daoDepartement = Context.getDaoDepartment();
+
+		Departement d = new Departement();
+		d.setId(12L);
+		d.setNom("un nom ");
+
+		daoDepartement.insert(d);
+
+		System.out.println(daoDepartement.findAll());
+
+		daoDepartement.delete(d);
+		Context.destroy();
 	}
 }
