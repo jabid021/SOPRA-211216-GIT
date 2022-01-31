@@ -1,4 +1,4 @@
-package safariJpa.model;
+package safariJpa.model.tablePerClass;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,29 +7,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@MappedSuperclass
-public class Animal {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seqAnimalTablePerClass", sequenceName = "seq_animal", initialValue = 100, allocationSize = 1)
+public abstract class AnimalTablePerClass {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seqDefault")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAnimal")
 	private Long id;
 	@Column(name = "race", length = 200)
 	private String race;
 
-	public Animal() {
+	public AnimalTablePerClass() {
 
 	}
 
-	public Animal(String race) {
+	public AnimalTablePerClass(String race) {
 		super();
 		this.race = race;
 	}
 
-	public Animal(Long id, String race) {
+	public AnimalTablePerClass(Long id, String race) {
 		super();
 		this.id = id;
 		this.race = race;

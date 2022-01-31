@@ -1,6 +1,6 @@
-package safariJpa.dao;
+package safariJpa.model;
 
-import safariJpa.model.Animal;
+import safariJpa.dao.DaoGeneric;
 
 public interface DaoAnimal extends DaoGeneric<Animal, Long> {
 
