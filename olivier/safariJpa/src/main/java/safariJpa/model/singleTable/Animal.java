@@ -16,25 +16,25 @@ import javax.persistence.Table;
 @Table(name = "animal_single")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type_animal",discriminatorType = DiscriminatorType.STRING,length = 5)
-@SequenceGenerator(name="seqAnimal",sequenceName = "seq_animal",initialValue = 100,allocationSize = 1)
-public abstract class AnimalSingle {
+@SequenceGenerator(name="seqAnimalSingle",sequenceName = "seq_animal",initialValue = 100,allocationSize = 1)
+public abstract class Animal {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seqAnimal")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seqAnimalSingle")
 	private Long id;
 	@Column(name = "race", length = 200)
 	private String race;
 
-	public AnimalSingle() {
+	public Animal() {
 
 	}
 
-	public AnimalSingle(String race) {
+	public Animal(String race) {
 		super();
 		this.race = race;
 	}
 
-	public AnimalSingle(Long id, String race) {
+	public Animal(Long id, String race) {
 		super();
 		this.id = id;
 		this.race = race;

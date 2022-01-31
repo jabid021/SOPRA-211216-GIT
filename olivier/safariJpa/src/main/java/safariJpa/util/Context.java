@@ -3,28 +3,21 @@ package safariJpa.util;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import safariJpa.dao.DaoCompte;
+import safariJpa.dao.DaoCompteJpaImpl;
 import safariJpa.dao.DaoFiche;
 import safariJpa.dao.DaoFicheJpaImpl;
-import safariJpa.model.DaoAnimal;
-import safariJpa.model.DaoAnimalJpaImpl;
-import safariJpa.model.singleTable.DaoAnimalSingle;
-import safariJpa.model.singleTable.DaoAnimalSingleJpaImpl;
-import safariJpa.model.tablePerClass.DaoAnimalTablePerClass;
-import safariJpa.model.tablePerClass.DaoAnimalTablePerClassJpaImpl;
+import safariJpa.model.singleTable.DaoAnimal;
+import safariJpa.model.singleTable.DaoAnimalJpaImpl;
 
 public class Context {
 	private static EntityManagerFactory emf = null;
 	private static DaoAnimal daoAnimal = new DaoAnimalJpaImpl();
 	private static DaoFiche daoFiche = new DaoFicheJpaImpl();
-	private static DaoAnimalTablePerClass daoAnimalTablePerClass = new DaoAnimalTablePerClassJpaImpl();
-	private static DaoAnimal daoAnimalJoined = new DaoAnimalJpaImpl();
+	private static DaoCompte daoCompte = new DaoCompteJpaImpl();
 
-	public static DaoAnimal getDaoAnimalJoined() {
-		return daoAnimalJoined;
-	}
-
-	public static DaoAnimalTablePerClass getDaoAnimalTablePerClass() {
-		return daoAnimalTablePerClass;
+	public static DaoCompte getDaoCompte() {
+		return daoCompte;
 	}
 
 	public static DaoAnimal getDaoAnimal() {

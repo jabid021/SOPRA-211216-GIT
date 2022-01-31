@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public abstract class AnimalTablePerClass {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAnimal")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqAnimalTablePerClass")
 	private Long id;
 	@Column(name = "race", length = 200)
 	private String race;

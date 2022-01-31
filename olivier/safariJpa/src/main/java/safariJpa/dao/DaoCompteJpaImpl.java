@@ -1,4 +1,4 @@
-package safariJpa.model;
+package safariJpa.dao;
 
 import java.util.List;
 
@@ -6,29 +6,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
+import safariJpa.model.Compte;
 import safariJpa.util.Context;
 
-public class DaoAnimalJpaImpl implements DaoAnimal {
+public class DaoCompteJpaImpl implements DaoCompte {
 
 	@Override
-	public List<Animal> findAll() {
+	public List<Compte> findAll() {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
-		TypedQuery<Animal> query = em.createQuery("from Animal a", Animal.class);
-		List<Animal> list = query.getResultList();
+		TypedQuery<Compte> query = em.createQuery("from Compte compte", Compte.class);
+		List<Compte> list = query.getResultList();
 		em.close();
 		return list;
 	}
 
 	@Override
-	public Animal findByKey(Long key) {
+	public Compte findByKey(Long key) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
-		Animal animal = em.find(Animal.class, key);
+		Compte fiche = em.find(Compte.class, key);
 		em.close();
-		return animal;
+		return fiche;
 	}
 
 	@Override
-	public void insert(Animal obj) {
+	public void insert(Compte obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -38,7 +39,7 @@ public class DaoAnimalJpaImpl implements DaoAnimal {
 	}
 
 	@Override
-	public Animal update(Animal obj) {
+	public Compte update(Compte obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -49,7 +50,7 @@ public class DaoAnimalJpaImpl implements DaoAnimal {
 	}
 
 	@Override
-	public void delete(Animal obj) {
+	public void delete(Compte obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -63,7 +64,7 @@ public class DaoAnimalJpaImpl implements DaoAnimal {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.remove(em.find(Animal.class, key));
+		em.remove(em.find(Compte.class, key));
 		tx.commit();
 		em.close();
 	}

@@ -5,12 +5,12 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("chien")
-public class ChienSingle extends AnimalSingle{
-	public ChienSingle() {
+public class Chien extends Animal{
+	public Chien() {
 		
 	}
 	
-	public ChienSingle(String race) {
+	public Chien(String race) {
 		super(race);
 	}
 }

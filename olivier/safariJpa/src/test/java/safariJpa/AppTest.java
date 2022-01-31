@@ -1,20 +1,8 @@
 package safariJpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
-import safariJpa.model.Animal;
-import safariJpa.model.Chat;
-import safariJpa.model.Chien;
-import safariJpa.model.DaoAnimal;
-import safariJpa.model.singleTable.ChatSingle;
-import safariJpa.model.singleTable.ChienSingle;
-import safariJpa.model.singleTable.DaoAnimalSingle;
-import safariJpa.model.tablePerClass.ChatTablePerClass;
-import safariJpa.model.tablePerClass.ChienTablePerClass;
-import safariJpa.model.tablePerClass.DaoAnimalTablePerClass;
+import safariJpa.model.singleTable.Chat;
+import safariJpa.model.singleTable.Chien;
+import safariJpa.model.singleTable.DaoAnimal;
 import safariJpa.util.Context;
 
 public class AppTest {

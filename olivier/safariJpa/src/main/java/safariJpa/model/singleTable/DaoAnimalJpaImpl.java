@@ -8,27 +8,27 @@ import javax.persistence.TypedQuery;
 
 import safariJpa.util.Context;
 
-public class DaoAnimalSingleJpaImpl implements DaoAnimalSingle {
+public class DaoAnimalJpaImpl implements DaoAnimal {
 
 	@Override
-	public List<AnimalSingle> findAll() {
+	public List<Animal> findAll() {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
-		TypedQuery<AnimalSingle> query = em.createQuery("from Animal a", AnimalSingle.class);
-		List<AnimalSingle> list = query.getResultList();
+		TypedQuery<Animal> query = em.createQuery("from Animal a", Animal.class);
+		List<Animal> list = query.getResultList();
 		em.close();
 		return list;
 	}
 
 	@Override
-	public AnimalSingle findByKey(Long key) {
+	public Animal findByKey(Long key) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
-		AnimalSingle animal = em.find(AnimalSingle.class, key);
+		Animal animal = em.find(Animal.class, key);
 		em.close();
 		return animal;
 	}
 
 	@Override
-	public void insert(AnimalSingle obj) {
+	public void insert(Animal obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -38,7 +38,7 @@ public class DaoAnimalSingleJpaImpl implements DaoAnimalSingle {
 	}
 
 	@Override
-	public AnimalSingle update(AnimalSingle obj) {
+	public Animal update(Animal obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -49,7 +49,7 @@ public class DaoAnimalSingleJpaImpl implements DaoAnimalSingle {
 	}
 
 	@Override
-	public void delete(AnimalSingle obj) {
+	public void delete(Animal obj) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -63,7 +63,7 @@ public class DaoAnimalSingleJpaImpl implements DaoAnimalSingle {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.remove(em.find(AnimalSingle.class, key));
+		em.remove(em.find(Animal.class, key));
 		tx.commit();
 		em.close();
 	}

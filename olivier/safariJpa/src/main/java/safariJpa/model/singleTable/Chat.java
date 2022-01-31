@@ -6,23 +6,23 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("chat")
-public class ChatSingle extends AnimalSingle {
+public class Chat extends Animal {
 	@Column(name="poil_court")
 	private boolean poilCourt;
 	@Column(name="malheur")
 	private boolean malheur;
 
-	public ChatSingle() {
+	public Chat() {
 
 	}
 
-	public ChatSingle(String race, boolean poilCourt, boolean malheur) {
+	public Chat(String race, boolean poilCourt, boolean malheur) {
 		super(race);
 		this.poilCourt = poilCourt;
 		this.malheur = malheur;
 	}
 
-	public ChatSingle(String race) {
+	public Chat(String race) {
 		super(race);
 		// TODO Auto-generated constructor stub
 	}

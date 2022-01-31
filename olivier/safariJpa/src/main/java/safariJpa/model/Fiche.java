@@ -15,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import safariJpa.model.singleTable.Animal;
+
 @Entity
 @Table(name = "fiche")
 @SequenceGenerator(name = "seqFiche", sequenceName = "seq_fiche", initialValue = 100, allocationSize = 1)
