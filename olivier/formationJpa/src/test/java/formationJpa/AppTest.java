@@ -13,15 +13,15 @@ public class AppTest {
 
 		DaoDepartement daoDepartement = Context.getDaoDepartment();
 
-		Departement d = new Departement();
-		d.setId(12L);
-		d.setNom("un nom ");
+		Departement d = new Departement("departement test");
 
+		System.out.println(d.getId());
 		daoDepartement.insert(d);
-
-		System.out.println(daoDepartement.findAll());
-
-		daoDepartement.delete(d);
+		
+		
+		Departement recherche=daoDepartement.findByKey(100L);
+		System.out.println(d.equals(recherche));
+	
 		Context.destroy();
 	}
 }
