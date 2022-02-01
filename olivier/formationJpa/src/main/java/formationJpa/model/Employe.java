@@ -1,6 +1,7 @@
 package formationJpa.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.AttributeOverride;
@@ -10,9 +11,13 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -29,7 +34,8 @@ public class Employe {
 	private String nom;
 	@Column(name = "job", length = 50)
 	private String poste;
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "mgr", foreignKey = @ForeignKey(name = "emp_mgr_fk"))
 	private Employe manager;
 	@Column(name = "sal")
 	private double salaire;
@@ -46,6 +52,14 @@ public class Employe {
 			@AttributeOverride(name = "codePostal", column = @Column(name = "ezipcode", length = 20)),
 			@AttributeOverride(name = "ville", column = @Column(name = "ecity", length = 100)) })
 	private Adresse adresse;
+	// relation physique
+	// ManyToOne
+	// OneToOne
+	@ManyToOne
+	@JoinColumn(name = "deptno", foreignKey = @ForeignKey(name = "emp_edeptno_fk"))
+	private Departement departement;
+	@OneToMany(mappedBy = "manager")
+	private List<Employe> subordonnes;
 
 	public Employe() {
 
@@ -157,6 +171,22 @@ public class Employe {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	public Departement getDepartement() {
+		return departement;
+	}
+
+	public void setDepartement(Departement departement) {
+		this.departement = departement;
+	}
+
+	public List<Employe> getSubordonnes() {
+		return subordonnes;
+	}
+
+	public void setSubordonnes(List<Employe> subordonnes) {
+		this.subordonnes = subordonnes;
 	}
 
 	@Override

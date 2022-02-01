@@ -1,5 +1,6 @@
 package formationJpa.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,6 +22,11 @@ public class Departement {
 	private Long id;
 	@Column(name = "dname", length = 200, nullable = false)
 	private String nom;
+	//List ou Set
+	//Set =>pas de doublon plusieurs Set peuvent etre chargees simultanement
+	//List=>1 seule List charge par requete
+	@OneToMany(mappedBy = "departement")
+	private List<Employe> employes;
 
 	public Departement() {
 
@@ -44,6 +51,14 @@ public class Departement {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public List<Employe> getEmployes() {
+		return employes;
+	}
+
+	public void setEmployes(List<Employe> employes) {
+		this.employes = employes;
 	}
 
 	@Override

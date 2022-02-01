@@ -28,6 +28,7 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 	public Departement findByKey(Long key) {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		Departement departement = em.find(Departement.class, key);
+		System.out.println("appel getEmployes");
 		em.close();
 		return departement;
 	}
