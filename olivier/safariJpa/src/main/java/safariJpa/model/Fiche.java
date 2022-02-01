@@ -1,16 +1,25 @@
 package safariJpa.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,9 +34,9 @@ public class Fiche {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqFiche")
 	@Column(name = "fiche_id")
 	private Long id;
-	@Column(name="fiche_description",columnDefinition = "TEXT")
-	//@Column(name="fiche_description")
-	//@Lob
+	@Column(name = "fiche_description", columnDefinition = "TEXT")
+	// @Column(name="fiche_description")
+	// @Lob
 	private String description;
 	@Column(name = "fiche_dt_creation")
 	private LocalDate creation;
@@ -46,8 +55,20 @@ public class Fiche {
 	private String couleur;
 	@Column(name = "fiche_sociable")
 	private boolean sociable;
-	@Transient
+	@OneToOne
+	@JoinColumn(name = "fiche_animal_id", foreignKey = @ForeignKey(name = "fiche_animal_id_fk"))
 	private Animal animal;
+	@ManyToOne
+	@JoinColumn(name = "fiche_vendeur_id", foreignKey = @ForeignKey(name = "fiche_vendeur_id_fk"))
+	private Vendeur vendeur;
+//	@OneToMany(mappedBy = "fiche")
+//	private List<Match> matchs;
+//	@ManyToMany
+//	@JoinTable(name="match",joinColumns = @JoinColumn(name="match_fiche_id",foreignKey = @ForeignKey(name="match_fiche_id_fk")),
+//	inverseJoinColumns = @JoinColumn(name="match_client_id",foreignKey = @ForeignKey(name="match_client_id_fk")))
+//	private Set<Client> clientsQuiOntMatchesLaFiche;
+	@OneToMany(mappedBy = "id.fiche")
+	private List<Match> matchs;
 
 	public Fiche() {
 
@@ -140,6 +161,30 @@ public class Fiche {
 	public void setAnimal(Animal animal) {
 		this.animal = animal;
 	}
+
+	public Vendeur getVendeur() {
+		return vendeur;
+	}
+
+	public void setVendeur(Vendeur vendeur) {
+		this.vendeur = vendeur;
+	}
+
+	public List<Match> getMatchs() {
+		return matchs;
+	}
+
+	public void setMatchs(List<Match> matchs) {
+		this.matchs = matchs;
+	}
+
+//	public Set<Client> getClientsQuiOntMatchesLaFiche() {
+//		return clientsQuiOntMatchesLaFiche;
+//	}
+//
+//	public void setClientsQuiOntMatchesLaFiche(Set<Client> clientsQuiOntMatchesLaFiche) {
+//		this.clientsQuiOntMatchesLaFiche = clientsQuiOntMatchesLaFiche;
+//	}
 
 	@Override
 	public int hashCode() {

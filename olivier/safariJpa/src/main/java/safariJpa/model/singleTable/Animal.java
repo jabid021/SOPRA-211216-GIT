@@ -1,5 +1,7 @@
 package safariJpa.model.singleTable;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -9,8 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import safariJpa.model.Fiche;
 
 @Entity
 @Table(name = "animal_single")
@@ -24,6 +29,8 @@ public abstract class Animal {
 	private Long id;
 	@Column(name = "race", length = 200)
 	private String race;
+	@OneToOne(mappedBy = "animal")
+	private Fiche fiche;
 
 	public Animal() {
 
@@ -54,6 +61,31 @@ public abstract class Animal {
 
 	public void setRace(String race) {
 		this.race = race;
+	}
+
+	public Fiche getFiche() {
+		return fiche;
+	}
+
+	public void setFiche(Fiche fiche) {
+		this.fiche = fiche;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Animal other = (Animal) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 //@MappedSuperclass
 @Entity
@@ -20,7 +21,7 @@ public abstract class Compte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqCompte")
 	private Long id;
-	@Column(name = "login", unique = true, length = 150, nullable = false)
+	@Column(name = "login", length = 150, nullable = false)
 	private String login;
 	@Column(name = "password", length = 150, nullable = false)
 	private String password;
@@ -46,6 +47,7 @@ public abstract class Compte {
 		this.id = id;
 	}
 
+	//@Column(name = "login", length = 150, nullable = false)
 	public String getLogin() {
 		return login;
 	}
@@ -54,6 +56,7 @@ public abstract class Compte {
 		this.login = login;
 	}
 
+	//@Column(name = "password", length = 150, nullable = false)
 	public String getPassword() {
 		return password;
 	}
