@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "emp")
@@ -60,6 +61,8 @@ public class Employe {
 	private Departement departement;
 	@OneToMany(mappedBy = "manager")
 	private List<Employe> subordonnes;
+	@Version
+	private int version;
 
 	public Employe() {
 
@@ -187,6 +190,14 @@ public class Employe {
 
 	public void setSubordonnes(List<Employe> subordonnes) {
 		this.subordonnes = subordonnes;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	@Override
