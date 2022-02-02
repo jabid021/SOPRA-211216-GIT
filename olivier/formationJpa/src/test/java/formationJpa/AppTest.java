@@ -19,6 +19,8 @@ public class AppTest {
 	public static void main(String[] args) {
 
 		DaoDepartement daoDepartement = Context.getDaoDepartment();
+		Departement info = new Departement("info");
+		daoDepartement.insert(info);
 
 		DaoEmploye daoEmploye = Context.getDaoEmploye();
 
@@ -27,12 +29,41 @@ public class AppTest {
 		daoEmploye.insert(king);
 
 		king.setCivilite(Civilite.MME);
-		king=daoEmploye.update(king);
+		Employe employeEnBase = daoEmploye.findByKey(king.getId());
+		employeEnBase.setCivilite(king.getCivilite());
+		king = daoEmploye.update(employeEnBase);
 		king.setSalaire(30000);
-		king=daoEmploye.update(king);
-//		king.setCommission(1);
-//		daoEmploye.update(king);
+		king.setDepartement(info);
+		king = daoEmploye.update(king);
 
+		daoEmploye.findByNom("King").forEach(e -> {
+			System.out.println(e.getDepartement());
+		});
+		System.out.println("-----------------");
+		System.out.println(daoDepartement.findByIdWithEmploye(info.getId()).getEmployes());
+		Employe e = new Employe("Abbb", "SA_REP", 1000000, LocalDate.of(2000, Month.JANUARY, 20), Civilite.M,
+				new Adresse("100", "rue XXX", "11111", "ville"));
+		e.setDepartement(info);
+		e.setManager(king);
+		daoEmploye.insert(e);
+		System.out.println("-----------------");
+		System.out.println(daoDepartement.findByIdWithEmploye(info.getId()).getEmployes());
+
+		Departement direction = new Departement("direction");
+		daoDepartement.insert(direction);
+		System.out.println("------   direction  ----------");
+		System.out.println(daoDepartement.findByKey(direction.getId()));
+		System.out.println("------   direction  ----------");
+
+		System.out.println(daoDepartement.findByIdWithEmploye(direction.getId()));
+		System.out.println("-----------findAll-------------");
+		e = new Employe("Abbb", "SA_REP", 1000, LocalDate.of(2000, Month.JANUARY, 20), Civilite.M,
+				new Adresse("100", "rue XXX", "11111", "ville"));
+		e.setDepartement(direction);
+		daoEmploye.insert(e);
+		System.out.println(daoDepartement.findDepartementOuUnEmployeGagnePlusQueSonManager());
+		System.out.println("-----------------------");
+		System.out.println(daoEmploye.findByDepartement(info));
 		Context.destroy();
 	}
 }

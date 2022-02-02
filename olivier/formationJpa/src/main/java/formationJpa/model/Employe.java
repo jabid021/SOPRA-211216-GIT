@@ -17,6 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,6 +29,11 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "emp")
 @SequenceGenerator(name = "seqEmploye", sequenceName = "seq_emp", initialValue = 100, allocationSize = 1)
+@NamedQueries({
+	@NamedQuery(query = "select e from Employe e",name = "Employe.findAll"),
+	@NamedQuery(query="select e from Employe e where e.nom=:nom", name="Employe.findByNom"),
+	@NamedQuery(query="select e from Employe e where e.nom=:nom and e.poste=:poste",name="Employe.findByNomAndPoste")
+})
 public class Employe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqEmploye")

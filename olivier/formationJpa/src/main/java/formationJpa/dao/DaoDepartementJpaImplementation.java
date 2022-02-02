@@ -17,8 +17,8 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 		// requete jpql
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		// Query query=em.createQuery("select d from Departement d");
-		//Query query = em.createQuery("from Departement d");
-		TypedQuery<Departement> query=em.createQuery("from Departement d", Departement.class);
+		// Query query = em.createQuery("from Departement d");
+		TypedQuery<Departement> query = em.createQuery("from Departement d", Departement.class);
 		List<Departement> departements = query.getResultList();
 		em.close();
 		return departements;
@@ -74,4 +74,44 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 		em.close();
 	}
 
+	@Override
+	public Departement findByIdWithEmploye(Long id) {
+		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
+		TypedQuery<Departement> query = em.createQuery(
+				"select d from Departement d left join fetch d.employes where d.id=:id", Departement.class);
+		query.setParameter("id", id);
+		Departement d = query.getSingleResult();
+		em.close();
+		return d;
+	}
+
+	@Override
+	public List<Departement> findAllWithEmploye() {
+		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
+		TypedQuery<Departement> query = em.createQuery(
+				"select distinct d from Departement d left join fetch d.employes", Departement.class);
+		List<Departement> list=query.getResultList();
+		em.close();
+		return list;
+	}
+	
+	@Override
+	public List<Departement> findDepartementAvecLesEmployesQuiGangentPlusDeXEuros(double salaire) {
+		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
+		TypedQuery<Departement> query = em.createQuery(
+				"select distinct d from Departement d left join fetch d.employes as e where e.salaire>:salaire", Departement.class);
+		query.setParameter("salaire", salaire);
+		List<Departement> list=query.getResultList();
+		em.close();
+		return list;
+	}
+	@Override
+	public List<Departement> findDepartementOuUnEmployeGagnePlusQueSonManager() {
+		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
+		TypedQuery<Departement> query = em.createQuery(
+				"select distinct d from Departement d left join fetch d.employes as e left join fetch e.manager as mgr where e.salaire>mgr.salaire", Departement.class);
+		List<Departement> list=query.getResultList();
+		em.close();
+		return list;
+	}
 }
