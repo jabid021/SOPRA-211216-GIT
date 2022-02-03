@@ -2,12 +2,11 @@ package formationSpringCore.beans;
 
 import org.springframework.stereotype.Component;
 
-
 public class Adresse {
-	private String adresse="une adresse";
-	
+	private String adresse = "une adresse";
+
 	public Adresse() {
-		
+
 	}
 
 	public String getAdresse() {
@@ -17,6 +16,11 @@ public class Adresse {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Adresse [adresse=" + adresse + "]";
+	}
+
 	
 }

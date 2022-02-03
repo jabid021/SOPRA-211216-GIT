@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Personne {
+public class Personne implements InterfacePourAspect {
 	private String prenom;
 	private String nom;
 	@Autowired
@@ -38,6 +38,16 @@ public class Personne {
 
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
+	}
+
+	@Override
+	public String methodePourTestAspect() {
+		return "hello world";
+	}
+
+	@Override
+	public String toString() {
+		return "Personne [prenom=" + prenom + ", nom=" + nom + ", adresse=" + adresse + "]";
 	}
 
 }
