@@ -25,7 +25,7 @@ public class MonAspect {
 	public String arround(ProceedingJoinPoint pJP) throws Throwable {
 		System.out.println("dans le arround avant le proceed");
 		String s = pJP.getTarget().toString();
-		 pJP.proceed();
+		// pJP.proceed();
 		System.out.println("dans le arround apres le proceed sans avoir execute la methode de depart");
 		return s;
 	}
