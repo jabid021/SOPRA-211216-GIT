@@ -26,7 +26,6 @@ public class DaoEmployeJpaImpl implements DaoEmploye {
 	public void desExempleDeRequete() {
 		EntityManager em = Context.getEntityManagerFactory().createEntityManager();
 		Query query = em.createQuery("select e.id, e.nom from Employe e");
-		// query.getSingleResult() si 1 resultat
 		// query.getResultList() List<Object[]> dans la case 0=>id,case 1=>nom
 		query = em.createQuery("select e from Employe e");
 		query.getResultList();

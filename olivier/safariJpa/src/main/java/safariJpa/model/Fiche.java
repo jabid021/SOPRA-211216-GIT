@@ -56,10 +56,10 @@ public class Fiche {
 	@Column(name = "fiche_sociable")
 	private boolean sociable;
 	@OneToOne
-	@JoinColumn(name = "fiche_animal_id", foreignKey = @ForeignKey(name = "fiche_animal_id_fk"))
+	@JoinColumn(name = "fiche_animal_id", foreignKey = @ForeignKey(name = "fiche_animal_id_fk"),nullable = false)
 	private Animal animal;
 	@ManyToOne
-	@JoinColumn(name = "fiche_vendeur_id", foreignKey = @ForeignKey(name = "fiche_vendeur_id_fk"))
+	@JoinColumn(name = "fiche_vendeur_id", foreignKey = @ForeignKey(name = "fiche_vendeur_id_fk"),nullable = false)
 	private Vendeur vendeur;
 //	@OneToMany(mappedBy = "fiche")
 //	private List<Match> matchs;
