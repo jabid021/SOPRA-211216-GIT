@@ -2,6 +2,7 @@ package formationJpa;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import formationJpa.config.AppConfig;
 import formationJpa.dao.DaoDepartement;
+import formationJpa.model.Departement;
 
 class DaoDepartementTest {
 
@@ -35,6 +37,10 @@ class DaoDepartementTest {
 	@Test
 	public void getDaoDepartment() {
 		assertNotNull(daoDepartement);
+		Departement d=daoDepartement.findByKey(1000L);
+		if(d!=null) {
+			System.out.println(d.getId());
+		}
 	}
 
 	@Test

@@ -25,9 +25,7 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 		// requete jpql
 		// Query query=em.createQuery("select d from Departement d");
 		// Query query = em.createQuery("from Departement d");
-		TypedQuery<Departement> query = em.createQuery("from Departement d", Departement.class);
-		List<Departement> departements = query.getResultList();
-		return departements;
+		return em.createQuery("from Departement d", Departement.class).getResultList();
 	}
 
 	@Override
@@ -44,8 +42,7 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 	@Override
 	@Transactional
 	public Departement update(Departement obj) {
-		obj = em.merge(obj);
-		return obj;
+		return em.merge(obj);
 	}
 
 	@Override
@@ -65,16 +62,13 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 		TypedQuery<Departement> query = em.createQuery(
 				"select d from Departement d left join fetch d.employes where d.id=:id", Departement.class);
 		query.setParameter("id", id);
-		Departement d = query.getSingleResult();
-		return d;
+		return query.getSingleResult();
 	}
 
 	@Override
 	public List<Departement> findAllWithEmploye() {
-		TypedQuery<Departement> query = em
-				.createQuery("select distinct d from Departement d left join fetch d.employes", Departement.class);
-		List<Departement> list = query.getResultList();
-		return list;
+		return em.createQuery("select distinct d from Departement d left join fetch d.employes", Departement.class)
+				.getResultList();
 	}
 
 	@Override
@@ -83,16 +77,15 @@ public class DaoDepartementJpaImplementation implements DaoDepartement {
 				"select distinct d from Departement d left join fetch d.employes as e where e.salaire>:salaire",
 				Departement.class);
 		query.setParameter("salaire", salaire);
-		List<Departement> list = query.getResultList();
-		return list;
+		return query.getResultList();
+
 	}
 
 	@Override
 	public List<Departement> findDepartementOuUnEmployeGagnePlusQueSonManager() {
-		TypedQuery<Departement> query = em.createQuery(
+		return em.createQuery(
 				"select distinct d from Departement d left join fetch d.employes as e left join fetch e.manager as mgr where e.salaire>mgr.salaire",
-				Departement.class);
-		List<Departement> list = query.getResultList();
-		return list;
+				Departement.class).getResultList();
+
 	}
 }
