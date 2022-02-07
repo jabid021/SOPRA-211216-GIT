@@ -19,7 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = { "formationJpa.dao" })
+@ComponentScan(basePackages = { "formationJpa.dao","formationJpa.services" })
 @EnableTransactionManagement
 @PropertySource("classpath:infos.properties")
 @EnableJpaRepositories(basePackages = {"formationJpa.repositories"})

@@ -15,12 +15,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import formationJpa.config.AppConfig;
 import formationJpa.model.Departement;
 import formationJpa.repositories.DepartementRepository;
+import formationJpa.repositories.EmployeRepository;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { AppConfig.class })
@@ -28,6 +30,8 @@ class DepartementRepositoryTest {
 
 	@Autowired
 	DepartementRepository deptRepo;
+	@Autowired
+	EmployeRepository empRepo;
 
 	@Test
 	@Disabled
@@ -39,12 +43,22 @@ class DepartementRepositoryTest {
 	@Transactional
 	@Disabled
 	void saveAndDeleteTest() {
-		Departement d = new Departement("pour demo");
+		Departement d = new Departement("test");
 		deptRepo.save(d);
 		deptRepo.delete(d);
 	}
-	
+
 	@Test
+	@Transactional
+	@Commit
+	void deleteTest() {
+		Departement d = deptRepo.findById(101L).orElseThrow(NoResultException::new);
+		empRepo.setDepartementToNull(d);
+		deptRepo.delete(d);
+	}
+
+	@Test
+	@Disabled
 	void requetePersoTest() {
 		System.out.println(deptRepo.findByNomContaining("o"));
 	}
@@ -79,9 +93,9 @@ class DepartementRepositoryTest {
 //		deptRepo.findAll(Sort.by("nom").descending()).forEach(d -> {
 //			System.out.println(d.getNom());
 //		});
-		
-		Pageable page=PageRequest.of(0, 5,Sort.by("nom"));
-		deptRepo.findAll(page).get().forEach(d->{
+
+		Pageable page = PageRequest.of(0, 5, Sort.by("nom"));
+		deptRepo.findAll(page).get().forEach(d -> {
 			System.out.println(d.getNom());
 		});
 	}

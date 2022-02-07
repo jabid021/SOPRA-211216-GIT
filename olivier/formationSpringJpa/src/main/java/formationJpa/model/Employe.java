@@ -29,11 +29,10 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "emp")
 @SequenceGenerator(name = "seqEmploye", sequenceName = "seq_emp", initialValue = 100, allocationSize = 1)
-@NamedQueries({
-	@NamedQuery(query = "select e from Employe e",name = "Employe.findAll"),
-	@NamedQuery(query="select e from Employe e where e.nom=:nom", name="Employe.findByNom"),
-	@NamedQuery(query="select e from Employe e where e.nom=:nom and e.poste=:poste",name="Employe.findByNomAndPoste")
-})
+@NamedQueries({ @NamedQuery(query = "select e from Employe e", name = "Employe.findAll"),
+		@NamedQuery(query = "select e from Employe e where e.nom=:nom", name = "Employe.findByNom"),
+		@NamedQuery(query = "select e from Employe e where e.nom=:nom and e.poste=:poste", name = "Employe.findByNomAndPoste"),
+		@NamedQuery(query = "select e from Employe e left join fetch e.subordonnes where e.id=:id", name = "Employe.findByIdWithSubordonnes") })
 public class Employe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqEmploye")
