@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<div>${session}</div>
+	<div>${application}</div>
 	<div>
 		<%
 		if (request.getAttribute("error") != null) {
@@ -16,8 +18,8 @@
 		}
 		%>
 		<form action="hello" method="post">
-			<input type="hidden" name="q" value="hello">
-			<input name="user">
+			<input type="hidden" name="q" value="hello"> <input
+				name="user">
 			<button type="submit">envoyer</button>
 		</form>
 	</div>
