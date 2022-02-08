@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,16 +30,23 @@ public class HelloController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// verifier le parametre user
-		String user = request.getParameter("user");
-		if (user != null && !user.isEmpty()) {
-			// user existe
-			request.setAttribute("user", user);
+		RequestDispatcher rd = null;
+		String q = request.getParameter("q");
+		if (q == null || q.isEmpty()) {
+			rd = request.getRequestDispatcher("/WEB-INF/form.jsp");
 		} else {
-			//user pas present
-			request.setAttribute("user", "world");
+			// verifier le parametre user
+			String user = request.getParameter("user");
+			if (user != null && !user.isEmpty()) {
+				// user existe
+				request.setAttribute("user", user);
+				rd = request.getRequestDispatcher("/WEB-INF/hello.jsp");
+			} else {
+				request.setAttribute("error", "user obligatoire");
+				rd = request.getRequestDispatcher("/WEB-INF/form.jsp");
+			}
 		}
-		request.getRequestDispatcher("WEB-INF/hello.jsp").forward(request, response);
+		rd.forward(request, response);
 	}
 
 	/**
