@@ -49,7 +49,7 @@ public class AppConfig {
 		Properties jpaProperties = new Properties();
 		jpaProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		jpaProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
-		jpaProperties.setProperty("hibernate.show_sql", "true");
+		jpaProperties.setProperty("hibernate.show_sql", "false");
 		jpaProperties.setProperty("hibernate.format_sql", "true");
 		emf.setJpaProperties(jpaProperties);
 		return emf;

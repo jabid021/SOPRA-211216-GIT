@@ -67,4 +67,8 @@ public class DepartementService {
 		departementRepo.delete(departementEnBase);
 	}
 
+	public void deleteById(Long id) {
+		delete(getById(id));
+	}
+
 }
