@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import formationJpa.model.Departement;
 import formationJpa.services.DepartementService;
 
 /**
@@ -49,6 +50,10 @@ public class DepartementController extends HttpServlet {
 			rd = goList(request, response);
 		} else if (q.equals("delete")) {
 			rd = delete(request, response);
+		} else if (q.equals("edit")) {
+			rd = edit(request, response);
+		} else if (q.equals("add")) {
+			rd = add(request, response);
 		}
 		rd.forward(request, response);
 	}
@@ -59,8 +64,24 @@ public class DepartementController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		save(request, response).forward(request, response);
+	}
+
+	private RequestDispatcher save(HttpServletRequest request, HttpServletResponse response) {
+		String idString = request.getParameter("id");
+		Long id = null;
+		if (!idString.isEmpty()) {
+			id = Long.parseLong(idString);
+		}
+		String nom = request.getParameter("nom");
+		Departement d = new Departement(id, nom);
+		departementService.createOrUpdate(d);
+		return goList(request, response);
+	}
+
+	private RequestDispatcher add(HttpServletRequest request, HttpServletResponse response) {
+		request.setAttribute("departement", new Departement());
+		return goEdit(request, response);
 	}
 
 	private RequestDispatcher goList(HttpServletRequest request, HttpServletResponse response) {
@@ -72,6 +93,16 @@ public class DepartementController extends HttpServlet {
 		long id = Long.parseLong(request.getParameter("id"));
 		departementService.deleteById(id);
 		return goList(request, response);
+	}
+
+	private RequestDispatcher edit(HttpServletRequest request, HttpServletResponse response) {
+		long id = Long.parseLong(request.getParameter("id"));
+		request.setAttribute("departement", departementService.getById(id));
+		return goEdit(request, response);
+	}
+
+	private RequestDispatcher goEdit(HttpServletRequest request, HttpServletResponse response) {
+		return request.getRequestDispatcher("/WEB-INF/departement/edit.jsp");
 	}
 
 }

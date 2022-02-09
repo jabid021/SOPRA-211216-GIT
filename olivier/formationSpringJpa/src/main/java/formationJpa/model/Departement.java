@@ -22,9 +22,9 @@ public class Departement {
 	private Long id;
 	@Column(name = "dname", length = 200, nullable = false)
 	private String nom;
-	//List ou Set
-	//Set =>pas de doublon plusieurs Set peuvent etre chargees simultanement
-	//List=>1 seule List charge par requete
+	// List ou Set
+	// Set =>pas de doublon plusieurs Set peuvent etre chargees simultanement
+	// List=>1 seule List charge par requete
 	@OneToMany(mappedBy = "departement")
 	private List<Employe> employes;
 
@@ -34,6 +34,12 @@ public class Departement {
 
 	public Departement(String nom) {
 		super();
+		this.nom = nom;
+	}
+
+	public Departement(Long id, String nom) {
+		super();
+		this.id = id;
 		this.nom = nom;
 	}
 

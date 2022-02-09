@@ -25,13 +25,13 @@
 				<tr>
 					<td>${dept.id}</td>
 					<td>${dept.nom}</td>
-					<td>editer</td>
+					<td><a href="?q=edit&id=${dept.id}" class="btn btn-primary">editer</a></td>
 					<td><a href="?q=delete&id=${dept.id}" class="btn btn-danger">
 							supprimer</a></td>
 				</tr>
 			</c:forEach>
 		</table>
-		nouveau departement
+		<a href="?q=add" class="btn btn-link">nouveau departement </a>
 	</div>
 </body>
 </html>
