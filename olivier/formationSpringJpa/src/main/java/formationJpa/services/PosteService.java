@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import formationJpa.exceptions.PosteException;
 import formationJpa.model.Poste;
+import formationJpa.repositories.EmployeRepository;
 import formationJpa.repositories.PosteRepository;
 
 @Service
@@ -14,6 +15,8 @@ public class PosteService {
 
 	@Autowired
 	PosteRepository posteRepository;
+	@Autowired
+	EmployeRepository employeRepository;
 
 	public List<Poste> getAll() {
 		return posteRepository.findAll();
@@ -24,8 +27,9 @@ public class PosteService {
 	}
 
 	public Poste save(Poste poste) {
-		checkData(poste);
 		Poste posteEnBase = null;
+		checkData(poste);
+
 		try {
 			posteEnBase = getByCode(poste.getCode());
 			posteEnBase.setLibelle(poste.getLibelle());
@@ -35,6 +39,7 @@ public class PosteService {
 		} catch (PosteException e) {
 			posteEnBase = posteRepository.save(poste);
 		}
+
 		return posteEnBase;
 
 	}
@@ -46,5 +51,14 @@ public class PosteService {
 		if (poste.getLibelle() == null || poste.getLibelle().isEmpty()) {
 			throw new PosteException();
 		}
+	}
+
+	public void delete(Poste poste) {
+		employeRepository.setPosteToNull(poste);
+		posteRepository.delete(poste);
+	}
+
+	public void delete(String code) {
+		delete(getByCode(code));
 	}
 }

@@ -36,7 +36,9 @@
 			</div>
 			<div class="form-group">
 				<form:label path="poste">poste:</form:label>
-				<form:input path="poste" cssClass="form-control" />
+				<form:select path="poste.code" cssClass="form-control"
+					items="${postes}" itemLabel="libelle" itemValue="code" />
+
 			</div>
 			<div class="form-group">
 				<form:label path="dateEmbauche">date embauche:</form:label>

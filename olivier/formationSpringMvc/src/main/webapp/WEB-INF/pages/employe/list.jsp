@@ -22,7 +22,7 @@
 				<tr>
 					<td>${e.id}</td>
 					<td>${e.nom}</td>
-					<td>${e.poste}</td>
+					<td>${e.poste.libelle}</td>
 					<td>${e.civilite}</td>
 					<td>${e.adresse.numero}&nbsp;${e.adresse.rue}</td>
 					<td>${e.adresse.codePostal}</td>

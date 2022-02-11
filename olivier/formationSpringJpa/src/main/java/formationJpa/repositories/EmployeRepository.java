@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import formationJpa.model.Departement;
 import formationJpa.model.Employe;
+import formationJpa.model.Poste;
 
 public interface EmployeRepository extends JpaRepository<Employe, Long> {
 	Optional<Employe> findByIdWithSubordonnes(Long id);
@@ -19,6 +20,11 @@ public interface EmployeRepository extends JpaRepository<Employe, Long> {
 	@Modifying
 	@Query("update Employe e set e.departement=null where e.departement=:departement")
 	void setDepartementToNull(@Param("departement") Departement departement);
+
+	@Transactional
+	@Modifying
+	@Query("update Employe e set e.poste=null where e.poste=:poste")
+	void setPosteToNull(@Param("poste") Poste poste);
 
 	@Transactional
 	@Modifying

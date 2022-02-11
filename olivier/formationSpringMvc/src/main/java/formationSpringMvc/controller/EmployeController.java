@@ -13,6 +13,7 @@ import formationJpa.model.Civilite;
 import formationJpa.model.Employe;
 import formationJpa.services.DepartementService;
 import formationJpa.services.EmployeService;
+import formationJpa.services.PosteService;
 
 @Controller
 @RequestMapping("/employe")
@@ -22,6 +23,8 @@ public class EmployeController {
 	private EmployeService employeService;
 	@Autowired
 	private DepartementService departementService;
+	@Autowired
+	private PosteService posteService;
 
 	@GetMapping("")
 	public String list(Model model) {
@@ -46,6 +49,7 @@ public class EmployeController {
 	}
 
 	private String goEdition(Employe employe, Model model) {
+		model.addAttribute("postes", posteService.getAll());
 		model.addAttribute("employe", employe);
 		model.addAttribute("civilites", Civilite.values());
 		model.addAttribute("departements", departementService.getAll());
@@ -55,7 +59,7 @@ public class EmployeController {
 
 	@GetMapping("/save")
 	private String save(@ModelAttribute Employe employe) {
-		if(employe.getManager()!=null&&employe.getManager().getId()==null) {
+		if (employe.getManager() != null && employe.getManager().getId() == null) {
 			employe.setManager(null);
 		}
 		employeService.save(employe);
