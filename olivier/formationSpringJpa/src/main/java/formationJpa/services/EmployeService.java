@@ -43,6 +43,8 @@ public class EmployeService {
 			employeEnBase.setDateEmbauche(employe.getDateEmbauche());
 			employeEnBase.setPoste(employe.getPoste());
 			employeEnBase.setSalaire(employe.getSalaire());
+			employeEnBase.setDepartement(employe.getDepartement());
+			employeEnBase.setManager(employe.getManager());
 			return employeRepo.save(employeEnBase);
 		}
 	}

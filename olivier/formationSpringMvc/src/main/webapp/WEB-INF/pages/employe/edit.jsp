@@ -66,6 +66,20 @@
 				<form:label path="commission">commission:</form:label>
 				<form:input path="commission" cssClass="form-control" />
 			</div>
+			<div class="form-group">
+				<form:label path="departement">departement:</form:label>
+				<form:select path="departement.id" cssClass="form-control">
+					<form:options items="${departements}" itemLabel="nom"
+						itemValue="id" />
+				</form:select>
+			</div>
+			<div>
+				<form:label path="manager">manager:</form:label>
+				<form:select path="manager.id" cssClass="form-control">
+					<form:option value="">pas de manager</form:option>
+					<form:options items="${employes}" itemLabel="infos" itemValue="id" />
+				</form:select>
+			</div>
 			<div>
 				<button type="submit" class="btn btn-success">enregistrer</button>
 				<a href="${ctx}/employe" class="btn btn-warning">annuler</a>

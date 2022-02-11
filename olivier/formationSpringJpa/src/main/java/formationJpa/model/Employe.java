@@ -227,4 +227,7 @@ public class Employe {
 		return Objects.equals(id, other.id);
 	}
 
+	public String getInfos() {
+		return id + " " + nom + " " + poste;
+	}
 }

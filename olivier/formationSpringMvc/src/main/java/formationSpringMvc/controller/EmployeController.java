@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import formationJpa.model.Civilite;
 import formationJpa.model.Employe;
+import formationJpa.services.DepartementService;
 import formationJpa.services.EmployeService;
 
 @Controller
@@ -19,6 +20,8 @@ public class EmployeController {
 
 	@Autowired
 	private EmployeService employeService;
+	@Autowired
+	private DepartementService departementService;
 
 	@GetMapping("")
 	public String list(Model model) {
@@ -45,11 +48,16 @@ public class EmployeController {
 	private String goEdition(Employe employe, Model model) {
 		model.addAttribute("employe", employe);
 		model.addAttribute("civilites", Civilite.values());
+		model.addAttribute("departements", departementService.getAll());
+		model.addAttribute("employes", employeService.getAll());
 		return "employe/edit";
 	}
 
 	@GetMapping("/save")
 	private String save(@ModelAttribute Employe employe) {
+		if(employe.getManager()!=null&&employe.getManager().getId()==null) {
+			employe.setManager(null);
+		}
 		employeService.save(employe);
 		return "redirect:/employe";
 	}
