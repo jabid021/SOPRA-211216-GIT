@@ -26,6 +26,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "emp")
 @SequenceGenerator(name = "seqEmploye", sequenceName = "seq_emp", initialValue = 100, allocationSize = 1)
@@ -50,6 +52,7 @@ public class Employe {
 	@Column(name = "comm")
 	private double commission;
 	@Column(name = "hiredate")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dateEmbauche;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "civility", length = 4)
