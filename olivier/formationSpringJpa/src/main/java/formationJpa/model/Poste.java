@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "sal")
+@Table(name = "job")
 public class Poste {
 	@Id
 	@Column(name = "job_id", length = 50)
