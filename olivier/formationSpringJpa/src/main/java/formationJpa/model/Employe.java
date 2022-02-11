@@ -42,8 +42,9 @@ public class Employe {
 	private Long id;
 	@Column(name = "ename", length = 50, nullable = false)
 	private String nom;
-	@Column(name = "job", length = 50)
-	private String poste;
+	@ManyToOne
+	@JoinColumn(name = "job_id", foreignKey = @ForeignKey(name = "emp_job_id_fk"))
+	private Poste poste;
 	@ManyToOne
 	@JoinColumn(name = "mgr", foreignKey = @ForeignKey(name = "emp_mgr_fk"))
 	private Employe manager;
@@ -78,7 +79,7 @@ public class Employe {
 
 	}
 
-	public Employe(String nom, String poste, double salaire, LocalDate dateEmbauche, Civilite civilite,
+	public Employe(String nom, Poste poste, double salaire, LocalDate dateEmbauche, Civilite civilite,
 			Adresse adresse) {
 		super();
 		this.nom = nom;
@@ -89,7 +90,7 @@ public class Employe {
 		this.adresse = adresse;
 	}
 
-	public Employe(String nom, String poste, double salaire, double commission, LocalDate dateEmbauche,
+	public Employe(String nom, Poste poste, double salaire, double commission, LocalDate dateEmbauche,
 			Civilite civilite, Adresse adresse) {
 		super();
 		this.nom = nom;
@@ -101,7 +102,7 @@ public class Employe {
 		this.adresse = adresse;
 	}
 
-	public Employe(String nom, String poste, Employe manager, double salaire, double commission, LocalDate dateEmbauche,
+	public Employe(String nom, Poste poste, Employe manager, double salaire, double commission, LocalDate dateEmbauche,
 			Civilite civilite, Adresse adresse) {
 		super();
 		this.nom = nom;
@@ -130,11 +131,11 @@ public class Employe {
 		this.nom = nom;
 	}
 
-	public String getPoste() {
+	public Poste getPoste() {
 		return poste;
 	}
 
-	public void setPoste(String poste) {
+	public void setPoste(Poste poste) {
 		this.poste = poste;
 	}
 

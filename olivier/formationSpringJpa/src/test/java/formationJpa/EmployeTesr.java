@@ -31,12 +31,7 @@ class EmployeTesr {
 	@Test
 	@Disabled
 	void test() {
-		Employe e = new Employe("test", "test", 10000, LocalDate.now(), Civilite.M,
-				new Adresse("11", "rue 11", "11111", "11111"));
-		Departement d = new Departement("pour test");
-		e.setDepartement(d);
-		deptRepo.save(d);
-		empRepo.save(e);
+		
 	}
 
 }
