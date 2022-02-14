@@ -40,6 +40,10 @@ public class Employe {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqEmploye")
 	@Column(name = "empno")
 	private Long id;
+	//2 caracteres 
+	//lettre ou -' 
+	//avant tiret 2 caracteres minimum et 2 caracteres minimum apres
+	//meme chose pour '
 	@Column(name = "ename", length = 50, nullable = false)
 	private String nom;
 	@ManyToOne
@@ -50,10 +54,12 @@ public class Employe {
 	private Employe manager;
 	@Column(name = "sal")
 	private double salaire;
+	//chiffre en 0 et 1
 	@Column(name = "comm")
 	private double commission;
 	@Column(name = "hiredate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//passe
 	private LocalDate dateEmbauche;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "civility", length = 4)

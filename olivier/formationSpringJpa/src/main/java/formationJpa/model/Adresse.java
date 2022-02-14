@@ -8,9 +8,16 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Adresse {
 	@Column(name="num",length = 50)
+	//pas vide
+	//des chiffres 
+	//numero bis ter ou 1 lettre
 	private String numero;
+	
+	//pas vide
 	private String rue;
+	//pas vide
 	private String codePostal;
+	//pas vide
 	private String ville;
 
 	public Adresse() {
