@@ -9,18 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "job")
 public class Poste {
 	@Id
 	@Column(name = "job_id", length = 50)
+	@NotEmpty(message = "mon message pour dire que c'est vide")
 	private String code;
-	@Column(name = "job_name", length = 100)
+	@NotEmpty
+	@Column(name = "job_name", length = 100, nullable = false, unique = true)
 	private String libelle;
+	@DecimalMin("0.0")
 	@Column(name = "job_min_sal")
 	private double salaireMin;
 	@Column(name = "job_max_sal")
+	@DecimalMin("100")
+	@DecimalMax("999999999")
 	private double salaireMax;
 	@OneToMany(mappedBy = "poste")
 	private List<Employe> employes;

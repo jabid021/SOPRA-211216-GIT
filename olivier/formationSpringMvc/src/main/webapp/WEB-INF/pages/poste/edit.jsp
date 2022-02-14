@@ -21,6 +21,7 @@
 			<div class="form-group">
 				<form:label path="code">code:</form:label>
 				<form:input path="code" cssClass="form-control" />
+				<form:errors path="code" cssClass="alert alert-danger small" element="div"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="libelle">libelle:</form:label>

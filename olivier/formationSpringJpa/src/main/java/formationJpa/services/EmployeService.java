@@ -31,8 +31,8 @@ public class EmployeService {
 	}
 
 	public Employe save(Employe employe) {
+		check(employe);
 		if (employe.getId() == null) {
-			check(employe);
 			return employeRepo.save(employe);
 		} else {
 			Employe employeEnBase = getById(employe.getId());
