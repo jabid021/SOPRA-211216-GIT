@@ -17,16 +17,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "emp")
@@ -39,42 +45,56 @@ public class Employe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqEmploye")
 	@Column(name = "empno")
+	@JsonView(Views.Common.class)
 	private Long id;
-	//2 caracteres 
-	//lettre ou -' 
-	//avant tiret 2 caracteres minimum et 2 caracteres minimum apres
-	//meme chose pour '
+	// 1 caractere
+	@Length(min = 1, max = 50)
+	@Pattern(regexp = "^[a-zA-Z]((-|')?([a-zA-Z]{1,}))*$")
 	@Column(name = "ename", length = 50, nullable = false)
+	@JsonView(Views.Common.class)
 	private String nom;
 	@ManyToOne
 	@JoinColumn(name = "job_id", foreignKey = @ForeignKey(name = "emp_job_id_fk"))
+	@JsonView({ Views.Employe.class, Views.DepartementWithEmploye.class })
 	private Poste poste;
 	@ManyToOne
 	@JoinColumn(name = "mgr", foreignKey = @ForeignKey(name = "emp_mgr_fk"))
+	@JsonView(Views.Employe.class)
 	private Employe manager;
+	@DecimalMin("0")
 	@Column(name = "sal")
+	@JsonView(Views.Common.class)
 	private double salaire;
-	//chiffre en 0 et 1
+	// chiffre en 0 et 1
+	@DecimalMin("0")
+	@DecimalMax("1")
 	@Column(name = "comm")
+	@JsonView(Views.Common.class)
 	private double commission;
 	@Column(name = "hiredate")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	//passe
+	@Past
+	@JsonView(Views.Common.class)
+	// passe
 	private LocalDate dateEmbauche;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "civility", length = 4)
+	@JsonView(Views.Common.class)
 	private Civilite civilite;
 	@Embedded
+	@Valid
 	@AttributeOverrides({ @AttributeOverride(name = "numero", column = @Column(name = "enumber", length = 50)),
 			@AttributeOverride(name = "rue", column = @Column(name = "estreet", length = 200)),
 			@AttributeOverride(name = "codePostal", column = @Column(name = "ezipcode", length = 20)),
 			@AttributeOverride(name = "ville", column = @Column(name = "ecity", length = 100)) })
+	@JsonView(Views.Common.class)
 	private Adresse adresse;
 	// relation physique
 	// ManyToOne
 	// OneToOne
 	@ManyToOne
 	@JoinColumn(name = "deptno", foreignKey = @ForeignKey(name = "emp_edeptno_fk"))
+	@JsonView(Views.EmployeWithDepartement.class)
 	private Departement departement;
 	@OneToMany(mappedBy = "manager")
 	private List<Employe> subordonnes;

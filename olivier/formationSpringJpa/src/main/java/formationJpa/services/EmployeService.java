@@ -2,6 +2,8 @@ package formationJpa.services;
 
 import java.util.List;
 
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,8 @@ import formationJpa.repositories.EmployeRepository;
 public class EmployeService {
 	@Autowired
 	private EmployeRepository employeRepo;
+	@Autowired
+	private Validator validator;
 
 	public List<Employe> getAll() {
 		return employeRepo.findAll();
@@ -50,7 +54,7 @@ public class EmployeService {
 	}
 
 	private void check(Employe employe) {
-		if (employe.getNom() == null || employe.getNom().isEmpty()) {
+		if (!validator.validate(employe).isEmpty()) {
 			throw new EmployeException();
 		}
 	}

@@ -13,13 +13,17 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "job")
 public class Poste {
+	@JsonView(Views.Common.class)
 	@Id
 	@Column(name = "job_id", length = 50)
 	@NotEmpty(message = "mon message pour dire que c'est vide")
 	private String code;
+	@JsonView(Views.Common.class)
 	@NotEmpty
 	@Column(name = "job_name", length = 100, nullable = false, unique = true)
 	private String libelle;

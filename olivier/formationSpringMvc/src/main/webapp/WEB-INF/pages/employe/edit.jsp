@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<form:form action="${ctx}/employe/save" method="get"
+		<form:form action="${ctx}/employe/save" method="post"
 			modelAttribute="employe">
 			<div class="form-group">
 				<form:label path="id">id:</form:label>
@@ -33,6 +33,7 @@
 			<div class="form-group">
 				<form:label path="nom">nom:</form:label>
 				<form:input path="nom" cssClass="form-control" />
+				<form:errors path="nom"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="poste">poste:</form:label>
@@ -43,30 +44,37 @@
 			<div class="form-group">
 				<form:label path="dateEmbauche">date embauche:</form:label>
 				<form:input type="date" path="dateEmbauche" cssClass="form-control" />
+				<form:errors path="dateEmbauche"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="adresse.numero">numero:</form:label>
 				<form:input path="adresse.numero" cssClass="form-control" />
+				<form:errors path="adresse.numero"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="adresse.rue">rue:</form:label>
 				<form:input path="adresse.rue" cssClass="form-control" />
+				<form:errors path="adresse.rue"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="adresse.codePostal">code postal:</form:label>
 				<form:input path="adresse.codePostal" cssClass="form-control" />
+				<form:errors path="adresse.codePostal"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="adresse.ville">ville:</form:label>
 				<form:input path="adresse.ville" cssClass="form-control" />
+				<form:errors path="adresse.ville"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="salaire">salaire:</form:label>
 				<form:input path="salaire" cssClass="form-control" />
+				<form:errors path="salaire"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="commission">commission:</form:label>
 				<form:input path="commission" cssClass="form-control" />
+				<form:errors path="commission"></form:errors>
 			</div>
 			<div class="form-group">
 				<form:label path="departement">departement:</form:label>

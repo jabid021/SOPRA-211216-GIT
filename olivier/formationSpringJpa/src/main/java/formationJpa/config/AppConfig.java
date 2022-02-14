@@ -3,6 +3,9 @@ package formationJpa.config;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +22,12 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = { "formationJpa.dao","formationJpa.services" })
+@ComponentScan(basePackages = { "formationJpa.dao", "formationJpa.services" })
 @EnableTransactionManagement
 @PropertySource("classpath:infos.properties")
-@EnableJpaRepositories(basePackages = {"formationJpa.repositories"})
+@EnableJpaRepositories(basePackages = { "formationJpa.repositories" })
 public class AppConfig {
-	
+
 	@Autowired
 	private Environment env;
 
@@ -64,5 +67,12 @@ public class AppConfig {
 	@Bean
 	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
 		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	@Bean
+	public Validator validator() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		return validator;
 	}
 }

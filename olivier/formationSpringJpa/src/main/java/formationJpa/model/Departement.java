@@ -12,20 +12,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "dept")
 @SequenceGenerator(name = "seqDepartement", sequenceName = "seq_dept", initialValue = 100, allocationSize = 1)
 public class Departement {
+	@JsonView(Views.Common.class)
 	@Id
 	@Column(name = "deptno")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqDepartement")
 	private Long id;
+	@JsonView(Views.Common.class)
 	@Column(name = "dname", length = 200, nullable = false)
 	private String nom;
 	// List ou Set
 	// Set =>pas de doublon plusieurs Set peuvent etre chargees simultanement
 	// List=>1 seule List charge par requete
 	@OneToMany(mappedBy = "departement")
+	@JsonView({Views.DepartementWithEmploye.class})
 	private List<Employe> employes;
 
 	public Departement() {

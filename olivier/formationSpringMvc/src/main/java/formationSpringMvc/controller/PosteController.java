@@ -52,7 +52,7 @@ public class PosteController {
 	}
 
 	@PostMapping("/save")
-	public String save(@Valid @ModelAttribute("poste") Poste poste, BindingResult br, Model model) {
+	public String save(@Valid @ModelAttribute Poste poste, BindingResult br, Model model) {
 		if (br.hasErrors()) {
 			System.out.println(br);
 			return goEdit(poste, model);

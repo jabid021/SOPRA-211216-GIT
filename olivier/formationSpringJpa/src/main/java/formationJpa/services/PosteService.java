@@ -1,6 +1,13 @@
 package formationJpa.services;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +24,8 @@ public class PosteService {
 	PosteRepository posteRepository;
 	@Autowired
 	EmployeRepository employeRepository;
+	@Autowired
+	Validator validator;
 
 	public List<Poste> getAll() {
 		return posteRepository.findAll();
@@ -45,12 +54,13 @@ public class PosteService {
 	}
 
 	private void checkData(Poste poste) {
-		if (poste.getCode() == null || poste.getCode().isEmpty()) {
+
+		Set<ConstraintViolation<Poste>> constraints = validator.validate(poste);
+		if (!constraints.isEmpty()) {
+			System.out.println(constraints);
 			throw new PosteException();
 		}
-		if (poste.getLibelle() == null || poste.getLibelle().isEmpty()) {
-			throw new PosteException();
-		}
+
 	}
 
 	public void delete(Poste poste) {

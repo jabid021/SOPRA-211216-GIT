@@ -14,7 +14,7 @@ import formationJpa.config.AppConfig;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "formationSpringMvc.controller")
+@ComponentScan(basePackages = { "formationSpringMvc.controller", "formationSpringMvc.restcontroller" })
 @Import(AppConfig.class)
 public class WebConfig implements WebMvcConfigurer {
 

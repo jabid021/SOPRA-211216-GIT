@@ -4,20 +4,30 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Embeddable
 public class Adresse {
-	@Column(name="num",length = 50)
-	//pas vide
-	//des chiffres 
-	//numero bis ter ou 1 lettre
+	@Column(name = "num", length = 50)
+	@JsonView(Views.Common.class)
+	// pas vide
+	// des chiffres
+	// numero bis ter ou 1 lettre
+	@NotEmpty
 	private String numero;
-	
-	//pas vide
+	// pas vide
+	@NotEmpty
+	@JsonView(Views.Common.class)
 	private String rue;
-	//pas vide
+	// pas vide
+	@NotEmpty
+	@JsonView(Views.Common.class)
 	private String codePostal;
-	//pas vide
+	// pas vide
+	@NotEmpty
+	@JsonView(Views.Common.class)
 	private String ville;
 
 	public Adresse() {
