@@ -58,4 +58,12 @@ public class EmployeService {
 			throw new EmployeException();
 		}
 	}
+
+	public Employe getByIdWithSubordonnes(Long id) {
+		return employeRepo.findByIdWithSubordonnes(id).orElseThrow(EmployeException::new);
+	}
+
+	public boolean exist(Long id) {
+		return employeRepo.existsById(id);
+	}
 }

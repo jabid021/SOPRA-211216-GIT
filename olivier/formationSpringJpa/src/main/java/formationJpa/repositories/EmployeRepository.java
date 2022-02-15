@@ -14,7 +14,8 @@ import formationJpa.model.Employe;
 import formationJpa.model.Poste;
 
 public interface EmployeRepository extends JpaRepository<Employe, Long> {
-	Optional<Employe> findByIdWithSubordonnes(Long id);
+	@Query("select e from Employe e left join fetch e.subordonnes where e.id=:id")
+	Optional<Employe> findByIdWithSubordonnes(@Param("id") Long id);
 
 	@Transactional
 	@Modifying

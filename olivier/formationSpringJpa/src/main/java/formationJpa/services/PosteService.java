@@ -54,13 +54,15 @@ public class PosteService {
 	}
 
 	private void checkData(Poste poste) {
-
 		Set<ConstraintViolation<Poste>> constraints = validator.validate(poste);
 		if (!constraints.isEmpty()) {
 			System.out.println(constraints);
 			throw new PosteException();
 		}
+	}
 
+	public boolean exist(String code) {
+		return posteRepository.existsById(code);
 	}
 
 	public void delete(Poste poste) {

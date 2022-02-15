@@ -40,7 +40,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @NamedQueries({ @NamedQuery(query = "select e from Employe e", name = "Employe.findAll"),
 		@NamedQuery(query = "select e from Employe e where e.nom=:nom", name = "Employe.findByNom"),
 		@NamedQuery(query = "select e from Employe e where e.nom=:nom and e.poste=:poste", name = "Employe.findByNomAndPoste"),
-		@NamedQuery(query = "select e from Employe e left join fetch e.subordonnes where e.id=:id", name = "Employe.findByIdWithSubordonnes") })
+	//@NamedQuery(query = "select e from Employe e left join fetch e.subordonnes where e.id=:id", name = "Employe.findByIdWithSubordonnes")
+		})
 public class Employe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqEmploye")
@@ -97,6 +98,7 @@ public class Employe {
 	@JsonView(Views.EmployeWithDepartement.class)
 	private Departement departement;
 	@OneToMany(mappedBy = "manager")
+	@JsonView(Views.EmployeWithSubordonnes.class)
 	private List<Employe> subordonnes;
 	@Version
 	private int version;

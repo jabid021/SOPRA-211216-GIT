@@ -29,10 +29,12 @@ public class Poste {
 	private String libelle;
 	@DecimalMin("0.0")
 	@Column(name = "job_min_sal")
+	@JsonView(Views.Common.class)
 	private double salaireMin;
 	@Column(name = "job_max_sal")
 	@DecimalMin("100")
 	@DecimalMax("999999999")
+	@JsonView(Views.Common.class)
 	private double salaireMax;
 	@OneToMany(mappedBy = "poste")
 	private List<Employe> employes;
