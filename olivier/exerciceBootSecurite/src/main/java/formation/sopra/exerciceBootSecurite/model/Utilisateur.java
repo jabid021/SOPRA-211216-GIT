@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("utilisateur")
+//@DiscriminatorValue("utilisateur")
 public class Utilisateur extends Compte {
 
 }

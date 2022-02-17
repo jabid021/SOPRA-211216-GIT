@@ -10,14 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "compte")
+
+@MappedSuperclass
+//@Entity
+//@Table(name = "compte")
 @SequenceGenerator(name = "seqCompte", sequenceName = "seq_compte", allocationSize = 1, initialValue = 10)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "compte", discriminatorType = DiscriminatorType.STRING, length = 15)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn(name = "compte", discriminatorType = DiscriminatorType.STRING, length = 15)
 public abstract class Compte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqCompte")

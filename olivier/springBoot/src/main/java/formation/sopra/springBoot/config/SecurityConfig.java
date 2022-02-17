@@ -7,13 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //	@Autowired
@@ -26,13 +29,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
+//		http.antMatcher("/**")
+//		.authorizeHttpRequests()
+//			.antMatchers("/employe/**").authenticated()
+//			.antMatchers("/departement/**").hasRole("DEPT")
+//			.antMatchers("/poste/**").hasAnyRole("POSTE","ADMIN")
+//		.and()
+//			.formLogin();
+		
+		
 		http.antMatcher("/**")
-		.authorizeHttpRequests()
-			.antMatchers("/employe/**").authenticated()
-			.antMatchers("/departement/**").hasRole("DEPT")
-			.antMatchers("/poste/**").hasAnyRole("POSTE","ADMIN")
-		.and()
-			.formLogin();
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.csrf().disable()
+//			.authorizeHttpRequests()
+//				.antMatchers("/api/**").permitAll()
+//			.and()
+			.httpBasic();
+		
 		// @formatter:on
 	}
 

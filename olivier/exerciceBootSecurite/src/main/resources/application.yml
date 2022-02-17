@@ -10,12 +10,12 @@ spring:
     username: postgres
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         format_sql: true
-        show_sql: false
+        show_sql: true
   mvc:
     view:
       prefix: /WEB-INF/pages/
