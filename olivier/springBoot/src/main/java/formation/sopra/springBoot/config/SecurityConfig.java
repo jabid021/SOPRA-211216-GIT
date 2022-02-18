@@ -35,16 +35,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //			.antMatchers("/departement/**").hasRole("DEPT")
 //			.antMatchers("/poste/**").hasAnyRole("POSTE","ADMIN")
 //		.and()
-//			.formLogin();
+//			.formLogin()
+//				.loginPage("/login")	
+//		.and().logout();
 		
 		
 		http.antMatcher("/**")
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.csrf().disable()
-//			.authorizeHttpRequests()
-//				.antMatchers("/api/**").permitAll()
-//			.and()
+			.authorizeHttpRequests()
+				.antMatchers(HttpMethod.POST,"/api/auth/inscription").permitAll()
+				.antMatchers(HttpMethod.POST).hasRole("ADMIN")
+				.antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+				.antMatchers(HttpMethod.PUT).hasRole("ADMIN")
+				.anyRequest().authenticated()
+			.and()
 			.httpBasic();
 		
 		// @formatter:on

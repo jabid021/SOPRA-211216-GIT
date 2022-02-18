@@ -20,20 +20,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @Table(name = "users")
 @SequenceGenerator(name = "seqUtilisateur", sequenceName = "seq_users", initialValue = 100, allocationSize = 1)
 public class Utilisateur implements UserDetails {
+	@JsonView(Views.Common.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqUtilisateur")
 	private Long id;
+	@JsonView(Views.Common.class)
+	@NotEmpty
 	@Column(name = "username", unique = true, nullable = false)
 	private String username;
+	@NotEmpty
 	@Column(name = "password", length = 150, nullable = false)
 	private String password;
 	@Column(name = "enable", nullable = false)
