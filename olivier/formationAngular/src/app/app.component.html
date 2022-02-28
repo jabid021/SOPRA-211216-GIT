@@ -1,12 +1,23 @@
-<div>binding one way {{ title }}</div>
-<p>{{ hello }}</p>
-
-<hr />
 <div>
-  ModelViewViewModel Binding 2 ways
-  <input [(ngModel)]="binding" /><br />
-  contenu de binding:{{ binding }}
-  <button (click)="methodeClick()" [disabled]="state">click</button>
-  <div [style.color]="binding">une div</div>
-  <div *ngIf="methodePourCondition()">je suis pas la</div>
+  <select [(ngModel)]="couleur">
+    <option value="#000000">noir</option>
+    <option value="#FFDD00">jaune</option>
+    <option value="#FF0000">rouge</option>
+  </select>
+  <br />
+  <input type="color" [(ngModel)]="couleur" />
+  <p [style.color]="couleur">
+    sdflkjsdqlmfjkqf qkmslfj qdslfj qsmf jqskm fjqfmqd ljsfmqlds jkfsl
+  </p>
+</div>
+<div>
+  <div>
+    <input [(ngModel)]="produit.nom" /><input [(ngModel)]="produit.prix" />
+  </div>
+  <p
+    *ngIf="produit.prix != 0 && produit.nom"
+    [ngClass]="{ rouge: produit.prix < 0 }"
+  >
+    info du produit:{{ produit.nom }} {{ produit.prix }}
+  </p>
 </div>

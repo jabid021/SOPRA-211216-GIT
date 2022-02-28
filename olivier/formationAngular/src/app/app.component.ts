@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Produit } from './model/produit';
 
 @Component({
   selector: 'app-root',
@@ -8,22 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'formationAngular';
 
-  binding = 'toto';
+  couleur = '#000000';
 
-  couleur = 'Red';
-
-  state = false;
-
-  get hello(): string {
-    return 'hello world';
-  }
-
-  methodeClick() {
-    console.log('click');
-    this.state = true;
-  }
-
-  methodePourCondition() {
-    return this.state;
-  }
+  produit: Produit = new Produit();
 }
