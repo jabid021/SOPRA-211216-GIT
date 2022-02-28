@@ -1,0 +1,12 @@
+<div>binding one way {{ title }}</div>
+<p>{{ hello }}</p>
+
+<hr />
+<div>
+  ModelViewViewModel Binding 2 ways
+  <input [(ngModel)]="binding" /><br />
+  contenu de binding:{{ binding }}
+  <button (click)="methodeClick()" [disabled]="state">click</button>
+  <div [style.color]="binding">une div</div>
+  <div *ngIf="methodePourCondition()">je suis pas la</div>
+</div>
