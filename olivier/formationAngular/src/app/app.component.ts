@@ -11,5 +11,7 @@ export class AppComponent {
 
   couleur = '#000000';
 
-  produit: Produit = new Produit();
+  unProduit(): Produit {
+    return new Produit('tele', 1000);
+  }
 }

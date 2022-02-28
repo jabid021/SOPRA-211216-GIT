@@ -1,23 +1,3 @@
-<div>
-  <select [(ngModel)]="couleur">
-    <option value="#000000">noir</option>
-    <option value="#FFDD00">jaune</option>
-    <option value="#FF0000">rouge</option>
-  </select>
-  <br />
-  <input type="color" [(ngModel)]="couleur" />
-  <p [style.color]="couleur">
-    sdflkjsdqlmfjkqf qkmslfj qdslfj qsmf jqskm fjqfmqd ljsfmqlds jkfsl
-  </p>
-</div>
-<div>
-  <div>
-    <input [(ngModel)]="produit.nom" /><input [(ngModel)]="produit.prix" />
-  </div>
-  <p
-    *ngIf="produit.prix != 0 && produit.nom"
-    [ngClass]="{ rouge: produit.prix < 0 }"
-  >
-    info du produit:{{ produit.nom }} {{ produit.prix }}
-  </p>
-</div>
+<h1>appel 1</h1>
+<demo param="olivier"> </demo>
+<div autreDemo param="toto" [produit]="unProduit()"></div>
