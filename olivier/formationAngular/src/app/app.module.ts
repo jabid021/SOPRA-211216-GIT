@@ -11,9 +11,11 @@ import { TooltipComponent } from './exercice-component/tooltip/tooltip.component
 import { OutputComponent } from './demo/output/output.component';
 import { EditComponent } from './produit/edit/edit.component';
 import { DisplayComponent } from './produit/display/display.component';
+import { ArticleComponent } from './exercice-component/article/article.component';
+import { ArticlesComponent } from './exercice-component/articles/articles.component';
 
 @NgModule({
-  declarations: [AppComponent, DemoComponent, AutreComponent, BoldComponent, BoldElementComponent, TooltipComponent, OutputComponent, EditComponent, DisplayComponent],
+  declarations: [AppComponent, DemoComponent, AutreComponent, BoldComponent, BoldElementComponent, TooltipComponent, OutputComponent, EditComponent, DisplayComponent, ArticleComponent, ArticlesComponent],
   imports: [BrowserModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],

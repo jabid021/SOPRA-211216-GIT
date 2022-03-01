@@ -1,0 +1,21 @@
+<div>
+  <h1 *ngIf="likeArticlePopulaire > 0">
+    l'article du moment:{{ nomArticlePopulaire }} avec
+    {{ likeArticlePopulaire }} likes
+  </h1>
+</div>
+<app-article
+  titre="meteo"
+  contenu="il fait beau aujourd'hui"
+  (likeEvent)="traitementLike($event)"
+></app-article>
+<app-article
+  titre="angular"
+  contenu="c'est la merde"
+  (likeEvent)="traitementLike($event)"
+></app-article>
+<app-article
+  titre="chat"
+  contenu="c'est cool d'etre un chat"
+  (likeEvent)="traitementLike($event)"
+></app-article>
