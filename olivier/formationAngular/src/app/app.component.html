@@ -1,1 +1,8 @@
-<asc-tooltip asc-tooltip-titre="le tooltip">le contenu</asc-tooltip>
+<app-edit (produitReady)="traitementProduit($event)"></app-edit>
+<app-display [produit]="produitRecu"></app-display>
+<app-output
+  entree="une valeur en entree"
+  (sortie)="traitementEventSortie($event)"
+>
+</app-output>
+<button (click)="traitementClick()">click</button>

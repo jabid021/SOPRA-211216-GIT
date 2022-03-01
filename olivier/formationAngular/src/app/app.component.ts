@@ -9,9 +9,23 @@ import { Produit } from './model/produit';
 export class AppComponent {
   title = 'formationAngular';
 
+  produitRecu: Produit = new Produit();
+
   couleur = '#000000';
 
   unProduit(): Produit {
     return new Produit('tele', 1000);
+  }
+
+  traitementEventSortie(produitRecu: Produit) {
+    console.log(produitRecu);
+  }
+
+  traitementClick() {
+    console.log('click recu');
+  }
+
+  traitementProduit(produit: Produit) {
+    this.produitRecu = produit;
   }
 }
