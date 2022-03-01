@@ -2,7 +2,7 @@ import { Produit } from './../../model/produit';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-produit-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css'],
 })

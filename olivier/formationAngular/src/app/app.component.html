@@ -1,9 +1,7 @@
-<app-articles></app-articles>
-<app-edit (produitReady)="traitementProduit($event)"></app-edit>
-<app-display [produit]="produitRecu"></app-display>
-<app-output
-  entree="une valeur en entree"
-  (sortie)="traitementEventSortie($event)"
->
-</app-output>
-<button (click)="traitementClick()">click</button>
+<nav>
+  <a routerLink="/home" routerLinkActive="active">home</a>
+  <a [routerLink]="['/produits']" routerLinkActive="active">produits</a>
+  <a [routerLink]="['/hello', title]" routerLinkActive="active">hello</a>
+  <a [routerLink]="['/hello', 'olivier']" routerLinkActive="active">olivier</a>
+</nav>
+<router-outlet></router-outlet>

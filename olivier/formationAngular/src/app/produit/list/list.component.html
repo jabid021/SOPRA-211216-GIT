@@ -1,0 +1,10 @@
+<table>
+  <tr *ngFor="let p of produits">
+    <td>{{ p.nom }}</td>
+    <td>{{ p.prix }}</td>
+    <td>{{ infos(p) }}</td>
+  </tr>
+</table>
+<app-produit-edit
+  (produitReady)="recuperationProduit($event)"
+></app-produit-edit>

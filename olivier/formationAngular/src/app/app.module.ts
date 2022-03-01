@@ -13,10 +13,32 @@ import { EditComponent } from './produit/edit/edit.component';
 import { DisplayComponent } from './produit/display/display.component';
 import { ArticleComponent } from './exercice-component/article/article.component';
 import { ArticlesComponent } from './exercice-component/articles/articles.component';
+import { ListComponent } from './produit/list/list.component';
+import { DemoDirective } from './directives/demo.directive';
+import { AddContentDirective } from './directives/add-content.directive';
+import { RouterModule } from '@angular/router';
+import { routes } from './routes';
+import { HelloComponent } from './route/hello/hello.component';
 
 @NgModule({
-  declarations: [AppComponent, DemoComponent, AutreComponent, BoldComponent, BoldElementComponent, TooltipComponent, OutputComponent, EditComponent, DisplayComponent, ArticleComponent, ArticlesComponent],
-  imports: [BrowserModule, FormsModule],
+  declarations: [
+    AppComponent,
+    DemoComponent,
+    AutreComponent,
+    BoldComponent,
+    BoldElementComponent,
+    TooltipComponent,
+    OutputComponent,
+    EditComponent,
+    DisplayComponent,
+    ArticleComponent,
+    ArticlesComponent,
+    ListComponent,
+    DemoDirective,
+    AddContentDirective,
+    HelloComponent,
+  ],
+  imports: [BrowserModule, FormsModule, RouterModule.forRoot(routes)],
   providers: [],
   bootstrap: [AppComponent],
 })

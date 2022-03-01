@@ -11,12 +11,15 @@ export class OutputComponent implements OnInit {
   entree: string = '';
 
   @Output()
-  sortie: EventEmitter<Produit> = new EventEmitter();
+  sortie: EventEmitter<any> = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
 
   emit() {
-    this.sortie.emit(new Produit('bd', 10));
+    this.sortie.emit({
+      nom: 'un produit en json',
+      prix: 20,
+    });
   }
 }
