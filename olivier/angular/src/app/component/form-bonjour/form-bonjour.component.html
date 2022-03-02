@@ -1,0 +1,12 @@
+<div>
+  <div class="form-group">
+    <label>votre nom: </label>
+    <input [(ngModel)]="nom" class="form-control" />
+    <div *ngIf="erreur" class="alert alert-danger">information obligatoire</div>
+  </div>
+  <div>
+    <button (click)="validationNom()" class="btn btn-outline-primary">
+      envoyer
+    </button>
+  </div>
+</div>
