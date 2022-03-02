@@ -9,6 +9,8 @@ import { BonjourComponent } from './component/bonjour/bonjour.component';
 import { FormBonjourComponent } from './component/form-bonjour/form-bonjour.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { routes } from './routes';
+import { PuissancePipe } from './pipe/puissance.pipe';
+import { DepartementComponent } from './component/departement/departement.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { routes } from './routes';
     BonjourComponent,
     FormBonjourComponent,
     NotFoundComponent,
+    PuissancePipe,
+    DepartementComponent,
   ],
   imports: [BrowserModule, RouterModule.forRoot(routes), FormsModule],
   providers: [],
