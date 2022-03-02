@@ -8,7 +8,7 @@ export class DepartementPersoService {
 
   public getAll(): any[] {
     return [
-      { nom: 'info', id: '1' },
+      { nom: 'info', id: 1 },
       { id: 2, nom: 'direction' },
     ];
   }

@@ -1,0 +1,26 @@
+<div>
+  <div class="form-group">
+    <label>id:</label>
+    <input
+      [(ngModel)]="departement.id"
+      class="form-control"
+      readonly
+      placeholder="generation automatique"
+    />
+  </div>
+  <div class="form-group">
+    <label>nom:</label>
+    <input [(ngModel)]="departement.nom" class="form-control" />
+  </div>
+  <div class="form-group">
+    <button (click)="save()" class="btn btn-outline-success">
+      enregistrer
+    </button>
+    <a
+      routerLink="/departement"
+      routerLinkActive="active"
+      class="btn btn-outline-warning"
+      >annuler</a
+    >
+  </div>
+</div>

@@ -1,1 +1,22 @@
-<p>departement works!</p>
+<table class="table">
+  <tr *ngFor="let d of departements">
+    <td>{{ d.id }}</td>
+    <td>{{ d.nom }}</td>
+    <td>
+      <a
+        [routerLink]="['/departement', 'edit', d.id]"
+        routerLinkActive="active"
+        class="btn btn-outline-primary"
+        >editer</a
+      >
+    </td>
+    <td>
+      <button (click)="delete(d.id!)" class="btn btn-outline-danger">
+        supprimer
+      </button>
+    </td>
+  </tr>
+</table>
+<a routerLink="/departement/edit" routerLinkActive="active" class="btn btn-link"
+  >nouveau departement</a
+>

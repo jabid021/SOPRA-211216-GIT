@@ -11,6 +11,8 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { routes } from './routes';
 import { PuissancePipe } from './pipe/puissance.pipe';
 import { DepartementComponent } from './component/departement/departement.component';
+import { HttpClientModule } from '@angular/common/http';
+import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +23,14 @@ import { DepartementComponent } from './component/departement/departement.compon
     NotFoundComponent,
     PuissancePipe,
     DepartementComponent,
+    DepartementEditComponent,
   ],
-  imports: [BrowserModule, RouterModule.forRoot(routes), FormsModule],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(routes),
+    FormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
