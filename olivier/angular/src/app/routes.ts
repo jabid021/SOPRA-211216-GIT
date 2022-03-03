@@ -1,3 +1,5 @@
+import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
+import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
 import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
 import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
 import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'employe', component: ListEmployeComponent },
   { path: 'employe/edit', component: EditEmployeComponent },
   { path: 'employe/edit/:id', component: EditEmployeComponent },
+  { path: 'form/template', component: FormulairePiloteParTemplateComponent },
+  { path: 'form/code', component: FormulairePiloteParCodeComponent },
   { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
   {
     path: '**',

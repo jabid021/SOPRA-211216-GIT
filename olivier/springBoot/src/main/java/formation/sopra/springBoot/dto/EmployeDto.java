@@ -8,6 +8,7 @@ public class EmployeDto {
 	private List<EmployeDto> subordonnes;
 	private EmployeDto manager;
 	
+	
 	public EmployeDto() {
 		
 	}

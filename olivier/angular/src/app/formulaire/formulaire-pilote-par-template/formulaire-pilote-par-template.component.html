@@ -1,0 +1,21 @@
+<div>
+  <form (ngSubmit)="submit(form)" #form="ngForm">
+    <div>
+      <input
+        [(ngModel)]="prenom"
+        name="prenom"
+        required
+        #prenomCtrl="ngModel"
+      />
+      <span *ngIf="prenomCtrl.dirty && prenomCtrl.invalid"
+        >*prenom obligatoire</span
+      >
+    </div>
+    <div>
+      <input [(ngModel)]="nom" name="nom" required />
+    </div>
+    <div>
+      <button type="submit" [disabled]="form.invalid">valider</button>
+    </div>
+  </form>
+</div>

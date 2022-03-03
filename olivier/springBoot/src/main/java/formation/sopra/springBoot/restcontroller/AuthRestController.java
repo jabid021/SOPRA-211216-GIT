@@ -11,7 +11,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ import formation.sopra.springBoot.repositories.UtilisateurRepository;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthRestController {
 
 	@Autowired
@@ -56,5 +59,10 @@ public class AuthRestController {
 		utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
 		utilisateur.setRoles(new HashSet<Role>(Arrays.asList(Role.ROLE_USER)));
 		return utilisateurRepo.save(utilisateur);
+	}
+	
+	@GetMapping("/search/{username}")
+	public boolean usernameDejaUtilise(@PathVariable String username) {
+		return utilisateurRepo.findByUsername(username).isPresent();
 	}
 }

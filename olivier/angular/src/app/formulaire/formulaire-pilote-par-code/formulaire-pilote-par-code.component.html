@@ -1,0 +1,29 @@
+<form [formGroup]="monForm" (ngSubmit)="submit()">
+  <div>
+    <input formControlName="prenomCtrl" /><span
+      *ngIf="
+        monForm.controls['prenomCtrl'].dirty &&
+        monForm.controls['prenomCtrl'].invalid
+      "
+      >*incorrect</span
+    >
+  </div>
+  <div>
+    <input formControlName="nomCtrl" /><span
+      *ngIf="
+        monForm.controls['nomCtrl'].dirty && monForm.controls['nomCtrl'].invalid
+      "
+      >*incorrect</span
+    >
+  </div>
+  <div formGroupName="group1">
+    <div>
+      <input formControlName="zone1" />
+    </div>
+    <div>
+      <input formControlName="zone2" />
+    </div>
+    <div *ngIf="monForm.controls['group1'].invalid">pas egale</div>
+  </div>
+  <div><button type="submit" [disabled]="monForm.invalid">valider</button></div>
+</form>

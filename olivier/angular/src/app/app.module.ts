@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
@@ -16,6 +16,8 @@ import { DepartementEditComponent } from './component/departement-edit/departeme
 import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
 import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
 import { WarningDirective } from './directive/rendu/warning.directive';
+import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
+import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
 
 @NgModule({
   declarations: [
@@ -30,11 +32,14 @@ import { WarningDirective } from './directive/rendu/warning.directive';
     ListEmployeComponent,
     EditEmployeComponent,
     WarningDirective,
+    FormulairePiloteParTemplateComponent,
+    FormulairePiloteParCodeComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
   ],
   providers: [],
