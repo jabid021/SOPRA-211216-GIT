@@ -1,3 +1,5 @@
+import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
+import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
 import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
 import { DepartementComponent } from './component/departement/departement.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
@@ -13,6 +15,9 @@ export const routes: Routes = [
   { path: 'departement', component: DepartementComponent },
   { path: 'departement/edit', component: DepartementEditComponent },
   { path: 'departement/edit/:id', component: DepartementEditComponent },
+  { path: 'employe', component: ListEmployeComponent },
+  { path: 'employe/edit', component: EditEmployeComponent },
+  { path: 'employe/edit/:id', component: EditEmployeComponent },
   { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
   {
     path: '**',

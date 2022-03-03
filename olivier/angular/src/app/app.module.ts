@@ -13,6 +13,8 @@ import { PuissancePipe } from './pipe/puissance.pipe';
 import { DepartementComponent } from './component/departement/departement.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
+import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
+import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { DepartementEditComponent } from './component/departement-edit/departeme
     PuissancePipe,
     DepartementComponent,
     DepartementEditComponent,
+    ListEmployeComponent,
+    EditEmployeComponent,
   ],
   imports: [
     BrowserModule,

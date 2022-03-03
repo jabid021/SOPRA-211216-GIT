@@ -1,0 +1,68 @@
+<div>
+  <div class="form-group">
+    <label>id:</label>
+    <input class="form-control" [(ngModel)]="employe.id" readonly />
+  </div>
+  <div class="form-group">
+    <label>civilite</label>
+    <select [(ngModel)]="employe.civilite" class="form-control">
+      <option
+        *ngFor="let civilite of civilites | keyvalue"
+        [value]="civilite.key"
+      >
+        {{ civilite.value }}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>nom:</label>
+    <input class="form-control" [(ngModel)]="employe.nom" />
+  </div>
+  <div class="form-group">
+    <label>salaire:</label>
+    <input type="number" class="form-control" [(ngModel)]="employe.salaire" />
+  </div>
+  <div class="form-group">
+    <label>commission</label>
+    <input
+      type="number"
+      class="form-control"
+      [(ngModel)]="employe.commission"
+    />
+  </div>
+  <div>
+    <label>date d'embauche:</label>
+    <input
+      type="date"
+      [(ngModel)]="employe.dateEmbauche"
+      class="form-control"
+    />
+  </div>
+  <div class="form-group">
+    <label>numero:</label>
+    <input class="form-control" [(ngModel)]="employe.adresse!.numero" />
+  </div>
+  <div class="form-group">
+    <label>rue:</label>
+    <input class="form-control" [(ngModel)]="employe.adresse!.rue" />
+  </div>
+  <div class="form-group">
+    <label>code postal:</label>
+    <input class="form-control" [(ngModel)]="employe.adresse!.codePostal" />
+  </div>
+  <div class="form-group">
+    <label>ville:</label>
+    <input class="form-control" [(ngModel)]="employe.adresse!.ville" />
+  </div>
+  <div>
+    <button (click)="save()" class="btn btn-outline-success">
+      enregistrer
+    </button>
+    <a
+      routerLink="/employe"
+      routerLinkActive="active"
+      class="btn btn-outline-warning"
+      >annuler</a
+    >
+  </div>
+</div>

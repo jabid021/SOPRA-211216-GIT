@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import formation.sopra.springBoot.services.EmployeService;
 
 @RestController
 @RequestMapping("/api/employe")
+@CrossOrigin(origins = "*")
 public class EmployeRestController {
 	@Autowired
 	private EmployeService employeService;
@@ -49,10 +51,11 @@ public class EmployeRestController {
 	}
 
 	@GetMapping("/{id}")
-	// @JsonView(Views.EmployeWithDepartement.class)
-	public EmployeDto getById(@PathVariable Long id) {
-		Employe e = employeService.getById(id);
-		return employeEntityToeEmployeDTO(e);
+	@JsonView(Views.EmployeWithDepartement.class)
+	public Employe getById(@PathVariable Long id) {
+		return employeService.getById(id);
+//		Employe e = employeService.getById(id);
+//		return employeEntityToeEmployeDTO(e);
 	}
 
 	@GetMapping("/{id}/sub")
@@ -61,22 +64,22 @@ public class EmployeRestController {
 				.collect(Collectors.toList());
 	}
 
-	@GetMapping("/{id}/subordonnes")
-	// @JsonView(Views.EmployeWithSubordonnes.class)
-	public EmployeDto getByIdWithSubordonnes(@PathVariable Long id) {
-		Employe e = employeService.getByIdWithSubordonnes(id);
-		EmployeDto edto = employeEntityToeEmployeDTO(e);
-//		List<EmployeDto> sub = new ArrayList<EmployeDto>();
-//		e.getSubordonnes().forEach(subordonne -> {
-//			sub.add(employeEntityToeEmployeDTO(subordonne));
-//		});
-
-		// edto.setSubordonnes(sub);
-		edto.setSubordonnes(
-				e.getSubordonnes().stream().map(emp -> employeEntityToeEmployeDTO(emp)).collect(Collectors.toList()));
-
-		return edto;
-	}
+//	@GetMapping("/{id}/subordonnes")
+//	// @JsonView(Views.EmployeWithSubordonnes.class)
+//	public EmployeDto getByIdWithSubordonnes(@PathVariable Long id) {
+//		Employe e = employeService.getByIdWithSubordonnes(id);
+//		EmployeDto edto = employeEntityToeEmployeDTO(e);
+////		List<EmployeDto> sub = new ArrayList<EmployeDto>();
+////		e.getSubordonnes().forEach(subordonne -> {
+////			sub.add(employeEntityToeEmployeDTO(subordonne));
+////		});
+//
+//		// edto.setSubordonnes(sub);
+//		edto.setSubordonnes(
+//				e.getSubordonnes().stream().map(emp -> employeEntityToeEmployeDTO(emp)).collect(Collectors.toList()));
+//
+//		return edto;
+//	}
 
 	private EmployeDto employeEntityToeEmployeDTO(Employe e) {
 		EmployeDto edto = new EmployeDto();
