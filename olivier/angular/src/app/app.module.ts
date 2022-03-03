@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
 import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
 import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
+import { WarningDirective } from './directive/rendu/warning.directive';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EditEmployeComponent } from './component/employe/edit-employe/edit-empl
     DepartementEditComponent,
     ListEmployeComponent,
     EditEmployeComponent,
+    WarningDirective,
   ],
   imports: [
     BrowserModule,

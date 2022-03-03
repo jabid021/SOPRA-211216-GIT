@@ -1,9 +1,20 @@
 <table class="table">
+  <tr>
+    <th>id</th>
+    <th>nom</th>
+    <th>salaire</th>
+    <th>date embauche</th>
+    <th>departement</th>
+    <th>rue</th>
+    <th>code postal</th>
+    <th>ville</th>
+  </tr>
   <tr *ngFor="let e of employesObservable | async">
     <td>{{ e.id }}</td>
     <td>{{ e.nom }}</td>
     <td>{{ e.salaire | currency: "EUR" }}</td>
     <td>{{ e.dateEmbauche | date: "dd/MM/yyyy" }}</td>
+    <td>{{ e.departement?.nom }}</td>
     <td>{{ e.adresse?.numero }} {{ e.adresse?.rue }}</td>
     <td>{{ e.adresse?.codePostal }}</td>
     <td>{{ e.adresse?.ville }}</td>

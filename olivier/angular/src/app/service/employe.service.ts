@@ -47,6 +47,7 @@ export class EmployeService {
   }
 
   public update(employe: Employe): Observable<Employe> {
+    console.log(this.employeToJson(employe));
     return this.httpClient.put<Employe>(
       `${EmployeService.URL}/${employe.id}`,
       this.employeToJson(employe),
