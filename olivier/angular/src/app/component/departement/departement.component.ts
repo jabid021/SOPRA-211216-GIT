@@ -20,7 +20,6 @@ export class DepartementComponent implements OnInit {
 
   list() {
     this.departementService.getAll().subscribe((result) => {
-      console.log(result);
       this.departements = result;
     });
   }
