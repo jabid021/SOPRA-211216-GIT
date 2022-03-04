@@ -1,3 +1,4 @@
+import { LoginComponent } from './component/login/login.component';
 import { InscriptionComponent } from './component/inscription/inscription.component';
 import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
 import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
@@ -24,6 +25,7 @@ export const routes: Routes = [
   { path: 'form/template', component: FormulairePiloteParTemplateComponent },
   { path: 'form/code', component: FormulairePiloteParCodeComponent },
   { path: 'inscription', component: InscriptionComponent },
+  { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
   {
     path: '**',

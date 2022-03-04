@@ -14,9 +14,24 @@
   <a routerLink="/form/code" routerLinkActive="active" class="btn btn-link"
     >formulaire pilote par le code</a
   >
-  <a routerLink="/inscription" routerLinkActive="active" class="btn btn-link"
+  <a
+    *ngIf="!authenticated"
+    routerLink="/inscription"
+    routerLinkActive="active"
+    class="btn btn-link"
     >inscription</a
   >
+  <a
+    *ngIf="!authenticated"
+    routerLink="/login"
+    routerLinkActive="active"
+    class="btn btn-link"
+    >login</a
+  >
+  <a *ngIf="authenticated" class="btn btn-link" (click)="logout()"
+    >deconnection</a
+  >
+  <span *ngIf="authenticated">bonjour {{ login }}</span>
 </nav>
 
 <router-outlet></router-outlet>

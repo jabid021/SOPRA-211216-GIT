@@ -65,4 +65,6 @@ public class AuthRestController {
 	public boolean usernameDejaUtilise(@PathVariable String username) {
 		return utilisateurRepo.findByUsername(username).isPresent();
 	}
+	
+	
 }

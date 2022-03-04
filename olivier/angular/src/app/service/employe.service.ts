@@ -11,38 +11,22 @@ export class EmployeService {
 
   constructor(private httpClient: HttpClient) {}
 
-  get httpHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Basic ' + btoa('olivier:olivier'),
-    });
-  }
-
   public getAll(): Observable<Employe[]> {
-    return this.httpClient.get<Employe[]>(EmployeService.URL, {
-      headers: this.httpHeaders,
-    });
+    return this.httpClient.get<Employe[]>(EmployeService.URL);
   }
 
   public get(id: number): Observable<Employe> {
-    return this.httpClient.get<Employe>(`${EmployeService.URL}/${id}`, {
-      headers: this.httpHeaders,
-    });
+    return this.httpClient.get<Employe>(`${EmployeService.URL}/${id}`);
   }
 
   public delete(id: number): Observable<void> {
-    return this.httpClient.delete<void>(`${EmployeService.URL}/${id}`, {
-      headers: this.httpHeaders,
-    });
+    return this.httpClient.delete<void>(`${EmployeService.URL}/${id}`);
   }
 
   public create(employe: Employe): Observable<Employe> {
     return this.httpClient.post<Employe>(
       EmployeService.URL,
-      this.employeToJson(employe),
-      {
-        headers: this.httpHeaders,
-      }
+      this.employeToJson(employe)
     );
   }
 
@@ -50,10 +34,7 @@ export class EmployeService {
     console.log(this.employeToJson(employe));
     return this.httpClient.put<Employe>(
       `${EmployeService.URL}/${employe.id}`,
-      this.employeToJson(employe),
-      {
-        headers: this.httpHeaders,
-      }
+      this.employeToJson(employe)
     );
   }
 

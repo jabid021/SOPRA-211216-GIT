@@ -1,3 +1,4 @@
+import { AuthInterceptor } from './interceptor/auth-interceptor';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +20,7 @@ import { WarningDirective } from './directive/rendu/warning.directive';
 import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
 import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
 import { InscriptionComponent } from './component/inscription/inscription.component';
+import { LoginComponent } from './component/login/login.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { InscriptionComponent } from './component/inscription/inscription.compon
     FormulairePiloteParTemplateComponent,
     FormulairePiloteParCodeComponent,
     InscriptionComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,9 @@ import { InscriptionComponent } from './component/inscription/inscription.compon
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
