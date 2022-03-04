@@ -1,3 +1,4 @@
+import { InscriptionComponent } from './component/inscription/inscription.component';
 import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
 import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
 import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'employe/edit/:id', component: EditEmployeComponent },
   { path: 'form/template', component: FormulairePiloteParTemplateComponent },
   { path: 'form/code', component: FormulairePiloteParCodeComponent },
+  { path: 'inscription', component: InscriptionComponent },
   { path: '', redirectTo: 'acceuil', pathMatch: 'full' },
   {
     path: '**',

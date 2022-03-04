@@ -11,13 +11,14 @@ import { NotFoundComponent } from './component/not-found/not-found.component';
 import { routes } from './routes';
 import { PuissancePipe } from './pipe/puissance.pipe';
 import { DepartementComponent } from './component/departement/departement.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DepartementEditComponent } from './component/departement-edit/departement-edit.component';
 import { ListEmployeComponent } from './component/employe/list-employe/list-employe.component';
 import { EditEmployeComponent } from './component/employe/edit-employe/edit-employe.component';
 import { WarningDirective } from './directive/rendu/warning.directive';
 import { FormulairePiloteParTemplateComponent } from './formulaire/formulaire-pilote-par-template/formulaire-pilote-par-template.component';
 import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
+import { InscriptionComponent } from './component/inscription/inscription.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote
     WarningDirective,
     FormulairePiloteParTemplateComponent,
     FormulairePiloteParCodeComponent,
+    InscriptionComponent,
   ],
   imports: [
     BrowserModule,

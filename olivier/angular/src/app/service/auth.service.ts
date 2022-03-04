@@ -13,4 +13,11 @@ export class AuthService {
       'http://localhost:8080/boot/api/auth/search/' + username
     );
   }
+
+  public inscription(user: any): Observable<any> {
+    return this.http.post(
+      'http://localhost:8080/boot/api/auth/inscription',
+      user
+    );
+  }
 }

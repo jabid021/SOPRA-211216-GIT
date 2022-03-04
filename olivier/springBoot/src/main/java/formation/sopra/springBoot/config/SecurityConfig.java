@@ -29,21 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-//		http.antMatcher("/**")
-//		.authorizeHttpRequests()
-//			.antMatchers("/employe/**").authenticated()
-//			.antMatchers("/departement/**").hasRole("DEPT")
-//			.antMatchers("/poste/**").hasAnyRole("POSTE","ADMIN")
-//		.and()
-//			.formLogin()
-//				.loginPage("/login")	
-//		.and().logout();
+
 		
 		
-		http.antMatcher("/**")
+		http.antMatcher("/api/**")
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.csrf().disable()
+			.csrf().ignoringAntMatchers("/api/**")
+			.and()
 			.authorizeHttpRequests()
 				.antMatchers(HttpMethod.GET, "/api/auth/search/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
@@ -51,9 +44,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST).hasRole("ADMIN")
 				.antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 				.antMatchers(HttpMethod.PUT).hasRole("ADMIN")
-				.anyRequest().authenticated()
+				.antMatchers("/api/**").authenticated()
 			.and()
 			.httpBasic();
+//			.and()
+//		.antMatcher("/**")
+//			.authorizeHttpRequests()
+//				.antMatchers("/employe/**").authenticated()
+//				.antMatchers("/departement/**").hasRole("DEPT")
+//				.antMatchers("/poste/**").hasAnyRole("POSTE","ADMIN")
+//			.and()
+//				.formLogin()
+//					.loginPage("/login")	
+//			.and().logout();
 		
 		// @formatter:on
 	}
