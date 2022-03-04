@@ -2,10 +2,18 @@
   <a routerLink="/acceuil" routerLinkActive="active" class="btn btn-link"
     >acceuil</a
   >
-  <a routerLink="/departement" routerLinkActive="active" class="btn btn-link"
+  <a
+    *ngIf="authenticated"
+    routerLink="/departement"
+    routerLinkActive="active"
+    class="btn btn-link"
     >departement</a
   >
-  <a routerLink="/employe" routerLinkActive="active" class="btn btn-link"
+  <a
+    *ngIf="authenticated"
+    routerLink="/employe"
+    routerLinkActive="active"
+    class="btn btn-link"
     >employe</a
   >
   <a routerLink="/form/template" routerLinkActive="active" class="btn btn-link"

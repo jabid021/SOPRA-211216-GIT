@@ -1,3 +1,4 @@
+import { AuthenticationGuardService } from './service/authentication-guard.service';
 import { LoginComponent } from './component/login/login.component';
 import { InscriptionComponent } from './component/inscription/inscription.component';
 import { FormulairePiloteParCodeComponent } from './formulaire/formulaire-pilote-par-code/formulaire-pilote-par-code.component';
@@ -16,12 +17,36 @@ export const routes: Routes = [
   { path: 'acceuil', component: AcceuilComponent },
   { path: 'bonjour', component: FormBonjourComponent },
   { path: 'bonjour/:nom', component: BonjourComponent },
-  { path: 'departement', component: DepartementComponent },
-  { path: 'departement/edit', component: DepartementEditComponent },
-  { path: 'departement/edit/:id', component: DepartementEditComponent },
-  { path: 'employe', component: ListEmployeComponent },
-  { path: 'employe/edit', component: EditEmployeComponent },
-  { path: 'employe/edit/:id', component: EditEmployeComponent },
+  {
+    path: 'departement',
+    component: DepartementComponent,
+    canActivate: [AuthenticationGuardService],
+  },
+  {
+    path: 'departement/edit',
+    component: DepartementEditComponent,
+    canActivate: [AuthenticationGuardService],
+  },
+  {
+    path: 'departement/edit/:id',
+    component: DepartementEditComponent,
+    canActivate: [AuthenticationGuardService],
+  },
+  {
+    path: 'employe',
+    component: ListEmployeComponent,
+    canActivate: [AuthenticationGuardService],
+  },
+  {
+    path: 'employe/edit',
+    component: EditEmployeComponent,
+    canActivate: [AuthenticationGuardService],
+  },
+  {
+    path: 'employe/edit/:id',
+    component: EditEmployeComponent,
+    canActivate: [AuthenticationGuardService],
+  },
   { path: 'form/template', component: FormulairePiloteParTemplateComponent },
   { path: 'form/code', component: FormulairePiloteParCodeComponent },
   { path: 'inscription', component: InscriptionComponent },
